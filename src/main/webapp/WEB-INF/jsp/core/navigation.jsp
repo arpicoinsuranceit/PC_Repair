@@ -29,7 +29,7 @@
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-circle-thin"></i> <span>All Suppliers</span></a></li>
+            <li><a href="/all_supplier"><i class="fa fa-circle-thin"></i> <span>All Suppliers</span></a></li>
           </ul>
         </li>
       </ul>
