@@ -21,16 +21,16 @@
 
 <div class="wrapper">
     <jsp:include page="../../core/navigation.jsp"></jsp:include>
-
-    <div class="content-wrapper">
+	
+	<div class="content-wrapper">
         <section class="content-header">
             <h1>
-                SUPPLIER
-                <small>ALL SUPPLIER</small>
+                ASSIGNEE
+                <small>ALL ASSIGNEES</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/all_supplier"><i class="fa fa-dashboard"></i>SUPPLIER</a></li>
-                <li class="active">ALL SUPPLIER</li>
+                <li><a href="/all_supplier"><i class="fa fa-dashboard"></i>ASSIGNEE</a></li>
+                <li class="active">ALL ASSIGNEES</li>
             </ol>
         </section>
 
@@ -38,8 +38,8 @@
 
             <div class="row">
                 <div class="col-md-3 col-sm-3 col-xs-6">
-                    <a href="/add_supplier">
-                        <button type="button" class="btn btn-block btn-success btn-flat">Add Supplier</button>
+                    <a href="/add_assignee">
+                        <button type="button" class="btn btn-block btn-success btn-flat">Add Assignee</button>
                     </a>
                 </div>
             </div>
@@ -48,15 +48,15 @@
                 <div class="col-md-12">
                     <div class="box box-primary">
                         <div class="box-header">
-                            <h3 class="box-title">Supplier</h3>
+                            <h3 class="box-title">Assignee</h3>
                         </div>
                         <div class="box-body">
 
-                            <table id="table_supplier" class="table table-bordered">
+                            <table id="table_assignee" class="table table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>Supplier Id</th>
-                                    <th>Supplier Name</th>
+                                    <th>Assignee Id</th>
+                                    <th>Assignee Name</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -66,8 +66,8 @@
 
                                 <tfoot>
                                 <tr>
-                                    <th>Supplier Id</th>
-                                    <th>Supplier Name</th>
+                                    <th>Assignee Id</th>
+                                    <th>Assignee Name</th>
                                     <th></th>
                                 </tr>
                                 </tfoot>
@@ -133,25 +133,21 @@
     <script src="bower_components/fastclick/lib/fastclick.js"></script>
 
     <script type="application/javascript">
-        var table = $('#table_supplier').DataTable({
+        var table = $('#table_assignee').DataTable({
             "pageLength": 10,
-            "ajax": "/all_supplier_dt"
+            "ajax": "/all_assignee_dt"
 
         });
 
-        function deleteSupplier(id) {
+        function deleteAssignee(id) {
             $("#txt-delete-id").val(id);
             $('#modal-danger').modal('show');
-        }
-
-        function editSupplier(id) {
-            window.location.replace("edit_supplier/"+id);
         }
 
         $("#button-delete").click(function () {
             $.ajax({
                 type: 'DELETE',
-                url: 'supplier',
+                url: 'assignee',
                 data: $("#txt-delete-id").val(),
                 success: function () {
                     $('#modal-danger').modal('hide');
@@ -164,7 +160,11 @@
             });
         });
 
-
+        function editAssignee(id) {
+            window.location.replace("edit_assignee/"+id);
+            
+        }
+        
     </script>
 </body>
 </html>

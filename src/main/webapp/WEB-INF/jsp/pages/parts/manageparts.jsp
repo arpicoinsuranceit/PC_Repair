@@ -25,12 +25,12 @@
     <div class="content-wrapper">
         <section class="content-header">
             <h1>
-                SUPPLIER
-                <small>ALL SUPPLIER</small>
+                PART
+                <small>ALL PARTS</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/all_supplier"><i class="fa fa-dashboard"></i>SUPPLIER</a></li>
-                <li class="active">ALL SUPPLIER</li>
+                <li><a href="/all_supplier"><i class="fa fa-dashboard"></i>PART</a></li>
+                <li class="active">ALL PARTS</li>
             </ol>
         </section>
 
@@ -38,8 +38,8 @@
 
             <div class="row">
                 <div class="col-md-3 col-sm-3 col-xs-6">
-                    <a href="/add_supplier">
-                        <button type="button" class="btn btn-block btn-success btn-flat">Add Supplier</button>
+                    <a href="/add_part">
+                        <button type="button" class="btn btn-block btn-success btn-flat">Add Part</button>
                     </a>
                 </div>
             </div>
@@ -48,15 +48,21 @@
                 <div class="col-md-12">
                     <div class="box box-primary">
                         <div class="box-header">
-                            <h3 class="box-title">Supplier</h3>
+                            <h3 class="box-title">Parts</h3>
                         </div>
                         <div class="box-body">
 
-                            <table id="table_supplier" class="table table-bordered">
+                            <table id="table_parts" class="table table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>Supplier Id</th>
-                                    <th>Supplier Name</th>
+                                    <th>Part Id</th>
+                                    <th>Name</th>
+                                    <th>Value</th>
+                                    <th>Serial No</th>
+                                    <th>Remark</th>
+                                    <th>Purchase Date</th>
+                                    <th>Warranty</th>
+                                    <th>Supplier</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -66,8 +72,14 @@
 
                                 <tfoot>
                                 <tr>
-                                    <th>Supplier Id</th>
-                                    <th>Supplier Name</th>
+                                    <th>Part Id</th>
+                                    <th>Name</th>
+                                    <th>Value</th>
+                                    <th>Serial No</th>
+                                    <th>Remark</th>
+                                    <th>Purchase Date</th>
+                                    <th>Warranty</th>
+                                    <th>Supplier</th>
                                     <th></th>
                                 </tr>
                                 </tfoot>
@@ -124,47 +136,22 @@
         </div>
     </div>
 
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="dist/js/adminlte.min.js"></script>
-    <script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="bower_components/fastclick/lib/fastclick.js"></script>
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/dist/js/adminlte.min.js"></script>
+    <script src="/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="/bower_components/fastclick/lib/fastclick.js"></script>
 
     <script type="application/javascript">
-        var table = $('#table_supplier').DataTable({
+        var table = $('#table_parts').DataTable({
             "pageLength": 10,
-            "ajax": "/all_supplier_dt"
-
+            "ajax": "/all_parts_dt"
         });
-
-        function deleteSupplier(id) {
-            $("#txt-delete-id").val(id);
-            $('#modal-danger').modal('show');
+        function editPart(id) {
+            window.location.replace("edit_part/"+id);
         }
-
-        function editSupplier(id) {
-            window.location.replace("edit_supplier/"+id);
-        }
-
-        $("#button-delete").click(function () {
-            $.ajax({
-                type: 'DELETE',
-                url: 'supplier',
-                data: $("#txt-delete-id").val(),
-                success: function () {
-                    $('#modal-danger').modal('hide');
-                    $('#modal-success').modal('show');
-                    table.ajax.reload();
-                },
-                error: function () {
-                    alert('Error');
-                }
-            });
-        });
-
-
     </script>
 </body>
 </html>

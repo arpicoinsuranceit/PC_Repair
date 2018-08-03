@@ -23,12 +23,12 @@
     <div class="content-wrapper">
         <section class="content-header">
             <h1>
-                SUPPLIER
-                <small>ADD SUPPLIER</small>
+                ASSIGNEE
+                <small>ADD ASSIGNEE</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/all_supplier"><i class="fa fa-dashboard"></i> SUPPLIER</a></li>
-                <li class="active">ADD SUPPLIER</li>
+                <li><a href="/all_assignees"><i class="fa fa-dashboard"></i> ASSIGNEE</a></li>
+                <li class="active">ADD ASSIGNEE</li>
             </ol>
         </section>
 
@@ -37,25 +37,25 @@
             <div class="box box-primary">
 
                 <div class="box-header with-border">
-                    <h3 class="box-title">ADD SUPPLIER</h3>
+                    <h3 class="box-title">ADD ASSIGNEE</h3>
                 </div>
 
                 <div class="box-body">
-                    <form id="form_add_supplier">
+                    <form id="form_add_assignee">
                         <div class="form-group">
-                            <label>Supplier Id</label>
-                            <input type="text" class="form-control" name="supplierId" placeholder="Enter Supplier Id">
+                            <label>Assignee Id</label>
+                            <input type="text" class="form-control" name="assigneeId" placeholder="Enter Assignee Id">
                         </div>
 
                         <div class="form-group">
-                            <label>Supplier Name</label>
-                            <input type="text" class="form-control" name="supplierName"
-                                   placeholder="Enter Supplier Name">
+                            <label>Assignee Name</label>
+                            <input type="text" class="form-control" name="assigneeName"
+                                   placeholder="Enter Assignee Name">
                         </div>
 
                         <div class="box-footer">
                             <button type="button" class="btn btn-default">Cancel</button>
-                            <button type="button" id="button-addsupplier" class="btn btn-info pull-right">Add Supplier
+                            <button type="button" id="button-addassignee" class="btn btn-info pull-right">Add Assignee
                             </button>
                         </div>
                     </form>
@@ -77,10 +77,10 @@
 
     <script type="application/javascript">
 
-        $("#button-addsupplier").click(function () {
+        $("#button-addassignee").click(function () {
 
             var data = "{";
-            $("#form_add_supplier .form-control").each(function () {
+            $("#form_add_assignee .form-control").each(function () {
                 data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
             });
             var jsonString = data.substring(0, data.length - 1);
@@ -88,12 +88,12 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/supplier',
+                url: '/assignee',
                 data: jsonString,
                 contentType: "application/json",
                 success: function (resp) {
                     $("#modal-success").modal("show");
-                    $("#form_add_supplier").trigger("reset");
+                    $("#form_add_assignee").trigger("reset");
                 },
                 error: function () {
                     alert('Error');

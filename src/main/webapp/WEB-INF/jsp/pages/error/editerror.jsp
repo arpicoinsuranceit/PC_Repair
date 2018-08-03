@@ -11,13 +11,13 @@
 	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
 	name="viewport">
 <link rel="stylesheet"
-	href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">
+	href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
 <link rel="stylesheet"
-	href="../../bower_components/font-awesome/css/font-awesome.min.css">
+	href="/bower_components/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet"
-	href="../../bower_components/Ionicons/css/ionicons.min.css">
-<link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
-<link rel="stylesheet" href="../../dist/css/skins/skin-blue.css">
+	href="/bower_components/Ionicons/css/ionicons.min.css">
+<link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
+<link rel="stylesheet" href="/dist/css/skins/skin-blue.css">
 <title>${title}</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -28,12 +28,11 @@
 		<div class="content-wrapper">
 			<section class="content-header">
 			<h1>
-				SUPPLIER <small>ADD SUPPLIER</small>
+				ERROR <small>EDIT ERRORS</small>
 			</h1>
 			<ol class="breadcrumb">
-				<li><a href="/all_supplier"><i class="fa fa-dashboard"></i>
-						SUPPLIER</a></li>
-				<li class="active">ADD SUPPLIER</li>
+				<li><a href="/all_errors"><i class="fa fa-dashboard"></i>ERROR</a></li>
+				<li class="active">EDIT ERRORS</li>
 			</ol>
 			</section>
 
@@ -42,27 +41,32 @@
 			<div class="box box-primary">
 
 				<div class="box-header with-border">
-					<h3 class="box-title">ADD SUPPLIER</h3>
+					<h3 class="box-title">EDIT ERROR</h3>
 				</div>
 
 				<div class="box-body">
-					<form id="form_edit_supplier">
+					<form id="form_edit_error">
 						<div class="form-group">
-							<label>Supplier Id</label> <input type="text"
-								class="form-control" name="supplierId" value="${sup_id}"
-								placeholder="Enter Supplier Id" readonly>
+							<label>Error Id</label> <input type="text" readonly="readonly"
+								class="form-control" name="id" value="${id}"
+								placeholder="Enter Error Id">
 						</div>
 
 						<div class="form-group">
-							<label>Supplier Name</label> <input type="text"
-								class="form-control" name="supplierName" value="${sup_name}"
-								placeholder="Enter Supplier Name">
+							<label>Error Name</label> <input type="text" class="form-control"
+								name="name" value="${name}" placeholder="Enter Error Name">
+						</div>
+
+						<div class="form-group">
+							<label>Error Description</label> <input type="text"
+								class="form-control" name="description" value="${description}"
+								placeholder="Enter Error Description">
 						</div>
 
 						<div class="box-footer">
 							<button type="button" class="btn btn-default">Cancel</button>
-							<button type="button" id="button-editsupplier"
-								class="btn btn-info pull-right">Edit Supplier</button>
+							<button type="button" id="button-editError"
+								class="btn btn-info pull-right">edit Error</button>
 						</div>
 					</form>
 				</div>
@@ -73,35 +77,34 @@
 		</div>
 
 		<jsp:include page="../../core/footer.jsp"></jsp:include>
-
 		<jsp:include page="../../core/SuccessEdit.jsp"></jsp:include>
 
 
-		<script src="../../bower_components/jquery/dist/jquery.min.js"></script>
-		<script
-			src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-		<script src="../../dist/js/adminlte.min.js"></script>
+
+		<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="/dist/js/adminlte.min.js"></script>
 
 		<script type="application/javascript">
 			
 
-        $("#button-editsupplier").click(function () {
+        $("#button-editError").click(function () {
 
             var data = "{";
-            $("#form_edit_supplier .form-control").each(function () {
+            $("#form_edit_error .form-control").each(function () {
                 data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
             });
             var jsonString = data.substring(0, data.length - 1);
             jsonString += "}";
-
+ 
             $.ajax({
                 type: 'PUT',
-                url: '/supplier',
+                url: '/error',
                 data: jsonString,
                 contentType: "application/json",
                 success: function (resp) {
                     $("#modal-success").modal("show");
-                    $("#form_edit_supplier").trigger("reset");
+                    $("#form_edit_error").trigger("reset");
                 },
                 error: function () {
                     alert('Error');

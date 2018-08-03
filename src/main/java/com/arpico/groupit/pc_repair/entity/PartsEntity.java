@@ -27,6 +27,9 @@ public class PartsEntity {
 	@Column(name = "WARRENTY_PERIOD")
 	private String warrentyPeriod;
 	
+	@Column(name = "WARRENTY_EXP_DATE")
+	private Date warrantyExp;
+	
 	@Column(name = "PURCHASE_DATE")
 	private Date purchaseDate;
 	
@@ -77,6 +80,14 @@ public class PartsEntity {
 
 	public void setWarrentyPeriod(String warrentyPeriod) {
 		this.warrentyPeriod = warrentyPeriod;
+	}
+
+	public Date getWarrantyExp() {
+		return warrantyExp;
+	}
+
+	public void setWarrantyExp(Date warrantyExp) {
+		this.warrantyExp = warrantyExp;
 	}
 
 	public Date getPurchaseDate() {

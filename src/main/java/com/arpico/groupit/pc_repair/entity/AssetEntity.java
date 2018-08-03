@@ -1,6 +1,6 @@
 package com.arpico.groupit.pc_repair.entity;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -25,14 +25,8 @@ public class AssetEntity {
 	@Column(name = "ASSET_DESCRIPTION")
 	private String assetDescription;
 	
-	@Column(name = "LOC_CODE")
-	private String locationCode;
-	
 	@Column(name = "IP_ADDRESS")
 	private String ipAddress;
-	
-	@Column(name = "OPERATIG_SYSTEM")
-	private String operatingSystem;
 	
 	@Column(name = "SERIAL_NO")
 	private String serialNo;
@@ -42,6 +36,9 @@ public class AssetEntity {
 	
 	@Column(name = "WARRENTY_PERIOD")
 	private String warrantyPeriod;
+	
+	@Column(name = "WARRENTY_EXP_DATE")
+	private Date warrantyExp;
 	
 	@Column(name = "ASSET_VALUE")
 	private Double assetValue;
@@ -66,6 +63,10 @@ public class AssetEntity {
 	private List<RepairEntity> repairEntities;
 	
 	private List<BackupEntity> backupEntities;
+	
+	private List<AssetLocationEntity> assetLocationEntities;
+	
+	private List<AssetOsEntity>  assetOsEntities ;
 
 	@Id
 	public String getAssetCode() {
@@ -84,28 +85,12 @@ public class AssetEntity {
 		this.assetDescription = assetDescription;
 	}
 
-	public String getLocationCode() {
-		return locationCode;
-	}
-
-	public void setLocationCode(String locationCode) {
-		this.locationCode = locationCode;
-	}
-
 	public String getIpAddress() {
 		return ipAddress;
 	}
 
 	public void setIpAddress(String ipAddress) {
 		this.ipAddress = ipAddress;
-	}
-
-	public String getOperatingSystem() {
-		return operatingSystem;
-	}
-
-	public void setOperatingSystem(String operatingSystem) {
-		this.operatingSystem = operatingSystem;
 	}
 
 	public String getSerialNo() {
@@ -130,6 +115,14 @@ public class AssetEntity {
 
 	public void setWarrantyPeriod(String warrantyPeriod) {
 		this.warrantyPeriod = warrantyPeriod;
+	}
+
+	public Date getWarrantyExp() {
+		return warrantyExp;
+	}
+
+	public void setWarrantyExp(Date warrantyExp) {
+		this.warrantyExp = warrantyExp;
 	}
 
 	public Double getAssetValue() {
@@ -208,6 +201,26 @@ public class AssetEntity {
 
 	public void setBackupEntities(List<BackupEntity> backupEntities) {
 		this.backupEntities = backupEntities;
+	}
+
+	@OneToMany(mappedBy = "assetEntity", targetEntity = AssetLocationEntity.class)
+	@JsonIgnore
+	public List<AssetLocationEntity> getAssetLocationEntities() {
+		return assetLocationEntities;
+	}
+
+	public void setAssetLocationEntities(List<AssetLocationEntity> assetLocationEntities) {
+		this.assetLocationEntities = assetLocationEntities;
+	}
+
+	@OneToMany(mappedBy = "assetEntity", targetEntity = AssetOsEntity.class)
+	@JsonIgnore
+	public List<AssetOsEntity> getAssetOsEntities() {
+		return assetOsEntities;
+	}
+
+	public void setAssetOsEntities(List<AssetOsEntity> assetOsEntities) {
+		this.assetOsEntities = assetOsEntities;
 	}
 
 

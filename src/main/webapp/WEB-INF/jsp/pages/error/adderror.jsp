@@ -8,11 +8,11 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
-    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="dist/css/skins/skin-blue.css">
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/bower_components/Ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="/dist/css/skins/skin-blue.css">
     <title>${title}</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -23,12 +23,12 @@
     <div class="content-wrapper">
         <section class="content-header">
             <h1>
-                SUPPLIER
-                <small>ADD SUPPLIER</small>
+                ERROR
+                <small>ADD ERRORS</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/all_supplier"><i class="fa fa-dashboard"></i> SUPPLIER</a></li>
-                <li class="active">ADD SUPPLIER</li>
+                <li><a href="/all_errors"><i class="fa fa-dashboard"></i>ERROR</a></li>
+                <li class="active">ADD ERRORS</li>
             </ol>
         </section>
 
@@ -37,25 +37,31 @@
             <div class="box box-primary">
 
                 <div class="box-header with-border">
-                    <h3 class="box-title">ADD SUPPLIER</h3>
+                    <h3 class="box-title">ADD ERROR</h3>
                 </div>
 
                 <div class="box-body">
-                    <form id="form_add_supplier">
+                    <form id="form_add_error">
                         <div class="form-group">
-                            <label>Supplier Id</label>
-                            <input type="text" class="form-control" name="supplierId" placeholder="Enter Supplier Id">
+                            <label>Error Id</label>
+                            <input type="text" class="form-control" name="id" placeholder="Enter Error Id">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Error Name</label>
+                            <input type="text" class="form-control" name="name"
+                                   placeholder="Enter Error Name">
                         </div>
 
                         <div class="form-group">
-                            <label>Supplier Name</label>
-                            <input type="text" class="form-control" name="supplierName"
-                                   placeholder="Enter Supplier Name">
+                            <label>Error Description</label>
+                            <input type="text" class="form-control" name="description"
+                                   placeholder="Enter Error Description">
                         </div>
 
                         <div class="box-footer">
                             <button type="button" class="btn btn-default">Cancel</button>
-                            <button type="button" id="button-addsupplier" class="btn btn-info pull-right">Add Supplier
+                            <button type="button" id="button-addError" class="btn btn-info pull-right">Add Error
                             </button>
                         </div>
                     </form>
@@ -71,16 +77,16 @@
     <jsp:include page="../../core/SuccessAdd.jsp"></jsp:include>
 
 
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="dist/js/adminlte.min.js"></script>
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/dist/js/adminlte.min.js"></script>
 
     <script type="application/javascript">
 
-        $("#button-addsupplier").click(function () {
+        $("#button-addError").click(function () {
 
             var data = "{";
-            $("#form_add_supplier .form-control").each(function () {
+            $("#form_add_error .form-control").each(function () {
                 data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
             });
             var jsonString = data.substring(0, data.length - 1);
@@ -88,12 +94,12 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/supplier',
+                url: '/error',
                 data: jsonString,
                 contentType: "application/json",
                 success: function (resp) {
                     $("#modal-success").modal("show");
-                    $("#form_add_supplier").trigger("reset");
+                    $("#form_add_error").trigger("reset");
                 },
                 error: function () {
                     alert('Error');

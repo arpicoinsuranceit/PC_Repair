@@ -1,5 +1,6 @@
 package com.arpico.groupit.pc_repair.service;
 
+import com.arpico.groupit.pc_repair.dto.NameValueDto;
 import com.arpico.groupit.pc_repair.dto.SupplierDto;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface SupplierService {
     String delete(String supplierId) throws  Exception;
 
     SupplierDto get(String id) throws  Exception;
+
+    List<NameValueDto> getAllNameValue () throws Exception;
 }

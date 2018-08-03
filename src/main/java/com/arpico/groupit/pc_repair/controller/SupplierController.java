@@ -65,8 +65,8 @@ public class SupplierController {
             entity.add(supplierDto.getSupplierName());
             entity.add("<button type=\"button\" class=\"btn btn-default\" id=\"" + supplierDto.getSupplierId()
                     + "\" onclick = \"editSupplier('"+ supplierDto.getSupplierId() +"')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i><span>&nbsp;&nbsp;EDIT</span></button>");
-            entity.add("<button type=\"button\" class=\"btn btn-default\" id=\"" + supplierDto.getSupplierId()
-                    + "\" onclick = \"deleteSupplier('"+ supplierDto.getSupplierId() +"')\" ><i class=\"fa fa-trash\" aria-hidden=\"true\"></i><span>&nbsp;&nbsp;DELETE</span></button>");
+          /*  entity.add("<button type=\"button\" class=\"btn btn-default\" id=\"" + supplierDto.getSupplierId()
+                    + "\" onclick = \"deleteSupplier('"+ supplierDto.getSupplierId() +"')\" ><i class=\"fa fa-trash\" aria-hidden=\"true\"></i><span>&nbsp;&nbsp;DELETE</span></button>");*/
 
             entities.add(entity);
         }

@@ -8,13 +8,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
-    <link rel="stylesheet" href="bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
-    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="dist/css/CustomStyles.css">
-    <link rel="stylesheet" href="dist/css/skins/skin-blue.css">
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/bower_components/Ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="/dist/css/CustomStyles.css">
+    <link rel="stylesheet" href="/dist/css/skins/skin-blue.css">
     <title>${title}</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -25,12 +25,12 @@
     <div class="content-wrapper">
         <section class="content-header">
             <h1>
-                SUPPLIER
-                <small>ALL SUPPLIER</small>
+                ERROR
+                <small>ALL ERRORS</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/all_supplier"><i class="fa fa-dashboard"></i>SUPPLIER</a></li>
-                <li class="active">ALL SUPPLIER</li>
+                <li><a href="/all_errors"><i class="fa fa-dashboard"></i>ERROR</a></li>
+                <li class="active">ALL ERRORS</li>
             </ol>
         </section>
 
@@ -38,8 +38,8 @@
 
             <div class="row">
                 <div class="col-md-3 col-sm-3 col-xs-6">
-                    <a href="/add_supplier">
-                        <button type="button" class="btn btn-block btn-success btn-flat">Add Supplier</button>
+                    <a href="/add_error">
+                        <button type="button" class="btn btn-block btn-success btn-flat">Add Error</button>
                     </a>
                 </div>
             </div>
@@ -48,15 +48,16 @@
                 <div class="col-md-12">
                     <div class="box box-primary">
                         <div class="box-header">
-                            <h3 class="box-title">Supplier</h3>
+                            <h3 class="box-title">Error</h3>
                         </div>
                         <div class="box-body">
 
-                            <table id="table_supplier" class="table table-bordered">
+                            <table id="table_error" class="table table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>Supplier Id</th>
-                                    <th>Supplier Name</th>
+                                    <th>Error Id</th>
+                                    <th>Error Name</th>
+                                    <th>Error Description</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -66,8 +67,9 @@
 
                                 <tfoot>
                                 <tr>
-                                    <th>Supplier Id</th>
-                                    <th>Supplier Name</th>
+                                    <th>Error Id</th>
+                                    <th>Error Name</th>
+                                    <th>Error Description</th>
                                     <th></th>
                                 </tr>
                                 </tfoot>
@@ -124,47 +126,24 @@
         </div>
     </div>
 
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="dist/js/adminlte.min.js"></script>
-    <script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="bower_components/fastclick/lib/fastclick.js"></script>
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/dist/js/adminlte.min.js"></script>
+    <script src="/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="/bower_components/fastclick/lib/fastclick.js"></script>
 
     <script type="application/javascript">
-        var table = $('#table_supplier').DataTable({
+        var table = $('#table_error').DataTable({
             "pageLength": 10,
-            "ajax": "/all_supplier_dt"
+            "ajax": "/all_error_dt"
 
         });
-
-        function deleteSupplier(id) {
-            $("#txt-delete-id").val(id);
-            $('#modal-danger').modal('show');
+        
+        function editError(id) {
+            window.location.replace("edit_error/"+id);
         }
-
-        function editSupplier(id) {
-            window.location.replace("edit_supplier/"+id);
-        }
-
-        $("#button-delete").click(function () {
-            $.ajax({
-                type: 'DELETE',
-                url: 'supplier',
-                data: $("#txt-delete-id").val(),
-                success: function () {
-                    $('#modal-danger').modal('hide');
-                    $('#modal-success').modal('show');
-                    table.ajax.reload();
-                },
-                error: function () {
-                    alert('Error');
-                }
-            });
-        });
-
-
     </script>
 </body>
 </html>

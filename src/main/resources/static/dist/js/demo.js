@@ -23,6 +23,7 @@ $(function () {
    *
    * @type Array
    */
+  
   var mySkins = [
     'skin-blue',
     'skin-black',

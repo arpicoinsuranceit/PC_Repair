@@ -1,13 +1,14 @@
 package com.arpico.groupit.pc_repair.service.impl;
 
 import com.arpico.groupit.pc_repair.dao.SupplierDao;
+import com.arpico.groupit.pc_repair.dto.NameValueDto;
 import com.arpico.groupit.pc_repair.dto.SupplierDto;
 import com.arpico.groupit.pc_repair.entity.SupplierEntity;
 import com.arpico.groupit.pc_repair.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +53,28 @@ public class SupplierServiceImpl implements SupplierService {
     public SupplierDto get(String id) throws Exception {
         SupplierEntity supplierEntity = supplierDao.findOne(id);
         return getSupplierDto(supplierEntity);
+    }
+
+    @Override
+    public List<NameValueDto> getAllNameValue() throws Exception {
+        List<SupplierEntity> supplierEntities = (List<SupplierEntity>) supplierDao.findAll();
+
+        List<NameValueDto> supplierDtos = new ArrayList<>();
+
+        supplierEntities.forEach( e -> {
+            supplierDtos.add(getNameValueSupplierDto(e));
+        });
+
+        return supplierDtos;
+    }
+
+    private NameValueDto getNameValueSupplierDto(SupplierEntity e) {
+        NameValueDto nameValueDto = new NameValueDto();
+        nameValueDto.setName(e.getSuplierName());
+        nameValueDto.setValue(e.getSuplierId());
+
+        return nameValueDto;
+
     }
 
     private SupplierDto getSupplierDto(SupplierEntity e) {
