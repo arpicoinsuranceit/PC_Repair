@@ -31,7 +31,12 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="/all_supplier"><i class="fa fa-circle-thin"></i> <span>All Repairs</span></a></li>
-            <li><a href="/all_supplier"><i class="fa fa-circle-thin"></i> <span>Add Repair</span></a></li>
+            <li><a href="/all_supplier"><i class="fa fa-circle-thin"></i> <span>Ongoing Repairs</span></a></li>
+            <li><a href="/all_send_repair"><i class="fa fa-circle-thin"></i> <span>Send Repairs</span></a></li>
+           	<li><a href="/all_return_repair"><i class="fa fa-circle-thin"></i> <span>Return Repairs</span></a></li>
+            <li><a href="/send_repair"><i class="fa fa-circle-thin"></i> <span>Send Repair</span></a></li>
+            <li><a href="/return_repair"><i class="fa fa-circle-thin"></i> <span>Return Repair</span></a></li>
+            <li><a href="/all_supplier"><i class="fa fa-circle-thin"></i> <span>Repair</span></a></li>
           </ul>
         </li>
 

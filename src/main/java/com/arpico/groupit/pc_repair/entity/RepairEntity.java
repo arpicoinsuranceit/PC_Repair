@@ -49,6 +49,8 @@ public class RepairEntity {
 	
 	private List<AssigneeRepairEntity> assigneeRepairEntities;
 	private List<RepairErrorDetailEntity> repairErrorDetailEntities;
+	
+	private List<RepairStatusEntity> repairStatusEntities;
 
 	@Id
 	public String getRepairId() {
@@ -175,6 +177,15 @@ public class RepairEntity {
 
 	public void setRepairErrorEntities(List<RepairErrorDetailEntity> repairErrorDetailEntities) {
 		this.repairErrorDetailEntities = repairErrorDetailEntities;
+	}
+	@JsonIgnore
+	@OneToMany(mappedBy = "repairEntity", targetEntity = RepairStatusEntity.class)
+	public List<RepairStatusEntity> getRepairStatusEntities() {
+		return repairStatusEntities;
+	}
+
+	public void setRepairStatusEntities(List<RepairStatusEntity> repairStatusEntities) {
+		this.repairStatusEntities = repairStatusEntities;
 	}
 
 

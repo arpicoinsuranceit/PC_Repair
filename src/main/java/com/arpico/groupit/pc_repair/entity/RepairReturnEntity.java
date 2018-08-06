@@ -1,5 +1,7 @@
 package com.arpico.groupit.pc_repair.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -30,6 +32,19 @@ public class RepairReturnEntity {
 	
 	@Column(name = "REMARK")
 	private String remark;
+	
+	@Column(name = "SEND_DATE")
+	private Date sendDate;
+	
+	@Column(name = "SEND_BY")
+	private String sendBy;
+	
+	@Column(name = "RECEIVED_DATE")
+	private Date recivedDate;
+	
+
+	@Column(name = "RECEIVED_BY")
+	private String recivedBy;
 	
 	private RepairEntity repairEntity;
 
@@ -97,6 +112,38 @@ public class RepairReturnEntity {
 
 	public void setRepairEntity(RepairEntity repairEntity) {
 		this.repairEntity = repairEntity;
+	}
+
+	public Date getSendDate() {
+		return sendDate;
+	}
+
+	public void setSendDate(Date sendDate) {
+		this.sendDate = sendDate;
+	}
+
+	public String getSendBy() {
+		return sendBy;
+	}
+
+	public void setSendBy(String sendBy) {
+		this.sendBy = sendBy;
+	}
+
+	public Date getRecivedDate() {
+		return recivedDate;
+	}
+
+	public void setRecivedDate(Date recivedDate) {
+		this.recivedDate = recivedDate;
+	}
+
+	public String getRecivedBy() {
+		return recivedBy;
+	}
+
+	public void setRecivedBy(String recivedBy) {
+		this.recivedBy = recivedBy;
 	}
 
 }

@@ -7,7 +7,7 @@ import java.util.List;
 public interface AssetService {
 
     List<AssetDto> getAll() throws Exception;
-
+    
     String save(AssetDto assetDto) throws Exception;
 
     String delete(String assetId) throws Exception;

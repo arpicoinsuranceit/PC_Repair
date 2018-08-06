@@ -14,7 +14,7 @@ public class AssetDto {
     private String warranty;
     private String warrantyExp;
     private String supplier;
-
+    private String repairId;
 
     public String getAssetId() {
         return assetId;
@@ -112,7 +112,15 @@ public class AssetDto {
         this.supplier = supplier;
     }
 
-    @Override
+    public String getRepairId() {
+		return repairId;
+	}
+
+	public void setRepairId(String repairId) {
+		this.repairId = repairId;
+	}
+
+	@Override
     public String toString() {
         return "AssetDto{" +
                 "assetId='" + assetId + '\'' +
