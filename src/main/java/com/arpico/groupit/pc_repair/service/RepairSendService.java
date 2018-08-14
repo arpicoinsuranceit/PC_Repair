@@ -15,6 +15,6 @@ public interface RepairSendService {
 
     RepairSentDto get(String repairSendId) throws Exception;
 
-	String received(String id) throws Exception;
+	String received(String id, String status) throws Exception;
 	
 }

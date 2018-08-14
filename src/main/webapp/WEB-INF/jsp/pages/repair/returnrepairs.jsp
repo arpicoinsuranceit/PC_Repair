@@ -145,7 +145,7 @@
         function repairReceived(id){
         	$.ajax({
                 type: 'GET',
-                url: '/received_send/'+ id,
+                url: '/received_return/'+ id,
                 success: function (resp) {
                     $("#modal-success").modal("show");
                     table.ajax.reload();

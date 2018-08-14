@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.arpico.groupit.pc_repair.dao.RepairDao;
 import com.arpico.groupit.pc_repair.dto.AssetDto;
+import com.arpico.groupit.pc_repair.dto.RepairReturnDto;
 import com.arpico.groupit.pc_repair.dto.RepairSentDto;
 import com.arpico.groupit.pc_repair.entity.AssetEntity;
 import com.arpico.groupit.pc_repair.entity.AssetLocationEntity;
@@ -33,13 +34,13 @@ public class RepairServiceImpl implements RepairService{
 		List<RepairEntity> repairEntities = repairDao.findByStatusIn(param);
 		List<RepairSentDto> repairSentDtos = new ArrayList<>();
 		repairEntities.forEach(e -> {
-			repairSentDtos.add(getRepairEntity(e));
+			repairSentDtos.add(getRepairSendDto(e));
 		});
 		
 		return repairSentDtos;
 	}
 
-	private RepairSentDto getRepairEntity(RepairEntity e) {
+	private RepairSentDto getRepairSendDto(RepairEntity e) {
 		RepairSentDto repairSentDto = new RepairSentDto();
 		repairSentDto.setRepairId(e.getRepairId());
 		repairSentDto.setStatus(e.getStatus());
@@ -120,17 +121,31 @@ public class RepairServiceImpl implements RepairService{
 	}
 
 	@Override
-	public List<RepairSentDto> getReturnRepairs() throws Exception {
+	public List<RepairReturnDto> getReturnRepairs() throws Exception {
 		List<String> param = new ArrayList<>();
 		param.add(AppConstant.RETURN);
 		param.add(AppConstant.RETURN_REC);
 		List<RepairEntity> repairEntities = repairDao.findByStatusIn(param);
-		List<RepairSentDto> repairSentDtos = new ArrayList<>();
+		List<RepairReturnDto> repairReturnDtos = new ArrayList<>();
 		repairEntities.forEach(e -> {
-			repairSentDtos.add(getRepairEntity(e));
+			repairReturnDtos.add(getRepairReturnDto(e));
 		});
 		
-		return repairSentDtos;
+		return repairReturnDtos;
+	}
+
+	private RepairReturnDto getRepairReturnDto(RepairEntity e) {
+		RepairReturnDto repairReturnDto = new RepairReturnDto();
+		repairReturnDto.setRepairId(e.getRepairId());
+		repairReturnDto.setStatus(e.getStatus());
+		repairReturnDto.setAssetId(e.getAssetEntity().getAssetCode());
+		repairReturnDto.setSendingMethod(e.getRepairSendEntity().getSendingMethod());
+		repairReturnDto.setSendDate(new SimpleDateFormat("yyyy-MM-dd").format(e.getRepairSendEntity().getSendDate()));
+		repairReturnDto.setCourierId(e.getRepairReturnEntity().getCourierId());
+		repairReturnDto.setFromLocation(e.getRepairReturnEntity().getFromLocation());
+		repairReturnDto.setHandOverTo(e.getRepairReturnEntity().getHandOverTo());
+		repairReturnDto.setRepairReturnId(e.getRepairReturnEntity().getRepairReturnId());
+		return repairReturnDto;
 	}
 
 

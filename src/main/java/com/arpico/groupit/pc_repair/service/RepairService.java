@@ -3,6 +3,7 @@ package com.arpico.groupit.pc_repair.service;
 import java.util.List;
 
 import com.arpico.groupit.pc_repair.dto.AssetDto;
+import com.arpico.groupit.pc_repair.dto.RepairReturnDto;
 import com.arpico.groupit.pc_repair.dto.RepairSentDto;
 
 public interface RepairService {
@@ -11,6 +12,6 @@ public interface RepairService {
 	
 	List<AssetDto> getAllRepaired() throws Exception;
 
-	List<RepairSentDto> getReturnRepairs() throws Exception;
+	List<RepairReturnDto> getReturnRepairs() throws Exception;
 
 }

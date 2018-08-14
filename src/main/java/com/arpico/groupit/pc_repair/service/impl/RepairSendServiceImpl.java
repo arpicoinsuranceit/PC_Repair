@@ -10,11 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.arpico.groupit.pc_repair.dao.AssetDao;
 import com.arpico.groupit.pc_repair.dao.RepairDao;
+import com.arpico.groupit.pc_repair.dao.RepairReturnsDao;
 import com.arpico.groupit.pc_repair.dao.RepairSendDao;
 import com.arpico.groupit.pc_repair.dao.RepairStatusDao;
 import com.arpico.groupit.pc_repair.dao.StatusDao;
 import com.arpico.groupit.pc_repair.dto.RepairSentDto;
 import com.arpico.groupit.pc_repair.entity.RepairEntity;
+import com.arpico.groupit.pc_repair.entity.RepairReturnEntity;
 import com.arpico.groupit.pc_repair.entity.RepairSendEntity;
 import com.arpico.groupit.pc_repair.entity.RepairStatusEntity;
 import com.arpico.groupit.pc_repair.service.RepairSendService;
@@ -38,6 +40,9 @@ public class RepairSendServiceImpl implements RepairSendService {
 
 	@Autowired
 	private RepairStatusDao repairStatusDao;
+
+	@Autowired
+	private RepairReturnsDao repairReturnsDao;
 
 	@Override
 	public List<RepairSentDto> getAll() throws Exception {
@@ -114,20 +119,26 @@ public class RepairSendServiceImpl implements RepairSendService {
 	}
 
 	@Override
-	public String received(String id) throws Exception {
-		RepairSendEntity entity = repairSendDao.findOne(id);
-		entity.setRecivedDate(new Date());
-		RepairEntity repairEntity = entity.getRepairEntity();
-		repairEntity.setStatus(AppConstant.SEND_REC);
-		repairEntity.setRepairSendEntity(entity);
-		List<RepairStatusEntity> repairStatusEntities = repairEntity.getRepairStatusEntities();
-		for (RepairStatusEntity repairStatusEntity : repairStatusEntities) {
-			repairStatusEntity.setEnabled(AppConstant.DISABLE);
-			repairStatusEntity.setModifyDate(new Date());
+	public String received(String id, String status) throws Exception {
+		RepairEntity repairEntity = repairDao.findOne(id);
+		repairStatusDao.setDisablePrevious(repairEntity);
+		
+		RepairSendEntity repairSendEntity = repairEntity.getRepairSendEntity();
+		RepairReturnEntity repairReturnEntity = repairEntity.getRepairReturnEntity();
+		RepairStatusEntity repairStatusEntity = null;
+		if (status.equals(AppConstant.RETURN_REC)) {
+			repairReturnEntity.setRecivedDate(new Date());
+			repairReturnsDao.save(repairReturnEntity);
+			repairStatusEntity = getRepairStatusEntity(repairEntity, AppConstant.RETURN_REC);
+		} else if (status.equals(AppConstant.SEND_REC)) {
+			repairSendEntity.setRecivedDate(new Date());
+			repairStatusEntity = getRepairStatusEntity(repairEntity, AppConstant.SEND_REC);
+			repairSendDao.save(repairSendEntity);
 		}
-		RepairStatusEntity repairStatusEntity = getRepairStatusEntity(repairEntity, AppConstant.SEND_REC) ;
-		if (repairDao.save(repairEntity) != null && repairSendDao.save(entity) != null
-				&& repairStatusDao.save(repairStatusEntities) != null && repairStatusDao.save(repairStatusEntity) != null) {
+
+		repairEntity.setStatus(status);
+
+		if (repairDao.save(repairEntity) != null && repairStatusDao.save(repairStatusEntity) != null) {
 			return "201";
 		}
 
