@@ -22,6 +22,9 @@ public class AssigneeRepairEntity {
 
 	@Column(name = "ASSIGNEE_END_TIME")
 	private Date assignEndTime;
+	
+	@Column(name = "IS_ENABLED")
+	private Integer enabled;
 
 	@Column(name = "CREATE_DATE")
 	private Date createDate;
@@ -61,6 +64,14 @@ public class AssigneeRepairEntity {
 
 	public void setAssignEndTime(Date assignEndTime) {
 		this.assignEndTime = assignEndTime;
+	}
+
+	public Integer getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Integer enabled) {
+		this.enabled = enabled;
 	}
 
 	public Date getCreateDate() {

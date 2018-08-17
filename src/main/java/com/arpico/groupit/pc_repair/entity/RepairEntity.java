@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,8 +24,15 @@ public class RepairEntity {
 	@Column(name = "REPAIR_ID")
 	private String RepairId; 
 	
+	@Column(name = "JOB_NO")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer jobNo; 
+	
 	@Column(name = "STATUS")
 	private String status;
+	
+	@Column(name = "PRIORITY")
+	private String priority;
 	
 	@Column(name = "REMARK")
 	private String remark;
@@ -61,12 +70,28 @@ public class RepairEntity {
 		RepairId = repairId;
 	}
 
+	public Integer getJobNo() {
+		return jobNo;
+	}
+
+	public void setJobNo(Integer jobNo) {
+		this.jobNo = jobNo;
+	}
+
 	public String getStatus() {
 		return status;
 	}
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getPriority() {
+		return priority;
+	}
+
+	public void setPriority(String priority) {
+		this.priority = priority;
 	}
 
 	public String getRemark() {
@@ -169,15 +194,17 @@ public class RepairEntity {
 		this.assigneeRepairEntities = assigneeRepairEntities;
 	}
 	
+	
 	@JsonIgnore
 	@OneToMany(mappedBy = "repairEntity", targetEntity = RepairErrorDetailEntity.class)
-	public List<RepairErrorDetailEntity> getRepairErrorEntities() {
+	public List<RepairErrorDetailEntity> getRepairErrorDetailEntities() {
 		return repairErrorDetailEntities;
 	}
 
-	public void setRepairErrorEntities(List<RepairErrorDetailEntity> repairErrorDetailEntities) {
+	public void setRepairErrorDetailEntities(List<RepairErrorDetailEntity> repairErrorDetailEntities) {
 		this.repairErrorDetailEntities = repairErrorDetailEntities;
 	}
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "repairEntity", targetEntity = RepairStatusEntity.class)
 	public List<RepairStatusEntity> getRepairStatusEntities() {

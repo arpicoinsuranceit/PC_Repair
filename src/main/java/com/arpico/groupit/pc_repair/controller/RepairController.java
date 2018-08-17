@@ -17,16 +17,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.arpico.groupit.pc_repair.dto.AssetDto;
+import com.arpico.groupit.pc_repair.dto.AssigneeDto;
+import com.arpico.groupit.pc_repair.dto.ErrorDto;
 import com.arpico.groupit.pc_repair.dto.NameValueDto;
+import com.arpico.groupit.pc_repair.dto.RepairDto;
 import com.arpico.groupit.pc_repair.dto.RepairReturnDto;
 import com.arpico.groupit.pc_repair.dto.RepairSentDto;
+import com.arpico.groupit.pc_repair.dto.StatusDto;
 import com.arpico.groupit.pc_repair.dto.SupplierDto;
 import com.arpico.groupit.pc_repair.entity.RepairPartsEntity;
 import com.arpico.groupit.pc_repair.service.AssetService;
+import com.arpico.groupit.pc_repair.service.AssigneeService;
+import com.arpico.groupit.pc_repair.service.ErrorService;
 import com.arpico.groupit.pc_repair.service.LocationService;
 import com.arpico.groupit.pc_repair.service.RepairReturnService;
 import com.arpico.groupit.pc_repair.service.RepairSendService;
 import com.arpico.groupit.pc_repair.service.RepairService;
+import com.arpico.groupit.pc_repair.service.StatusService;
 import com.arpico.groupit.pc_repair.util.AppConstant;
 
 @Controller
@@ -45,13 +52,34 @@ public class RepairController {
 	private RepairSendService repairSendService;
 	
 	@Autowired
+	private AssigneeService assigneeService;
+	
+	@Autowired
 	private RepairReturnService repairReturnService;
 
-	@RequestMapping("/repair")
-	public ModelAndView navigateRepair() throws Exception {
+	@Autowired
+	private ErrorService errorService;
+	
+	@Autowired
+	private StatusService statusService;
+	
+	
+	@RequestMapping("/repair/{id}")
+	public ModelAndView navigateRepair(@PathVariable String id) throws Exception {
 		ModelAndView mav = new ModelAndView("pages/repair/repair");
 
+		List<AssigneeDto> assigneeDtos = assigneeService.getAll();
+		List<ErrorDto> errorDtos = errorService.getAll();
+		List<StatusDto> statusDtos = statusService.getAll();
+		
+		RepairDto repairDto = repairService.getRepair(id);
+		
+		
 		mav.addObject("title", "PC REPAIR | REPAIR");
+		mav.addObject("assignees", assigneeDtos);
+		mav.addObject("errors", errorDtos);
+		mav.addObject("status", statusDtos);
+		mav.addObject("repair", repairDto);
 
 		return mav;
 

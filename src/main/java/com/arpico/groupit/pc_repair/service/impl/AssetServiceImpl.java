@@ -92,7 +92,8 @@ public class AssetServiceImpl implements AssetService {
 		return getAssetDto(assetEntity, 1, 1, 1);
 	}
 
-	private AssetDto getAssetDto(AssetEntity e, Integer supplier, Integer location, Integer os) {
+	@Override
+	public AssetDto getAssetDto(AssetEntity e, Integer supplier, Integer location, Integer os) {
 
 		AssetDto assetDto = new AssetDto();
 

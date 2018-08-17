@@ -16,6 +16,9 @@ public class RepairErrorDetailEntity {
 
 	@Column(name = "REPAIR_ERROR_ID")
 	private String repairErrorId;
+	
+	@Column(name = "IS_ENABLED")
+	private Integer enabled;
 
 	private RepairEntity repairEntity;
 
@@ -40,6 +43,14 @@ public class RepairErrorDetailEntity {
 
 	public void setRepairErrorId(String repairErrorId) {
 		this.repairErrorId = repairErrorId;
+	}
+
+	public Integer getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Integer enabled) {
+		this.enabled = enabled;
 	}
 
 	@ManyToOne(cascade = CascadeType.ALL)

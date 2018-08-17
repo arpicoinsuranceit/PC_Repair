@@ -39,7 +39,8 @@ public class PartsServiceImpl implements PartsService {
 		return partsDtos;
 	}
 
-	private PartsDto getPartsDto(PartsEntity e, Integer supplier) {
+	@Override
+	public PartsDto getPartsDto(PartsEntity e, Integer supplier) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		PartsDto dto = new PartsDto();
 		dto.setPartId(e.getPartId());

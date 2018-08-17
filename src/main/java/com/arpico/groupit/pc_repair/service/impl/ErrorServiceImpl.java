@@ -67,7 +67,8 @@ public class ErrorServiceImpl implements ErrorService{
 		return getErrorDto(entity);
 	}
 	
-	private ErrorDto getErrorDto(ErrorEntity e) {
+	@Override
+	public ErrorDto getErrorDto(ErrorEntity e) {
 		ErrorDto dto = new ErrorDto();
 		dto.setId(e.getErrorId());
 		dto.setName(e.getErrorName());

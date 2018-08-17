@@ -11,14 +11,16 @@
 	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
 	name="viewport">
 <link rel="stylesheet"
-	href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+	href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
 <link rel="stylesheet"
-	href="bower_components/font-awesome/css/font-awesome.min.css">
+	href="/bower_components/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet"
-	href="bower_components/Ionicons/css/ionicons.min.css">
-<link rel="stylesheet" href="dist/css/AdminLTE.min.css">
-<link rel="stylesheet" href="dist/css/skins/skin-blue.css">
-<link rel="stylesheet" href="dist/css/CustomStyles.css">
+	href="/bower_components/Ionicons/css/ionicons.min.css">
+<link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
+<link rel="stylesheet" href="/dist/css/skins/skin-blue.css">
+<link rel="stylesheet" href="/dist/css/CustomStyles.css">
+<link rel="stylesheet"
+	href="/bower_components/select2/dist/css/select2.min.css">
 <title>${title}</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -44,25 +46,26 @@
 				<div class="box box-primary">
 					<div class="box-header with-border">
 						<h3 class="box-title">REPAIR DETAILS</h3>
+						<h3 class="box-title pull-right">JOB : ${repair.jobNo}</h3>
 					</div>
 					<div class="box-body">
 						<table class="table table-bordered">
 							<tbody>
 								<tr>
 									<td width="25%;">Asset ID</td>
-									<td>name</td>
+									<td>${repair.assetDto.serialNo}</td>
 								</tr>
 								<tr>
 									<td>Location</td>
-									<td>name</td>
+									<td>${repair.locationDto.locationName}</td>
 								</tr>
 								<tr>
 									<td>Reason</td>
-									<td>name</td>
+									<td>${repair.reason}</td>
 								</tr>
 								<tr>
 									<td>Priority</td>
-									<td>name</td>
+									<td>${repair.priority}</td>
 								</tr>
 							</tbody>
 						</table>
@@ -78,9 +81,9 @@
 					<div class="box-body">
 						<label>Assignee</label> <select class="form-control select2"
 							style="width: 100%;" name="assetId">
-							<c:if test="${not empty assets}">
-								<c:forEach items="${assets}" var="asset">
-									<option value="${asset.assetId}">${asset.assetId}</option>
+							<c:if test="${not empty assignees}">
+								<c:forEach items="${assignees}" var="assignee">
+									<option value="${assignee.assigneeId}">${assignee.assigneeName}</option>
 								</c:forEach>
 							</c:if>
 						</select>
@@ -110,14 +113,25 @@
 							</div>
 						</div>
 
-						<p class="text-muted well well-sm no-shadow"
-							style="margin-top: 10px;">
-							Name &nbsp;&nbsp;&nbsp;: <br> Serial &nbsp;&nbsp;&nbsp;: <br>
-							Value &nbsp;&nbsp;&nbsp;:
-						</p>
+						<div style="height: 150px; margin-top: 10px; overflow: auto;">
+						<table class="table table-striped">
+								<thead>
+									<tr>
+										<th style="width: 10px">#</th>
+										<th>Part Name</th>
+										<th>Serial</th>
+										<th style="width: 40px">Value</th>
+									</tr>
+								</thead>
+								<tbody>
+
+									
+								</tbody>
+							</table>
+						</div>
 						<button type="button" class="btn btn-default pull-right">Add</button>
 
-						<div style="height : 200px; margin-top : 70px; ; overflow: auto;">
+						<div style="height: 150px; margin-top: 50px; overflow: auto;">
 							<table class="table table-striped">
 								<thead>
 									<tr>
@@ -129,51 +143,21 @@
 								</thead>
 								<tbody>
 
-									<tr>
-										<td>1.</td>
-										<td>Some Part</td>
-										<td>154402</td>
-										<td><span class="badge bg-red">1500</span></td>
-									</tr>
-									<tr>
-										<td>2.</td>
-										<td>Some Part</td>
-										<td>154402</td>
-										<td><span class="badge bg-red">1500</span></td>
-									</tr>
-									<tr>
-										<td>3.</td>
-										<td>Some Part</td>
-										<td>154402</td>
-										<td><span class="badge bg-red">1500</span></td>
-									</tr>
-									<tr>
-										<td>4.</td>
-										<td>Some Part</td>
-										<td>154402</td>
-										<td><span class="badge bg-red">1500</span></td>
-									</tr>
-									<tr>
-										<td>5.</td>
-										<td>Some Part</td>
-										<td>154402</td>
-										<td><span class="badge bg-red">1500</span></td>
-									</tr>
-
+									
 								</tbody>
 							</table>
 						</div>
-						
+
 						<div class="box-footer">
-								<button type="button" id="button-addRepair"
-									class="btn btn-info pull-right">Add Parts</button>
-							</div>
+							<button type="button" id="button-addRepair"
+								class="btn btn-info pull-right">Add Parts</button>
+						</div>
 
 					</div>
 				</div>
 			</div>
 
-			<div class="col-md-6" >
+			<div class="col-md-6">
 				<div class="box box-primary" style="height: 511px;">
 
 					<div class="box-header with-border">
@@ -185,9 +169,18 @@
 							<div class="form-group">
 								<label>Status</label> <select class="form-control select2"
 									style="width: 100%;" name="assetId">
-									<c:if test="${not empty assets}">
-										<c:forEach items="${assets}" var="asset">
-											<option value="${asset.assetId}">${asset.assetId}</option>
+									<c:if test="${not empty status}">
+										<c:forEach items="${status}" var="state">
+											<c:choose>
+												<c:when
+													test="${state.statusId eq repair.statusDto.statusId}">
+													<option value="${state.statusId}" selected>${state.description}</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${state.statusId}">${state.description}</option>
+												</c:otherwise>
+											</c:choose>
+
 										</c:forEach>
 									</c:if>
 								</select>
@@ -195,22 +188,35 @@
 
 							<div class="form-group">
 								<label>Error</label> <select class="form-control select2"
-									style="width: 100%;" name="assetId">
-									<c:if test="${not empty assets}">
-										<c:forEach items="${assets}" var="asset">
-											<option value="${asset.assetId}">${asset.assetId}</option>
+									multiple="multiple" style="width: 100%;" name="assetId">
+									<c:if test="${not empty errors}">
+										<c:forEach items="${errors}" var="error">
+											<c:set var="isAvailable" value="0" scope="session" />
+											<c:forEach items="${repair.errorDtos}" var="errorDto">
+												<c:if test="${errorDto.id eq error.id}">
+													<c:set var="isAvailable" value="1" scope="session" />
+												</c:if>
+											</c:forEach>
+											<c:choose>
+												<c:when test="${isAvailable eq 1}">
+													<option value="${error.id}" selected>${error.name}</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${error.id}">${error.name}</option>
+												</c:otherwise>
+											</c:choose>
+
 										</c:forEach>
 									</c:if>
 								</select>
 							</div>
 
 							<div class="form-group">
-								<label>Remark</label> <input type="text"
-									class="form-control" name="sendingMethod"
-									placeholder="Enter Remark">
+								<label>Remark</label> <input type="text" class="form-control"
+									name="sendingMethod" placeholder="Enter Remark">
 							</div>
 
-							
+
 
 							<div class="box-footer">
 								<button type="button" id="button-addRepair"
@@ -229,29 +235,16 @@
 		</div>
 
 		<jsp:include page="../../core/footer.jsp"></jsp:include>
-
 		<jsp:include page="../../core/SuccessAdd.jsp"></jsp:include>
-
-
-		<script src="bower_components/jquery/dist/jquery.min.js"></script>
-		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-		<script src="dist/js/adminlte.min.js"></script>
-
+		
+		
+		<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script
+			src="../../bower_components/select2/dist/js/select2.full.min.js"></script>
+		<script src="/dist/js/adminlte.min.js"></script>
 		<script type="application/javascript">
-			
-			
-			
-			
-			
-
-        
-		
-		
-		
-		
-		
-		
-		
+		$('.select2').select2();
 		</script>
 </body>
 </html>

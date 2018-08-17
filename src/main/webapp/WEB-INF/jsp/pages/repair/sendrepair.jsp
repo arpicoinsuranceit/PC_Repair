@@ -18,6 +18,8 @@
 	href="bower_components/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
 <link rel="stylesheet" href="dist/css/skins/skin-blue.css">
+<link rel="stylesheet"
+	href="/bower_components/select2/dist/css/select2.min.css">
 <title>${title}</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -122,8 +124,9 @@
 		<script src="bower_components/jquery/dist/jquery.min.js"></script>
 		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script src="dist/js/adminlte.min.js"></script>
-
+		<script src="/bower_components/select2/dist/js/select2.full.min.js"></script>
 		<script type="application/javascript">
+			
 		$('.select2').select2();
 			
 
@@ -151,6 +154,7 @@
             });
         });
     
+		
 		
 		</script>
 </body>

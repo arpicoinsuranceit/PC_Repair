@@ -1,6 +1,7 @@
 package com.arpico.groupit.pc_repair.service;
 
 import com.arpico.groupit.pc_repair.dto.AssetDto;
+import com.arpico.groupit.pc_repair.entity.AssetEntity;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ public interface AssetService {
     String delete(String assetId) throws Exception;
 
     AssetDto get(String assetId) throws Exception;
+    
+    AssetDto getAssetDto(AssetEntity e, Integer supplier, Integer location, Integer os);
 }

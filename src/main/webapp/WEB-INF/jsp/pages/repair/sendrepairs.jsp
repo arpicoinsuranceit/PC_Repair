@@ -157,6 +157,10 @@
                 }
             });
         }
+        
+        function showRepair(id) {
+        	window.location.replace("/repair/" + id);
+        }
        
 
 

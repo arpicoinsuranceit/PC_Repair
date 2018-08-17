@@ -63,7 +63,8 @@ public class AssigneeServiceImpl implements AssigneeService {
         return null;
     }
 
-    private AssigneeDto getAssigneeDto(AssigneeEntity e) {
+    @Override
+    public AssigneeDto getAssigneeDto(AssigneeEntity e) {
 
         AssigneeDto assigneeDto = new AssigneeDto();
         assigneeDto.setAssigneeId(e.getAssigneeId());

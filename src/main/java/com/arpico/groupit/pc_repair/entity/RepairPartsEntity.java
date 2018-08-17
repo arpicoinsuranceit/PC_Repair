@@ -10,12 +10,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.arpico.groupit.pc_repair.util.AppConstant;
+
 @Entity
 @Table(name = "REPAIR_PARTS_ENTITY")
 public class RepairPartsEntity {
 
 	@Column(name = "REPAIR_PARTS_ID")
 	private String id;
+	
+	@Column(name = "IS_ENABLED")
+	private Integer enebled = AppConstant.ENABLE;
 	
 	private PartsEntity partsEntity;
 	private RepairEntity repairEntity;
@@ -42,6 +47,14 @@ public class RepairPartsEntity {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public Integer getEnebled() {
+		return enebled;
+	}
+
+	public void setEnebled(Integer enebled) {
+		this.enebled = enebled;
 	}
 
 	@ManyToOne(cascade = CascadeType.ALL)
