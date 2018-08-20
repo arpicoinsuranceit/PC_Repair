@@ -8,13 +8,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
-    <link rel="stylesheet" href="bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
-    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="dist/css/CustomStyles.css">
-    <link rel="stylesheet" href="dist/css/skins/skin-blue.css">
+    <link rel="stylesheet" href="${path}/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${path}/bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="${path}/bower_components/Ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="${path}/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="${path}/dist/css/CustomStyles.css">
+    <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
     <title>${title}</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -29,7 +29,7 @@
                 <small>SEND REPAIRS</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/all_supplier"><i class="fa fa-dashboard"></i>REPAIR</a></li>
+                <li><a href="${path}/all_supplier"><i class="fa fa-dashboard"></i>REPAIR</a></li>
                 <li class="active">SEND REPAIRS</li>
             </ol>
         </section>
@@ -129,25 +129,25 @@
         </div>
     </div>
 
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="dist/js/adminlte.min.js"></script>
-    <script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="bower_components/fastclick/lib/fastclick.js"></script>
+    <script src="${path}/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="${path}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="${path}/dist/js/adminlte.min.js"></script>
+    <script src="${path}/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="${path}/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="${path}/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="${path}/bower_components/fastclick/lib/fastclick.js"></script>
 
     <script type="application/javascript">
         var table = $('#table_send_repair').DataTable({
             "pageLength": 10,
-            "ajax": "/all_send_repair_dt"
+            "ajax": "${path}/all_send_repair_dt"
 
         });
 
         function repairReceived(id){
         	$.ajax({
                 type: 'GET',
-                url: '/received_send/'+ id,
+                url: '${path}/received_send/'+ id,
                 success: function (resp) {
                     $("#modal-success").modal("show");
                     table.ajax.reload();
@@ -159,7 +159,7 @@
         }
         
         function showRepair(id) {
-        	window.location.replace("/repair/" + id);
+        	window.location.replace("${path}/repair/" + id);
         }
        
 

@@ -170,10 +170,15 @@ public class RepairServiceImpl implements RepairService {
 		repairReturnDto.setAssetId(e.getAssetEntity().getAssetCode());
 		repairReturnDto.setSendingMethod(e.getRepairSendEntity().getSendingMethod());
 		repairReturnDto.setSendDate(new SimpleDateFormat("yyyy-MM-dd").format(e.getRepairSendEntity().getSendDate()));
-		repairReturnDto.setCourierId(e.getRepairReturnEntity().getCourierId());
-		repairReturnDto.setFromLocation(e.getRepairReturnEntity().getFromLocation());
-		repairReturnDto.setHandOverTo(e.getRepairReturnEntity().getHandOverTo());
-		repairReturnDto.setRepairReturnId(e.getRepairReturnEntity().getRepairReturnId());
+		try{
+			repairReturnDto.setCourierId(e.getRepairReturnEntity().getCourierId());
+			repairReturnDto.setFromLocation(e.getRepairReturnEntity().getFromLocation());
+			repairReturnDto.setHandOverTo(e.getRepairReturnEntity().getHandOverTo());
+			repairReturnDto.setRepairReturnId(e.getRepairReturnEntity().getRepairReturnId());
+		}catch (Exception ex) {
+			// TODO: handle exception
+		}
+		
 		return repairReturnDto;
 	}
 

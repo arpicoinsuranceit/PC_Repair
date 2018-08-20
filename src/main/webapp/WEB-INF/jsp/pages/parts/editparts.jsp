@@ -11,16 +11,16 @@
 	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
 	name="viewport">
 <link rel="stylesheet"
-	href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+	href="${path}/bower_components/bootstrap/dist/css/bootstrap.min.css">
 <link rel="stylesheet"
-	href="/bower_components/font-awesome/css/font-awesome.min.css">
+	href="${path}/bower_components/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet"
-	href="/bower_components/Ionicons/css/ionicons.min.css">
+	href="${path}/bower_components/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet"
-	href="/bower_components/select2/dist/css/select2.min.css">
+	href="${path}/bower_components/select2/dist/css/select2.min.css">
 
-<link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
-<link rel="stylesheet" href="/dist/css/skins/skin-blue.css">
+<link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
+<link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
 
 <title>${title}</title>
 </head>
@@ -35,7 +35,7 @@
 				PARTS <small>EDIT PARTS</small>
 			</h1>
 			<ol class="breadcrumb">
-				<li><a href="/all_parts"><i class="fa fa-dashboard"></i>
+				<li><a href="${path}/all_parts"><i class="fa fa-dashboard"></i>
 						PARTS</a></li>
 				<li class="active">EDIT PARTS</li>
 			</ol>
@@ -146,10 +146,10 @@
 		<jsp:include page="../../core/SuccessEdit.jsp"></jsp:include>
 
 
-		<script src="/bower_components/jquery/dist/jquery.min.js"></script>
-		<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-		<script src="/bower_components/select2/dist/js/select2.full.min.js"></script>
-		<script src="/dist/js/adminlte.min.js"></script>
+		<script src="${path}/bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="${path}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="${path}/bower_components/select2/dist/js/select2.full.min.js"></script>
+		<script src="${path}/dist/js/adminlte.min.js"></script>
 
 
 		<script type="application/javascript">
@@ -168,7 +168,7 @@
 
             $.ajax({
                 type: 'PUT',
-                url: '/parts',
+                url: '${path}/parts',
                 data: jsonString,
                 contentType: "application/json",
                 success: function (resp) {

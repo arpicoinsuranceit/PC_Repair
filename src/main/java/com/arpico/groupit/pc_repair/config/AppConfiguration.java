@@ -1,6 +1,5 @@
 package com.arpico.groupit.pc_repair.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ErrorPage;
 import org.springframework.boot.web.servlet.ErrorPageRegistrar;
 import org.springframework.boot.web.servlet.ErrorPageRegistry;
@@ -11,7 +10,7 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
-public class AppConfiguration {
+public class AppConfiguration{
 	
 	@Bean
 	public ViewResolver getViewResolver() {
@@ -37,4 +36,5 @@ public class AppConfiguration {
         }
 
     }
+	
 }

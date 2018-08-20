@@ -8,13 +8,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/bower_components/Ionicons/css/ionicons.min.css">
-    <link rel="stylesheet" href="/bower_components/select2/dist/css/select2.min.css">
+    <link rel="stylesheet" href="${path}/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${path}/bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="${path}/bower_components/Ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="${path}/bower_components/select2/dist/css/select2.min.css">
 
-    <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="/dist/css/skins/skin-blue.css">
+    <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
 
     <title>${title}</title>
 </head>
@@ -30,7 +30,7 @@
                 <small>ADD ASSET</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/all_assets"><i class="fa fa-dashboard"></i> ASSETS</a></li>
+                <li><a href="${path}/all_assets"><i class="fa fa-dashboard"></i> ASSETS</a></li>
                 <li class="active">ADD ASSET</li>
             </ol>
         </section>
@@ -156,10 +156,10 @@
 	<jsp:include page="../../core/SuccessAdd.jsp"></jsp:include>
 
 
-    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="/bower_components/select2/dist/js/select2.full.min.js"></script>
-    <script src="/dist/js/adminlte.min.js"></script>
+    <script src="${path}/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="${path}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="${path}/bower_components/select2/dist/js/select2.full.min.js"></script>
+    <script src="${path}/dist/js/adminlte.min.js"></script>
 
 
     <script type="application/javascript">
@@ -176,7 +176,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/asset',
+                url: '${path}/asset',
                 data: jsonString,
                 contentType: "application/json",
                 success: function (resp) {
