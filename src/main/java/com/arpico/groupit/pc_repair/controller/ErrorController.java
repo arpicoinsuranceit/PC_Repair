@@ -5,7 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,9 +27,16 @@ public class ErrorController {
 
 	@Autowired
 	private ErrorService errorService;
+	
+	@Value("${server.context-path}")
+	private String path;
+	
+	@Autowired
+	ServletContext context;
 
 	@RequestMapping("/all_errors")
 	public ModelAndView manageError() throws Exception {
+		context.setAttribute("path", path);
 		ModelAndView mav = new ModelAndView("pages/error/manageerror");
 		mav.addObject("title", "PC REPAIR | MANAGE ERROR");
 
@@ -36,6 +46,7 @@ public class ErrorController {
 
 	@RequestMapping("/add_error")
 	public ModelAndView addError() throws Exception {
+		context.setAttribute("path", path);
 		ModelAndView mav = new ModelAndView("pages/error/adderror");
 		mav.addObject("title", "PC REPAIR | ADD ERROR");
 
@@ -45,6 +56,7 @@ public class ErrorController {
 	
 	@RequestMapping("/edit_error/{id}")
 	public ModelAndView editError(@PathVariable String id) throws Exception {
+		context.setAttribute("path", path);
 		ModelAndView mav = new ModelAndView("pages/error/editerror");
 		
 		ErrorDto dto = errorService.get(id);

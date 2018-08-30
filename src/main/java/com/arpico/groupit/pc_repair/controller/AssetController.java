@@ -7,6 +7,7 @@ import com.arpico.groupit.pc_repair.service.LocationService;
 import com.arpico.groupit.pc_repair.service.OperatingSystemService;
 import com.arpico.groupit.pc_repair.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.ServletContext;
 
 @Controller
 public class AssetController {
@@ -31,8 +34,15 @@ public class AssetController {
     @Autowired
     private OperatingSystemService operatingSystemService;
     
+    @Value("${server.context-path}")
+	private String path;
+    
+    @Autowired
+	ServletContext context;
+    
     @RequestMapping("/all_assets")
     public ModelAndView manageAsset () throws Exception {
+    	context.setAttribute("path", path);
         ModelAndView mav = new ModelAndView("pages/asset/manageasset");
         mav.addObject("title", "PC REPAIR | MANAGE ASSETS");
 
@@ -42,7 +52,7 @@ public class AssetController {
 
     @RequestMapping("/edit_asset/{id}")
     public ModelAndView editAsset (@PathVariable String id) throws Exception {
-
+    	context.setAttribute("path", path);
         AssetDto assetDto = assetService.get(id);
         List<NameValueDto> suppliers = supplierService.getAllNameValue();
         List<NameValueDto> locations = locationService.getAllNameValue();
@@ -72,6 +82,7 @@ public class AssetController {
     }
     @RequestMapping("/add_asset")
     public ModelAndView addAsset () throws Exception {
+    	context.setAttribute("path", path);
         ModelAndView mav = new ModelAndView("pages/asset/addasset");
 
         List<NameValueDto> suppliers = supplierService.getAllNameValue();

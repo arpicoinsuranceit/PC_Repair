@@ -15,7 +15,6 @@ import com.arpico.groupit.pc_repair.dao.StatusDao;
 import com.arpico.groupit.pc_repair.dto.RepairReturnDto;
 import com.arpico.groupit.pc_repair.entity.RepairEntity;
 import com.arpico.groupit.pc_repair.entity.RepairReturnEntity;
-import com.arpico.groupit.pc_repair.entity.RepairSendEntity;
 import com.arpico.groupit.pc_repair.entity.RepairStatusEntity;
 import com.arpico.groupit.pc_repair.service.RepairReturnService;
 import com.arpico.groupit.pc_repair.util.AppConstant;

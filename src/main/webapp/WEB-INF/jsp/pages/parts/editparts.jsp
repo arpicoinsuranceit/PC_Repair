@@ -82,12 +82,12 @@
 
 						<div class="form-group">
 							<div class="row">
-								<div class="col-md-6 col-xs-6">
+								<div class="col-md-6 col-xs-6" style="display: none;">
 									<label>Part Id</label> <input type="text" class="form-control"
 										value="${part_id}" readonly="readonly" name="partId"
 										placeholder="Enter Part Id">
 								</div>
-								<div class="col-md-6 col-xs-6">
+								<div class="col-md-12 col-xs-12">
 									<label>Name</label> <input type="text" class="form-control"
 										value="${name}" name="partName" placeholder="Enter Part Name">
 								</div>
@@ -111,7 +111,24 @@
 
 						<div class="form-group">
 							<div class="row">
-								<div class="col-md-6 col-xs-6">
+								<div class="col-md-3 col-xs-6">
+									<label>Status</label> <select class="form-control select2"
+										style="width: 100%;" name="status">
+										<c:if test="${not empty partStatus}">
+											<c:forEach items="${partStatus}" var="state">
+												<c:choose>
+													<c:when test="${state eq currentStatus}">
+														<option value="${state}" selected>${state}</option>
+													</c:when>
+													<c:otherwise>
+														<option value="${state}">${state}</option>
+													</c:otherwise>
+												</c:choose>
+											</c:forEach>
+										</c:if>
+									</select>
+								</div>
+								<div class="col-md-3 col-xs-6">
 									<label>Remark</label> <input type="text" class="form-control"
 										name="remark" value="${remark}" placeholder="Enter Remark">
 								</div>
@@ -147,12 +164,15 @@
 
 
 		<script src="${path}/bower_components/jquery/dist/jquery.min.js"></script>
-		<script src="${path}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-		<script src="${path}/bower_components/select2/dist/js/select2.full.min.js"></script>
+		<script
+			src="${path}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script
+			src="${path}/bower_components/select2/dist/js/select2.full.min.js"></script>
 		<script src="${path}/dist/js/adminlte.min.js"></script>
 
 
 		<script type="application/javascript">
+			
 			
 			
         $('.select2').select2();
@@ -181,6 +201,7 @@
             });
         });
     
+		
 		
 		</script>
 </body>

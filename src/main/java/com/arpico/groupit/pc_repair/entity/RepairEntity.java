@@ -15,6 +15,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Table(name = "REPAIR")
@@ -23,9 +26,8 @@ public class RepairEntity {
 	
 	@Column(name = "REPAIR_ID")
 	private String RepairId; 
-	
+
 	@Column(name = "JOB_NO")
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer jobNo; 
 	
 	@Column(name = "STATUS")
@@ -214,6 +216,17 @@ public class RepairEntity {
 	public void setRepairStatusEntities(List<RepairStatusEntity> repairStatusEntities) {
 		this.repairStatusEntities = repairStatusEntities;
 	}
+
+	/*@Override
+	public String toString() {
+		return "RepairEntity [RepairId=" + RepairId + ", jobNo=" + jobNo + ", status=" + status + ", priority="
+				+ priority + ", remark=" + remark + ", cerateDate=" + cerateDate + ", modifydate=" + modifydate
+				+ ", cerateby=" + cerateby + ", modifyby=" + modifyby + ", assetEntity=" + assetEntity
+				+ ", repairPartsEntities=" + repairPartsEntities + ", backupEntities=" + backupEntities
+				+ ", repairSendEntity=" + repairSendEntity + ", repairReturnEntity=" + repairReturnEntity
+				+ ", assigneeRepairEntities=" + assigneeRepairEntities + ", repairErrorDetailEntities="
+				+ repairErrorDetailEntities + ", repairStatusEntities=" + repairStatusEntities + "]";
+	}*/
 
 
 

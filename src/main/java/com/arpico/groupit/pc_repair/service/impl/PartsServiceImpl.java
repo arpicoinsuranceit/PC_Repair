@@ -15,6 +15,7 @@ import com.arpico.groupit.pc_repair.dao.SupplierDao;
 import com.arpico.groupit.pc_repair.dto.PartsDto;
 import com.arpico.groupit.pc_repair.entity.PartsEntity;
 import com.arpico.groupit.pc_repair.service.PartsService;
+import com.arpico.groupit.pc_repair.util.AppConstant;
 
 @Service
 @Transactional
@@ -25,7 +26,7 @@ public class PartsServiceImpl implements PartsService {
 
 	@Autowired
 	private SupplierDao supplierDao;
-	
+
 	@Override
 	public List<PartsDto> getAll() throws Exception {
 		List<PartsEntity> partsEntities = (List<PartsEntity>) partsDao.findAll();
@@ -52,6 +53,7 @@ public class PartsServiceImpl implements PartsService {
 		dto.setValue(e.getPartValue());
 		dto.setWarrentyExp(dateFormat.format(e.getWarrantyExp()));
 		dto.setWarrentyPeriod(e.getWarrentyPeriod());
+		dto.setStatus(e.getStatus());
 		if (supplier == 0) {
 			dto.setSupplier(e.getSupplierEntity().getSuplierName());
 		} else {
@@ -63,11 +65,10 @@ public class PartsServiceImpl implements PartsService {
 	@Override
 	public String save(PartsDto partsDto) throws Exception {
 		PartsEntity partsEntity = getPartsEntity(partsDto);
-		
-		if(partsDao.save(partsEntity)!= null) {
+		if (partsDao.save(partsEntity) != null) {
 			return "201";
 		}
-		
+
 		return "204";
 	}
 
@@ -85,6 +86,7 @@ public class PartsServiceImpl implements PartsService {
 		partsEntity.setSupplierEntity(supplierDao.findOne(partsDto.getSupplier()));
 		partsEntity.setWarrantyExp(dateFormat.parse(partsDto.getWarrentyExp()));
 		partsEntity.setWarrentyPeriod(partsDto.getWarrentyPeriod());
+		partsEntity.setStatus(partsDto.getStatus());
 		return partsEntity;
 	}
 
@@ -97,8 +99,23 @@ public class PartsServiceImpl implements PartsService {
 	@Override
 	public PartsDto get(String partId) throws Exception {
 		PartsEntity entity = partsDao.findOne(partId);
-		
+
 		return getPartsDto(entity, 1);
+	}
+
+	@Override
+	public List<PartsDto> findBySerial(String value) throws Exception {
+		System.out.println(value);
+		List<PartsEntity> entities = partsDao.findBySerialIdContainingAndStatus( value, AppConstant.PARTSTATUS_AVAILABLE);
+
+		List<PartsDto> dtos = new ArrayList<>();
+		if (entities != null) {
+			entities.forEach(e -> {
+				dtos.add(getPartsDto(e, 1));
+			});
+		}
+
+		return dtos;
 	}
 
 }

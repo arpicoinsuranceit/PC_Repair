@@ -68,11 +68,11 @@
 
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-md-6 col-xs-6">
+                                <!-- <div class="col-md-6 col-xs-6">
                                     <label>Part Id</label>
                                     <input type="text" class="form-control" name="partId" placeholder="Enter Part Id">
-                                </div>
-                                <div class="col-md-6 col-xs-6">
+                                </div> -->
+                                <div class="col-md-12 col-xs-12">
                                     <label>Name</label>
                                     <input type="text" class="form-control" name="partName" placeholder="Enter Part Name">
                                 </div>

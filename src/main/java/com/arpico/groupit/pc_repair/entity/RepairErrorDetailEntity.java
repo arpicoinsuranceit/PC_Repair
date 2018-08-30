@@ -105,4 +105,11 @@ public class RepairErrorDetailEntity {
 		this.modifyDate = modifyDate;
 	}
 
+	@Override
+	public String toString() {
+		return "RepairErrorDetailEntity [repairErrorId=" + repairErrorId + ", enabled=" + enabled + ", repairEntity="
+				+ repairEntity + ", errorEntity=" + errorEntity + ", createBy=" + createBy + ", createDate="
+				+ createDate + ", modifyBy=" + modifyBy + ", modifyDate=" + modifyDate + "]";
+	}
+
 }

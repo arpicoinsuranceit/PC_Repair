@@ -80,10 +80,20 @@
 					</div>
 					<div class="box-body">
 						<label>Assignee</label> <select class="form-control select2"
-							style="width: 100%;" name="assetId">
+							style="width: 100%;" name="assetId" id="select_assignee">
+
 							<c:if test="${not empty assignees}">
 								<c:forEach items="${assignees}" var="assignee">
-									<option value="${assignee.assigneeId}">${assignee.assigneeName}</option>
+									<c:choose>
+										<c:when
+											test="${assignee.assigneeId eq repair.assigneeDto.assigneeId}">
+											<option value="${assignee.assigneeId}" selected>${assignee.assigneeName}</option>
+										</c:when>
+										<c:otherwise>
+											<option value="${assignee.assigneeId}">${assignee.assigneeName}</option>
+										</c:otherwise>
+									</c:choose>
+
 								</c:forEach>
 							</c:if>
 						</select>
@@ -91,7 +101,7 @@
 
 					<div class="box-footer">
 
-						<button type="button" id="button-addRepair"
+						<button type="button" id="button-addAssignee"
 							class="btn btn-info pull-right">Add Assignee</button>
 					</div>
 				</div>
@@ -107,31 +117,14 @@
 
 						<div class="input-group">
 
-							<input type="text" class="form-control">
+							<input type="text" class="form-control" id="txt_search_serial">
 							<div class="input-group-btn">
-								<button type="button" class="btn btn-info">Find By Id</button>
+								<button type="button" class="btn btn-info"
+									id="button_search_serial">Find By Id</button>
 							</div>
 						</div>
 
 						<div style="height: 150px; margin-top: 10px; overflow: auto;">
-						<table class="table table-striped">
-								<thead>
-									<tr>
-										<th style="width: 10px">#</th>
-										<th>Part Name</th>
-										<th>Serial</th>
-										<th style="width: 40px">Value</th>
-									</tr>
-								</thead>
-								<tbody>
-
-									
-								</tbody>
-							</table>
-						</div>
-						<button type="button" class="btn btn-default pull-right">Add</button>
-
-						<div style="height: 150px; margin-top: 50px; overflow: auto;">
 							<table class="table table-striped">
 								<thead>
 									<tr>
@@ -141,15 +134,40 @@
 										<th style="width: 40px">Value</th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="tbody_search_parts">
 
-									
+
+								</tbody>
+							</table>
+						</div>
+
+						<div style="height: 150px; margin-top: 50px; overflow: auto;">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>Part Name</th>
+										<th>Serial</th>
+										<th style="width: 40px">Value</th>
+									</tr>
+								</thead>
+								<tbody id="tbody_add_parts">
+									<c:if test="${not empty repair.partsDtos}">
+										<c:forEach items="${repair.partsDtos}" var="part">
+											<tr>
+												<td style="display: none;">${part.partId}</td>
+												<td>${part.partName}</td>
+												<td>${part.serialId}</td>
+												<td>${part.value}</td>
+											</tr>
+										</c:forEach>
+									</c:if>
+
 								</tbody>
 							</table>
 						</div>
 
 						<div class="box-footer">
-							<button type="button" id="button-addRepair"
+							<button type="button" id="button-parts-cart"
 								class="btn btn-info pull-right">Add Parts</button>
 						</div>
 
@@ -165,10 +183,10 @@
 					</div>
 
 					<div class="box-body">
-						<form id="form_send_repair">
+						<form id="form_repair_basics">
 							<div class="form-group">
 								<label>Status</label> <select class="form-control select2"
-									style="width: 100%;" name="assetId">
+									style="width: 100%;" name="status">
 									<c:if test="${not empty status}">
 										<c:forEach items="${status}" var="state">
 											<c:choose>
@@ -188,7 +206,7 @@
 
 							<div class="form-group">
 								<label>Error</label> <select class="form-control select2"
-									multiple="multiple" style="width: 100%;" name="assetId">
+									multiple="multiple" style="width: 100%;" name="error">
 									<c:if test="${not empty errors}">
 										<c:forEach items="${errors}" var="error">
 											<c:set var="isAvailable" value="0" scope="session" />
@@ -213,13 +231,33 @@
 
 							<div class="form-group">
 								<label>Remark</label> <input type="text" class="form-control"
-									name="sendingMethod" placeholder="Enter Remark">
+									name="remark" placeholder="Enter Remark"
+									value="${repair.remark}">
+							</div>
+
+							<div class="form-group">
+								<label>Priority</label> <select class="form-control select2"
+									style="width: 100%;" name="priority">
+									<c:if test="${not empty priorities}">
+										<c:forEach items="${priorities}" var="priority">
+											<c:choose>
+												<c:when test="${priority eq repair.priority}">
+													<option value="${priority}" selected>${priority}</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${priority}">${priority}</option>
+												</c:otherwise>
+											</c:choose>
+
+										</c:forEach>
+									</c:if>
+								</select>
 							</div>
 
 
 
 							<div class="box-footer">
-								<button type="button" id="button-addRepair"
+								<button type="button" id="button-save_basic_repair"
 									class="btn btn-info pull-right">Save Repair</button>
 							</div>
 						</form>
@@ -236,15 +274,155 @@
 
 		<jsp:include page="../../core/footer.jsp"></jsp:include>
 		<jsp:include page="../../core/SuccessAdd.jsp"></jsp:include>
-		
-		
+
+
 		<script src="${path}/bower_components/jquery/dist/jquery.min.js"></script>
-		<script src="${path}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script
+			src="${path}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script
 			src="${path}/bower_components/select2/dist/js/select2.full.min.js"></script>
 		<script src="${path}/dist/js/adminlte.min.js"></script>
 		<script type="application/javascript">
+			
+			
+			
+			
+			
+			
+			
+			
 		$('.select2').select2();
+		
+		$("#button_search_serial").click(function () {
+			var value = $("#txt_search_serial").val();
+			
+			$.ajax({
+                type: 'GET',
+                url: '${path}/searchPartSerial/'+value,
+                success: function (resp) {
+                    console.log(resp);
+                    
+                    var html ="";
+                    
+                    if(resp != null ){
+                    	for(var i in resp) {
+                    		var part = resp[i];
+                    		var rowNum = parseInt(i) + parseInt(1);
+                    		
+                    		var row = "<tr class = \"part_search_tr\"> \
+                                <td style=\"display: none;\">" + part.partId + "</td>\
+                                <td>" + rowNum + "</td>\
+                                <td>" + part.partName + "</td>\
+                                <td>" + part.serialId + "</td>\
+                                <td style = \"text-align: right;\">" + part.value + "</td>";
+                    		
+                    		html += row;
+                    	}
+                    	
+                    	console.log(html);
+                    }
+                    
+                    $("#tbody_search_parts").append(html);
+                    
+                },
+                error: function () {
+                    alert('Error');
+                }
+            });
+		});
+		
+		
+		$(document).on("dblclick", "#tbody_search_parts tr", function () {
+			console.log($(this).closest("tr").find("td:nth-child(1)").text());
+			
+			var row = "<tr class = \"part_search_tr\"> \
+                <td style=\"display: none;\">" + $(this).closest("tr").find("td:nth-child(1)").text() + "</td>\
+                <td>" + $(this).closest("tr").find("td:nth-child(3)").text() + "</td>\
+                <td>" + $(this).closest("tr").find("td:nth-child(4)").text() + "</td>\
+                <td style = \"text-align: right;\">" + $(this).closest("tr").find("td:nth-child(5)").text() + "</td>";
+			
+			$("#tbody_add_parts").append(row);
+			
+			$(this).closest("tr").remove();
+		});
+		
+		$("#button-parts-cart").click();
+		
+		$("#button-addAssignee").click(function () {
+			
+			var assignee = $("#select_assignee").val();
+			
+			var receipt = "${repair.repairId}";
+			
+			$.ajax({
+                type: 'GET',
+                url: "${path}/addAssigneeToRepair/"+receipt+"/"+ assignee,
+                success: function (resp) {
+                	$("#modal-success").modal("show");
+                },
+                error: function () {
+                    alert('Error');
+                }
+			});
+		});
+		
+		$("#button-save_basic_repair").click(function (){
+			var data = "{";
+            $("#form_repair_basics .form-control").each(function () {
+                data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
+            });
+            var jsonString = data.substring(0, data.length - 1);
+            jsonString += "}";
+            
+            var receipt = "${repair.repairId}";
+            
+            $.ajax({
+                type: 'POST',
+                url: '${path}/send_repair_basics/'+receipt,
+                data: jsonString,
+                contentType: "application/json",
+                success: function (resp) {
+                    $("#modal-success").modal("show");
+                    $("#form_send_repair").trigger("reset");
+                },
+                error: function () {
+                    alert('Error');
+                }
+            });
+		});
+		
+		$("#button-parts-cart").click (function () {
+			
+			var receipt = "${repair.repairId}";
+			
+			var arr = new Array();
+			$("#tbody_add_parts tr").each(function () {
+				arr.push($(this).closest("tr").find("td:nth-child(1)").text());
+				
+			});
+			
+			var jsonString = JSON.stringify(arr);
+			
+		 	$.ajax({
+                type: 'POST',
+                url: '${path}/send_repair_cart/'+receipt,
+                data: jsonString,
+                contentType: "application/json",
+                success: function (resp) {
+                    $("#modal-success").modal("show");
+                    $("#form_send_repair").trigger("reset");
+                },
+                error: function () {
+                    alert('Error');
+                }
+            });
+		});
+		
+		
+		
+		
+		
+		
 		</script>
 </body>
 </html>

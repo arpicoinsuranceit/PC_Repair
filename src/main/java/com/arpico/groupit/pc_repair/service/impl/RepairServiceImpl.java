@@ -2,28 +2,45 @@ package com.arpico.groupit.pc_repair.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.arpico.groupit.pc_repair.dao.ErrorDao;
+import com.arpico.groupit.pc_repair.dao.PartsDao;
 import com.arpico.groupit.pc_repair.dao.RepairDao;
+import com.arpico.groupit.pc_repair.dao.RepairErrorDetailsDao;
+import com.arpico.groupit.pc_repair.dao.RepairPartsDao;
+import com.arpico.groupit.pc_repair.dao.RepairStatusDao;
 import com.arpico.groupit.pc_repair.dto.AssetDto;
 import com.arpico.groupit.pc_repair.dto.ErrorDto;
 import com.arpico.groupit.pc_repair.dto.LocationDto;
 import com.arpico.groupit.pc_repair.dto.PartsDto;
+import com.arpico.groupit.pc_repair.dto.RepairBasicsDto;
 import com.arpico.groupit.pc_repair.dto.RepairDto;
 import com.arpico.groupit.pc_repair.dto.RepairReturnDto;
 import com.arpico.groupit.pc_repair.dto.RepairSentDto;
 import com.arpico.groupit.pc_repair.entity.AssetEntity;
 import com.arpico.groupit.pc_repair.entity.AssetLocationEntity;
 import com.arpico.groupit.pc_repair.entity.AssetOsEntity;
+import com.arpico.groupit.pc_repair.entity.ErrorEntity;
+import com.arpico.groupit.pc_repair.entity.PartsEntity;
 import com.arpico.groupit.pc_repair.entity.RepairEntity;
+import com.arpico.groupit.pc_repair.entity.RepairErrorDetailEntity;
+import com.arpico.groupit.pc_repair.entity.RepairPartsEntity;
+import com.arpico.groupit.pc_repair.entity.RepairStatusEntity;
 import com.arpico.groupit.pc_repair.service.AssetService;
 import com.arpico.groupit.pc_repair.service.AssigneeService;
 import com.arpico.groupit.pc_repair.service.ErrorService;
 import com.arpico.groupit.pc_repair.service.PartsService;
+import com.arpico.groupit.pc_repair.service.RepairSendService;
 import com.arpico.groupit.pc_repair.service.RepairService;
 import com.arpico.groupit.pc_repair.service.StatusService;
 import com.arpico.groupit.pc_repair.util.AppConstant;
@@ -49,6 +66,24 @@ public class RepairServiceImpl implements RepairService {
 
 	@Autowired
 	private PartsService partsService;
+
+	@Autowired
+	private RepairErrorDetailsDao repairErrorDetailsDao;
+
+	@Autowired
+	private ErrorDao errorDao;
+
+	@Autowired
+	private RepairStatusDao repairStatusDao;
+
+	@Autowired
+	private RepairSendService repairSendService;
+	
+	@Autowired
+	private RepairPartsDao repairPartsDao;
+	
+	@Autowired
+	private PartsDao partsDao;
 
 	@Override
 	public List<RepairSentDto> getSendRepairs() throws Exception {
@@ -155,6 +190,9 @@ public class RepairServiceImpl implements RepairService {
 		param.add(AppConstant.RETURN);
 		param.add(AppConstant.RETURN_REC);
 		List<RepairEntity> repairEntities = repairDao.findByStatusIn(param);
+
+		System.out.println(repairEntities.size());
+
 		List<RepairReturnDto> repairReturnDtos = new ArrayList<>();
 		repairEntities.forEach(e -> {
 			repairReturnDtos.add(getRepairReturnDto(e));
@@ -170,15 +208,15 @@ public class RepairServiceImpl implements RepairService {
 		repairReturnDto.setAssetId(e.getAssetEntity().getAssetCode());
 		repairReturnDto.setSendingMethod(e.getRepairSendEntity().getSendingMethod());
 		repairReturnDto.setSendDate(new SimpleDateFormat("yyyy-MM-dd").format(e.getRepairSendEntity().getSendDate()));
-		try{
+		try {
 			repairReturnDto.setCourierId(e.getRepairReturnEntity().getCourierId());
 			repairReturnDto.setFromLocation(e.getRepairReturnEntity().getFromLocation());
 			repairReturnDto.setHandOverTo(e.getRepairReturnEntity().getHandOverTo());
 			repairReturnDto.setRepairReturnId(e.getRepairReturnEntity().getRepairReturnId());
-		}catch (Exception ex) {
+		} catch (Exception ex) {
 			// TODO: handle exception
 		}
-		
+
 		return repairReturnDto;
 	}
 
@@ -212,7 +250,12 @@ public class RepairServiceImpl implements RepairService {
 
 		repairEntity.getRepairPartsEntities().forEach(e -> {
 			if (e.getEnebled().equals(AppConstant.ENABLE)) {
-				partsDtos.add(partsService.getPartsDto(e.getPartsEntity(), 0));
+				try {
+					partsDtos.add(partsService.getPartsDto(e.getPartsEntity(), 0));
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 
@@ -226,6 +269,7 @@ public class RepairServiceImpl implements RepairService {
 		dto.setErrorDtos(errorDtos);
 		dto.setPartsDtos(partsDtos);
 		dto.setLocationDto(locationDto);
+		dto.setRemark(repairEntity.getRemark());
 		repairEntity.getRepairStatusEntities().forEach(e -> {
 			if (e.getEnabled().equals(AppConstant.ENABLE)) {
 				try {
@@ -242,6 +286,149 @@ public class RepairServiceImpl implements RepairService {
 		});
 
 		return dto;
+	}
+
+	@Override
+	public String addBasicDetails(RepairBasicsDto repairBasicsDto, String repairId) throws Exception {
+
+		RepairEntity repairEntity = repairDao.findOne(repairId);
+		
+		repairEntity.setPriority(repairBasicsDto.getPriority());
+		
+		System.out.println(repairBasicsDto.getStatus());
+		if (!(repairEntity.getStatus().equals(repairBasicsDto.getStatus()))) {
+			repairEntity.setStatus(repairBasicsDto.getStatus());
+
+			System.out.println(repairBasicsDto.getStatus());
+			repairStatusDao.setDisablePrevious(repairEntity);
+
+			RepairStatusEntity repairStatusEntity = repairSendService.getRepairStatusEntity(repairEntity,
+					repairBasicsDto.getStatus());
+
+			System.out.println(repairStatusEntity.toString());
+			
+			repairStatusDao.save(repairStatusEntity);
+		}
+
+		if (repairBasicsDto.getError() != null && repairBasicsDto.getError().trim().length() > 0) {
+
+			repairErrorDetailsDao.changeEnabled(AppConstant.DISABLE, repairEntity);
+
+			String arr[] = repairBasicsDto.getError().split(",");
+
+			List<RepairErrorDetailEntity> detailEntities = new ArrayList<>();
+
+			for (String errorId : arr) {
+				ErrorEntity errorEntity = errorDao.findOne(errorId);
+				RepairErrorDetailEntity detailEntity = getRepairErrorDetailsEntity(errorEntity, repairEntity);
+
+				detailEntities.add(detailEntity);
+			}
+
+			repairErrorDetailsDao.save(detailEntities);
+
+		}
+
+		if (repairBasicsDto.getRemark() != null && repairBasicsDto.getRemark().trim().length() > 0) {
+			repairEntity.setRemark(repairBasicsDto.getRemark());
+
+			if (!repairEntity.getStatus().equals(repairBasicsDto.getStatus())) {
+				repairEntity.setStatus(repairBasicsDto.getStatus());
+			}
+
+		}
+		
+		repairEntity = repairDao.save(repairEntity);
+
+		return "200";
+	}
+
+	private RepairErrorDetailEntity getRepairErrorDetailsEntity(ErrorEntity errorEntity, RepairEntity repairEntity) {
+		RepairErrorDetailEntity detailEntity = new RepairErrorDetailEntity();
+		detailEntity.setCreateDate(new Date());
+		detailEntity.setEnabled(AppConstant.ENABLE);
+		detailEntity.setErrorEntity(errorEntity);
+		detailEntity.setRepairEntity(repairEntity);
+		detailEntity.setRepairErrorId(UUID.randomUUID().toString());
+
+		return detailEntity;
+	}
+
+	@Override
+	public List<RepairDto> getRepairForDashboard() throws Exception {
+		List<String> param = new ArrayList<>();
+
+		param.add("COMPLETE");
+		param.add("RETURN");
+		param.add("RETURN_REC");
+		param.add("");
+		param.add("");
+
+		List<RepairEntity> entities = repairDao.findByStatusNotInOrderByPriorityAscCerateDateAsc(param);
+		List<RepairDto> dtos = new ArrayList<>();
+		entities.forEach(e -> {
+			try {
+				dtos.add(getRepairDto(e));
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		});
+
+		return dtos;
+	}
+
+	@Override
+	public Map<String, Integer> getHomeValues() throws Exception {
+		Map<String, Integer> values = new HashMap<>();
+
+		List<String> status = new ArrayList<>();
+		status.add("INITIAL_CHECK");
+		status.add("PART_REPLACED");
+		status.add("PC_FORMATING");
+		status.add("PC_FORMATTED");
+		status.add("FINAL_CHECK");
+
+		values.put("complete", repairDao.findCompleted(AppConstant.COMPLETE));
+		values.put("hold", repairDao.findHold("PART_ORDERD"));
+		values.put("ongoing", repairDao.findOnGoing(status));
+		values.put("incomming", repairDao.findOnInComming(AppConstant.SEND));
+
+		return values;
+	}
+
+	@Override
+	public String addCartDetails(List<String> repairParts, String repairId) throws Exception {
+		
+		RepairEntity repairEntity = repairDao.findOne(repairId);
+		
+		repairPartsDao.changeEnabled(AppConstant.DISABLE, repairEntity);
+		
+		List<RepairPartsEntity> entities = new ArrayList<>();
+		
+		for (String partId : repairParts) {
+			entities.add(getRepairPartsEntity(repairEntity, partId));
+		}
+		
+		if(repairPartsDao.save(entities) != null ) {
+			return "200";
+		}
+		
+		return "204";
+	}
+
+	private RepairPartsEntity getRepairPartsEntity(RepairEntity repairEntity, String partId) {
+		PartsEntity partsEntity = partsDao.findOne(partId);
+		
+		RepairPartsEntity repairPartsEntity = new RepairPartsEntity();
+		repairPartsEntity.setCreateDate(new Date());
+		repairPartsEntity.setEnebled(AppConstant.ENABLE);
+		repairPartsEntity.setId(UUID.randomUUID().toString());
+		repairPartsEntity.setPartsEntity(partsEntity);
+		repairPartsEntity.setRemark("");
+		repairPartsEntity.setRepairEntity(repairEntity);
+		
+		
+		return repairPartsEntity;
 	}
 
 }

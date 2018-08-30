@@ -4,8 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,18 +25,27 @@ import com.arpico.groupit.pc_repair.dto.NameValueDto;
 import com.arpico.groupit.pc_repair.dto.PartsDto;
 import com.arpico.groupit.pc_repair.service.PartsService;
 import com.arpico.groupit.pc_repair.service.SupplierService;
+import com.arpico.groupit.pc_repair.util.AppConstant;
 
 @Controller
+@PropertySource("classpath:application.properties")
 public class PartsController {
+	
+	@Value("${server.context-path}")
+	private String path;
 	
 	@Autowired
 	private PartsService partsService;
 
 	@Autowired
+	ServletContext context;
+	
+	@Autowired
 	private SupplierService supplierService;
 	
 	@RequestMapping("/all_parts")
 	public ModelAndView manageError() throws Exception {
+		context.setAttribute("path", path);
 		ModelAndView mav = new ModelAndView("pages/parts/manageparts");
 		mav.addObject("title", "PC REPAIR | MANAGE PARTS");
 
@@ -41,6 +55,7 @@ public class PartsController {
 	
 	@RequestMapping("/add_part")
     public ModelAndView addPart () throws Exception {
+		context.setAttribute("path", path);
         ModelAndView mav = new ModelAndView("pages/parts/addparts");
 
         List<NameValueDto> suppliers = supplierService.getAllNameValue();
@@ -55,11 +70,14 @@ public class PartsController {
 	
 	@RequestMapping("/edit_part/{id}")
     public ModelAndView editPart (@PathVariable String id) throws Exception {
+		context.setAttribute("path", path);
         ModelAndView mav = new ModelAndView("pages/parts/editparts");
 
         PartsDto partsDto = partsService.get(id);
         
         List<NameValueDto> suppliers = supplierService.getAllNameValue();
+        
+        
         
         
         mav.addObject("title", "PC REPAIR | ADD PART");
@@ -74,6 +92,8 @@ public class PartsController {
         mav.addObject("warrenty_exp", partsDto.getWarrentyExp());
         mav.addObject("warrenty_per", partsDto.getWarrentyPeriod());
         mav.addObject("suppliers", suppliers);
+        mav.addObject("partStatus", AppConstant.PART_STATUS);
+        mav.addObject("currentStatus", partsDto.getStatus());
 
         return mav;
 
@@ -91,7 +111,7 @@ public class PartsController {
 			for (PartsDto partsDto : partsDtos) {
 				List entity = new ArrayList<>();
 
-				entity.add(partsDto.getPartId());
+				/*entity.add(partsDto.getPartId());*/
 				entity.add(partsDto.getPartName());
 				entity.add(partsDto.getValue());
 				entity.add(partsDto.getSerialId());
@@ -122,6 +142,8 @@ public class PartsController {
 	@RequestMapping(value = "/parts", method = RequestMethod.POST)
     @ResponseBody
     public String addPart (@RequestBody PartsDto partsDto) throws Exception {
+		partsDto.setStatus(AppConstant.PARTSTATUS_AVAILABLE);
+		partsDto.setPartId(UUID.randomUUID().toString());
         return partsService.save(partsDto);
     }
 	
@@ -130,5 +152,12 @@ public class PartsController {
     public String editPart (@RequestBody PartsDto partsDto) throws Exception {
         return partsService.save(partsDto);
     }
+	
+	@RequestMapping(value = "/searchPartSerial/{value}", method = RequestMethod.GET)
+	@ResponseBody
+	public List<PartsDto> searchPartSerial(@PathVariable String value) throws Exception {
+		return partsService.findBySerial(value);
+	}
+	
 	
 }

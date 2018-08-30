@@ -4,6 +4,7 @@ import com.arpico.groupit.pc_repair.dao.AssigneeDao;
 import com.arpico.groupit.pc_repair.dto.AssigneeDto;
 import com.arpico.groupit.pc_repair.service.AssigneeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,14 +14,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+
 @Controller
 public class AssigneeController {
 
     @Autowired
     private AssigneeService assigneeService;
+    
+    @Value("${server.context-path}")
+	private String path;
+    
+    @Autowired
+	ServletContext context;
 
     @RequestMapping("/all_assignees")
     public ModelAndView manageAssignee () throws Exception {
+    	context.setAttribute("path", path);
         ModelAndView mav = new ModelAndView("pages/assignee/manageassignee");
         mav.addObject("title", "PC REPAIR | MANAGE ASSIGNEE");
 
@@ -30,6 +40,7 @@ public class AssigneeController {
 
     @RequestMapping("/add_assignee")
     public ModelAndView addAssignee () throws Exception {
+    	context.setAttribute("path", path);
         ModelAndView mav = new ModelAndView("pages/assignee/addassignee");
         mav.addObject("title", "PC REPAIR | ADD ASSIGNEE");
 
@@ -39,6 +50,7 @@ public class AssigneeController {
 
     @RequestMapping("/edit_assignee/{id}")
     public ModelAndView editAssignee (@PathVariable String id) throws Exception {
+    	context.setAttribute("path", path);
         ModelAndView mav = new ModelAndView("pages/assignee/editassignee");
         AssigneeDto assigneeDto = assigneeService.get(id);
 

@@ -3,6 +3,7 @@ package com.arpico.groupit.pc_repair.controller;
 import com.arpico.groupit.pc_repair.dto.SupplierDto;
 import com.arpico.groupit.pc_repair.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,14 +13,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+
 @Controller
 public class SupplierController {
 
     @Autowired
     private SupplierService supplierService;
+    
+    @Value("${server.context-path}")
+	private String path;
+    
+    @Autowired
+	ServletContext context;
 
     @RequestMapping("/all_supplier")
     public ModelAndView manageSupplier () throws Exception {
+    	context.setAttribute("path", path);
         ModelAndView mav = new ModelAndView("pages/supplier/managesupplier");
         mav.addObject("title", "PC REPAIR | MANAGE SUPPLIER");
 
@@ -29,6 +39,7 @@ public class SupplierController {
 
     @RequestMapping("/add_supplier")
     public ModelAndView addSupplier () throws Exception {
+    	context.setAttribute("path", path);
         ModelAndView mav = new ModelAndView("pages/supplier/addsupplier");
         mav.addObject("title", "PC REPAIR | ADD SUPPLIER");
 
@@ -38,7 +49,7 @@ public class SupplierController {
 
     @RequestMapping("/edit_supplier/{id}")
     public ModelAndView editSupplier (@PathVariable String id) throws Exception {
-
+    	context.setAttribute("path", path);
         SupplierDto supplierDto = supplierService.get(id);
 
         ModelAndView mav = new ModelAndView("pages/supplier/editsupplier");

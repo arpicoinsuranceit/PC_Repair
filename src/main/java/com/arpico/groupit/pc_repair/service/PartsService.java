@@ -14,5 +14,7 @@ public interface PartsService {
 
 	PartsDto get(String partId) throws Exception;
 
-	PartsDto getPartsDto(PartsEntity e, Integer supplier);
-}
+	PartsDto getPartsDto(PartsEntity e, Integer supplier) throws Exception;
+
+	List<PartsDto> findBySerial(String value) throws Exception;
+} 

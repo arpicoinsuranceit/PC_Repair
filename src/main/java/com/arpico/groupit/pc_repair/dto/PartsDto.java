@@ -11,6 +11,7 @@ public class PartsDto {
 	private String remark;
 	private Double value;
 	private String supplier;
+	private String status;
 
 	public String getPartId() {
 		return partId;
@@ -82,6 +83,14 @@ public class PartsDto {
 
 	public void setSupplier(String supplier) {
 		this.supplier = supplier;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

@@ -54,6 +54,9 @@ public class PartsEntity {
 	@Column(name = "REMARK")
 	private String remark;
 	
+	@Column(name = "STATUS")
+	private String status;
+	
 	private SupplierEntity supplierEntity;
 	private List<RepairPartsEntity> repairPartsEntities;
 
@@ -152,6 +155,14 @@ public class PartsEntity {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	@ManyToOne(cascade = CascadeType.ALL)

@@ -93,4 +93,12 @@ public class AssigneeEntity {
 	public void setAssigneeRepairEntity(List<AssigneeRepairEntity> assigneeRepairEntity) {
 		this.assigneeRepairEntity = assigneeRepairEntity;
 	}
+	
+	@Override
+	public String toString() {
+		return "AssigneeEntity [assigneeId=" + assigneeId + ", assigneeName=" + assigneeName + ", createDate="
+				+ createDate + ", createBy=" + createBy + ", modifyDate=" + modifyDate + ", modifyBy=" + modifyBy
+				+ ", assigneeRepairEntity=" + assigneeRepairEntity + "]";
+	}
+
 }

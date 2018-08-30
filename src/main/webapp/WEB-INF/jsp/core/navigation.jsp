@@ -35,6 +35,7 @@
 							class="fa fa-circle-thin"></i> <span>Send Repairs</span></a></li>
 					<li><a href="${path}/all_return_repair"><i
 							class="fa fa-circle-thin"></i> <span>Return Repairs</span></a></li>
+					<hr/>
 					<li><a href="${path}/send_repair"><i class="fa fa-circle-thin"></i>
 							<span>Send Repair</span></a></li>
 					<li><a href="${path}/return_repair"><i class="fa fa-circle-thin"></i>

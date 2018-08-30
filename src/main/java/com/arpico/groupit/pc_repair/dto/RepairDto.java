@@ -12,6 +12,7 @@ public class RepairDto {
 	private String priority;
 	private AssigneeDto assigneeDto;
 	private StatusDto statusDto;
+	private String remark;
 	private List<ErrorDto> errorDtos;
 	private List<PartsDto> partsDtos;
 
@@ -77,6 +78,14 @@ public class RepairDto {
 
 	public void setStatusDto(StatusDto statusDto) {
 		this.statusDto = statusDto;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	public List<ErrorDto> getErrorDtos() {

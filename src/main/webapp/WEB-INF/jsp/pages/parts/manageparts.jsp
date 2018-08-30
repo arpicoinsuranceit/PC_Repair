@@ -29,7 +29,7 @@
                 <small>ALL PARTS</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="${path}/all_supplier"><i class="fa fa-dashboard"></i>PART</a></li>
+                <li><a href="${path}/all_parts"><i class="fa fa-dashboard"></i>PART</a></li>
                 <li class="active">ALL PARTS</li>
             </ol>
         </section>
@@ -38,7 +38,7 @@
 
             <div class="row">
                 <div class="col-md-3 col-sm-3 col-xs-6">
-                    <a href="/add_part">
+                    <a href="${path}/add_part">
                         <button type="button" class="btn btn-block btn-success btn-flat">Add Part</button>
                     </a>
                 </div>
@@ -55,7 +55,7 @@
                             <table id="table_parts" class="table table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>Part Id</th>
+                                   <!--  <th>Part Id</th> -->
                                     <th>Name</th>
                                     <th>Value</th>
                                     <th>Serial No</th>
@@ -72,7 +72,7 @@
 
                                 <tfoot>
                                 <tr>
-                                    <th>Part Id</th>
+                                    <!-- <th>Part Id</th> -->
                                     <th>Name</th>
                                     <th>Value</th>
                                     <th>Serial No</th>

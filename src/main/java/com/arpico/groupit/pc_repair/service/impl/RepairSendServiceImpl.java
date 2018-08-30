@@ -9,12 +9,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.arpico.groupit.pc_repair.dao.AssetDao;
+import com.arpico.groupit.pc_repair.dao.AssigneeDao;
+import com.arpico.groupit.pc_repair.dao.AssigneeRepairDao;
 import com.arpico.groupit.pc_repair.dao.RepairDao;
 import com.arpico.groupit.pc_repair.dao.RepairReturnsDao;
 import com.arpico.groupit.pc_repair.dao.RepairSendDao;
 import com.arpico.groupit.pc_repair.dao.RepairStatusDao;
 import com.arpico.groupit.pc_repair.dao.StatusDao;
 import com.arpico.groupit.pc_repair.dto.RepairSentDto;
+import com.arpico.groupit.pc_repair.entity.AssigneeEntity;
+import com.arpico.groupit.pc_repair.entity.AssigneeRepairEntity;
 import com.arpico.groupit.pc_repair.entity.RepairEntity;
 import com.arpico.groupit.pc_repair.entity.RepairReturnEntity;
 import com.arpico.groupit.pc_repair.entity.RepairSendEntity;
@@ -36,6 +40,12 @@ public class RepairSendServiceImpl implements RepairSendService {
 	private AssetDao assetDao;
 
 	@Autowired
+	private AssigneeDao assigneeDao;
+
+	@Autowired
+	private AssigneeRepairDao assigneeRepairDao;
+
+	@Autowired
 	private StatusDao statusDao;
 
 	@Autowired
@@ -53,6 +63,15 @@ public class RepairSendServiceImpl implements RepairSendService {
 	@Override
 	public String save(RepairSentDto repairSentDto) throws Exception {
 		RepairEntity repairEntity = getRepairEntity(repairSentDto);
+
+		Integer lastJob = repairDao.findOneOrderByJobNo();
+
+		if (lastJob != null) {
+			repairEntity.setJobNo(lastJob + 1);
+		}else {
+			repairEntity.setJobNo(10000);
+		}
+
 		RepairSendEntity repairSendEntity = getRepairSendEntity(repairSentDto);
 		RepairStatusEntity repairStatusEntity = getRepairStatusEntity(repairEntity, AppConstant.SEND);
 		repairEntity.setRepairSendEntity(repairSendEntity);
@@ -66,7 +85,8 @@ public class RepairSendServiceImpl implements RepairSendService {
 		return "204";
 	}
 
-	private RepairStatusEntity getRepairStatusEntity(RepairEntity repairEntity, String status) {
+	@Override
+	public RepairStatusEntity getRepairStatusEntity(RepairEntity repairEntity, String status) {
 		RepairStatusEntity repairStatusEntity = new RepairStatusEntity();
 		repairStatusEntity.setCreateDate(new Date());
 		repairStatusEntity.setEnabled(AppConstant.ENABLE);
@@ -122,7 +142,7 @@ public class RepairSendServiceImpl implements RepairSendService {
 	public String received(String id, String status) throws Exception {
 		RepairEntity repairEntity = repairDao.findOne(id);
 		repairStatusDao.setDisablePrevious(repairEntity);
-		
+
 		RepairSendEntity repairSendEntity = repairEntity.getRepairSendEntity();
 		RepairReturnEntity repairReturnEntity = repairEntity.getRepairReturnEntity();
 		RepairStatusEntity repairStatusEntity = null;
@@ -143,6 +163,39 @@ public class RepairSendServiceImpl implements RepairSendService {
 		}
 
 		return "204";
+	}
+
+	@Override
+	public String addAssignee(String id, String repairId) throws Exception {
+
+		System.out.println(id);
+
+		AssigneeEntity assignee = assigneeDao.findOne(id);
+
+		System.out.println(assignee.toString());
+
+		RepairEntity repair = repairDao.findOne(repairId);
+
+		AssigneeRepairEntity assigneeRepairEntity = getAssigneeRepairEntity(assignee, repair);
+
+		if (assigneeRepairDao.save(assigneeRepairEntity) != null) {
+			return "200";
+		}
+
+		return "204";
+	}
+
+	private AssigneeRepairEntity getAssigneeRepairEntity(AssigneeEntity assignee, RepairEntity repair) {
+		AssigneeRepairEntity assigneeRepairEntity = new AssigneeRepairEntity();
+
+		assigneeRepairEntity.setAssigneeEntity(assignee);
+		assigneeRepairEntity.setAssigneeRepairId(UUID.randomUUID().toString());
+		assigneeRepairEntity.setAssignStartTime(new Date());
+		assigneeRepairEntity.setCreateDate(new Date());
+		assigneeRepairEntity.setEnabled(AppConstant.ENABLE);
+		assigneeRepairEntity.setRepairEntity(repair);
+
+		return assigneeRepairEntity;
 	}
 
 }
