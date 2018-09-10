@@ -1,44 +1,45 @@
 package com.arpico.groupit.pc_repair.controller;
 
-import java.util.Map;
-
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.arpico.groupit.pc_repair.service.RepairService;
 
 @Controller
 @PropertySource("classpath:application.properties")
-public class HomeController {
-	
-	@Autowired
-	private RepairService repairService;
-	
+public class LoginController {
+
 	@Value("${server.context-path}")
 	private String path;
-	
+
+	@Autowired
+	private HttpSession httpSession;
+
 	@Autowired
 	ServletContext context;
-	
-	@RequestMapping("/home")
-	public ModelAndView welcome() throws Exception {
+
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public ModelAndView login() {
 		context.setAttribute("path", path);
-		
-		
-		Map<String, Integer> values = repairService.getHomeValues();
-		
-		ModelAndView mav = new ModelAndView("index");
-		
-		mav.addObject("title", "PC REPAIR | HOME");
-		mav.addObject("values", values);
-		
+
+		ModelAndView mav = new ModelAndView("login");
+
+		mav.addObject("title", "PC REPAIR | LOGIN");
 		return mav;
 	}
-	
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login(@RequestParam(value = "userName") String userName,
+			@RequestParam(value = "password") String password) {
+
+		return "home";
+	}
+
 }
