@@ -8,6 +8,7 @@ import com.arpico.groupit.pc_repair.service.OperatingSystemService;
 import com.arpico.groupit.pc_repair.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,6 +21,7 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 
 @Controller
+@PropertySource("classpath:application.properties")
 public class AssetController {
 
     @Autowired

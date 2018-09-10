@@ -25,27 +25,27 @@
 		<!-- /.login-logo -->
 		<div class="login-box-body">
 			<p class="login-box-msg">Sign in to start your session</p>
+			
+			<p class="login-form-msg" style="color: #FF0000">${login_error}</p>
 
-			<form>
+			<form id="form_login" action="${path}/login" method="post">
 				<div class="form-group has-feedback">
-					<input type="text" class="form-control" placeholder="Username">
+					<input type="text" class="form-control" name="userName" placeholder="Username">
 					<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 				</div>
 				<div class="form-group has-feedback">
-					<input type="password" class="form-control" placeholder="Password">
+					<input type="password" class="form-control" name="password" placeholder="Password">
 					<span class="glyphicon glyphicon-lock form-control-feedback"></span>
 				</div>
 				<div class="row">
 					
 					<!-- /.col -->
 					<div class="col-xs-4 col-xs-offset-4">
-						<button type="submit" class="btn btn-primary btn-block btn-flat">Sign
-							In</button>
+						<input id="button_login" type="submit" class="btn btn-primary btn-block btn-flat" value="Sign In"/>
 					</div>
 					<!-- /.col -->
 				</div>
 			</form>
-
 			
 
 		</div>
@@ -58,6 +58,23 @@
 	<!-- Bootstrap 3.3.7 -->
 	<script src="${path}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="${path}/dist/js/adminlte.min.js"></script>
+	
+	<!-- <script type="text/javascript">
+		$("#button_login").click(function (){
+			var data = $("#form_login").serialize();
+			
+			$.ajax({
+			  url: "${path}/login",
+			  type: "post",
+			  data: data,
+			  success: function (resp) {
+              },
+              error: function () {
+                  alert('Error');
+              }
+			});
+		});
+	</script> -->
 	
 </body>
 

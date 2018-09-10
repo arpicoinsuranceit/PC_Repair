@@ -9,6 +9,7 @@ import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,6 +44,7 @@ import com.arpico.groupit.pc_repair.service.StatusService;
 import com.arpico.groupit.pc_repair.util.AppConstant;
 
 @Controller
+@PropertySource("classpath:application.properties")
 public class RepairController {
 
 	@Value("${server.context-path}")
