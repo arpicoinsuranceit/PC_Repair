@@ -1,6 +1,5 @@
 package com.arpico.groupit.pc_repair.controller;
 
-import com.arpico.groupit.pc_repair.dao.AssigneeDao;
 import com.arpico.groupit.pc_repair.dto.AssigneeDto;
 import com.arpico.groupit.pc_repair.service.AssigneeService;
 import org.springframework.beans.factory.annotation.Autowired;

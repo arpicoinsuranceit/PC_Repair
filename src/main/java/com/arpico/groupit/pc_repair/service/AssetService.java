@@ -16,4 +16,6 @@ public interface AssetService {
     AssetDto get(String assetId) throws Exception;
     
     AssetDto getAssetDto(AssetEntity e, Integer supplier, Integer location, Integer os);
+
+	List<AssetDto> getAllBackups() throws Exception;
 }

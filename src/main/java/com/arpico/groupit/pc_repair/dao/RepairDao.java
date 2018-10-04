@@ -31,4 +31,6 @@ public interface RepairDao extends CrudRepository<RepairEntity, String>{
 	@Query("SELECT count(r.jobNo) FROM RepairEntity r WHERE r.status = ?1")
 	Integer findHold(String status) throws Exception;
 
+	List<RepairEntity> findByStatusNotIn(List<String> param) throws Exception;
+
 }

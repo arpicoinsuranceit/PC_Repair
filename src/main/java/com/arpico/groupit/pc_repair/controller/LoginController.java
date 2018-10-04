@@ -51,9 +51,6 @@ public class LoginController {
 	public ModelAndView login(@RequestParam(value = "userName") String userName,
 			@RequestParam(value = "password") String password) throws Exception {
 
-		System.out.println(userName);
-		System.out.println(password);
-
 		LoginResponseDto loginResponseDto = loginService.login(userName, password);
 
 		if (loginResponseDto.isLogin() == true) {
@@ -70,13 +67,20 @@ public class LoginController {
 
 			return mav;
 		} else {
-			
 			ModelAndView mav = login();
-			
-			mav.addObject("login_error","Username or password incorrect");
+
+			mav.addObject("login_error", "Username or password incorrect");
 			return mav;
 		}
 
 	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout() {
+		context.setAttribute("path", path);
+		httpSession.invalidate();
+		return "login";
+	}
+
 
 }

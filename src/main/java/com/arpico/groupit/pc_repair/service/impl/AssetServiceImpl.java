@@ -10,6 +10,7 @@ import com.arpico.groupit.pc_repair.dto.AssetDto;
 import com.arpico.groupit.pc_repair.entity.AssetEntity;
 import com.arpico.groupit.pc_repair.entity.AssetLocationEntity;
 import com.arpico.groupit.pc_repair.entity.AssetOsEntity;
+import com.arpico.groupit.pc_repair.entity.LocationEntity;
 import com.arpico.groupit.pc_repair.service.AssetService;
 import com.arpico.groupit.pc_repair.util.AppConstant;
 
@@ -179,6 +180,25 @@ public class AssetServiceImpl implements AssetService {
 		assetOsEntity.setOperatingSystemEntity(operatingSystemDao.findOne(assetDto.getOs()));
 		assetOsEntity.setEnabled(AppConstant.ENABLE);
 		return assetOsEntity;
+	}
+
+	@Override
+	public List<AssetDto> getAllBackups() throws Exception {
+
+		LocationEntity locationEntity = locationDao.findOne("HO");
+
+		List<AssetLocationEntity> assetLocationEntities = assetLocationDao
+				.findAllByLocationEntityAndEnabled(locationEntity, 1);
+
+		List<AssetDto> assetDtos = new ArrayList<>();
+
+		assetLocationEntities.forEach(e -> {
+				assetDtos.add(getAssetDto(e.getAssetEntity(), 0, 0, 0));
+		});
+		
+		System.out.println(assetDtos.size() + " assetDtos.size()");
+
+		return assetDtos;
 	}
 
 }

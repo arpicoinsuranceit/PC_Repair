@@ -2,6 +2,7 @@ package com.arpico.groupit.pc_repair.dto;
 
 import java.util.List;
 
+
 public class LoginResponseDto {
 
 	private boolean isLogin;
@@ -12,6 +13,7 @@ public class LoginResponseDto {
 	private boolean isNeedChange;
 
 	private String jwtToken;
+	private String userName;
 	private Integer failCount;
 	private List<MenuDto> menuDtos;
 
@@ -79,6 +81,14 @@ public class LoginResponseDto {
 		this.failCount = failCount;
 	}
 
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	public List<MenuDto> getMenuDtos() {
 		return menuDtos;
 	}
@@ -91,7 +101,7 @@ public class LoginResponseDto {
 	public String toString() {
 		return "LoginResponseDto [isLogin=" + isLogin + ", isInactive=" + isInactive + ", isFail=" + isFail
 				+ ", isLock=" + isLock + ", isExpired=" + isExpired + ", isNeedChange=" + isNeedChange + ", jwtToken="
-				+ jwtToken + ", failCount=" + failCount + ", menuDtos=" + menuDtos + "]";
+				+ jwtToken + ", userName=" + userName + ", failCount=" + failCount + ", menuDtos=" + menuDtos + "]";
 	}
 
 }

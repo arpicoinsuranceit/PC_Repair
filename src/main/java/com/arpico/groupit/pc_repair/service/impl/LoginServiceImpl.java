@@ -16,9 +16,6 @@ public class LoginServiceImpl implements LoginService {
 	@Override
 	public LoginResponseDto login(String userName, String password) throws Exception {
 		LoginResponseDto loginResponseDto = client.getLogin(userName, password, "2");
-		System.out.println(loginResponseDto.toString());
-		
-		loginResponseDto.getMenuDtos().forEach(System.out::println);
 		
 		return loginResponseDto;
 	}

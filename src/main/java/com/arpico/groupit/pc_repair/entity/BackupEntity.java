@@ -46,6 +46,9 @@ public class BackupEntity {
 
 	@Column(name = "MODIFY_BY")
 	private String modifyBy;
+	
+	@Column(name = "IS_ENABLED")
+	private Integer enabled;
 
 	@Id
 	public String getBackupId() {
@@ -146,6 +149,14 @@ public class BackupEntity {
 
 	public void setModifyBy(String modifyBy) {
 		this.modifyBy = modifyBy;
+	}
+
+	public Integer getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Integer enabled) {
+		this.enabled = enabled;
 	}
 
 }

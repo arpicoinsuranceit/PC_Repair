@@ -27,4 +27,9 @@ public interface RepairService {
 
 	String addCartDetails(List<String> repairParts, String repairId) throws Exception;
 
+	List<RepairSentDto> getOngoingRepairs() throws Exception;
+
+	List<RepairSentDto> getAllRepairs() throws Exception;
+
+
 }

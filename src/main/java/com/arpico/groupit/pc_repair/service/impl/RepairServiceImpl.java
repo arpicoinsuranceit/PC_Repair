@@ -431,4 +431,38 @@ public class RepairServiceImpl implements RepairService {
 		return repairPartsEntity;
 	}
 
+	@Override
+	public List<RepairSentDto> getOngoingRepairs() throws Exception {
+		List<String> param = new ArrayList<>();
+		param.add(AppConstant.SEND);
+		param.add(AppConstant.SEND_REC);
+		param.add(AppConstant.RETURN);
+		param.add(AppConstant.RETURN_REC);
+		param.add(AppConstant.COMPLETE);
+		List<RepairEntity> repairEntities = repairDao.findByStatusNotIn(param);
+
+		System.out.println("repairEntities : " + repairEntities.size());
+
+		List<RepairSentDto> repairSentDtos = new ArrayList<>();
+		repairEntities.forEach(e -> {
+			repairSentDtos.add(getRepairSendDto(e));
+		});
+
+		System.out.println("repairSentDtos : " + repairSentDtos.size());
+
+		return repairSentDtos;
+	}
+
+	@Override
+	public List<RepairSentDto> getAllRepairs() throws Exception {
+		List<RepairEntity> repairEntities = (List<RepairEntity>) repairDao.findAll();
+		
+		List<RepairSentDto> repairSentDtos = new ArrayList<>();
+		repairEntities.forEach(e -> {
+			repairSentDtos.add(getRepairSendDto(e));
+		});
+		
+		return repairSentDtos;
+	}
+
 }

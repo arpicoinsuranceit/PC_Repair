@@ -7,7 +7,8 @@ public class MenuDto {
 	private String href;
 	private String parent;
 	private Integer level;
-	
+	private String icon;
+
 	public String getMenuId() {
 		return menuId;
 	}
@@ -56,10 +57,18 @@ public class MenuDto {
 		this.level = level;
 	}
 
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
 
 	@Override
 	public String toString() {
 		return "MenuDto [menuId=" + menuId + ", menuName=" + menuName + ", menuDescription=" + menuDescription
-				+ ", href=" + href + ", parent=" + parent + ", level=" + level + "]";
+				+ ", href=" + href + ", parent=" + parent + ", level=" + level + ", icon=" + icon + "]";
 	}
+
 }
