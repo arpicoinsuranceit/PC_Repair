@@ -93,6 +93,13 @@ public class StatusEntity {
 	public void setRepairStatusEntities(List<RepairStatusEntity> repairStatusEntities) {
 		this.repairStatusEntities = repairStatusEntities;
 	}
+
+//	@Override
+//	public String toString() {
+//		return "StatusEntity [statusId=" + statusId + ", description=" + description + ", createDate=" + createDate
+//				+ ", createBy=" + createBy + ", modifyDate=" + modifyDate + ", modifyBy=" + modifyBy
+//				+ ", repairStatusEntities=" + repairStatusEntities + "]";
+//	}
 	
 	
 	

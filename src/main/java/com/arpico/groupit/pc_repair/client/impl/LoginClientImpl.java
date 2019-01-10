@@ -25,6 +25,8 @@ public class LoginClientImpl implements LoginClient {
 		map.add("userName", userName);
 		map.add("password", password);
 		map.add("subSbu", subSbu);
+		
+		System.out.println(path);
 
 		LoginResponseDto results = restTemplate.postForObject(path, map, LoginResponseDto.class);
 

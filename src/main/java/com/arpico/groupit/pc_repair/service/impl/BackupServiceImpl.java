@@ -20,6 +20,7 @@ import com.arpico.groupit.pc_repair.entity.AssetEntity;
 import com.arpico.groupit.pc_repair.entity.BackupEntity;
 import com.arpico.groupit.pc_repair.entity.RepairEntity;
 import com.arpico.groupit.pc_repair.service.BackupService;
+import com.arpico.groupit.pc_repair.util.AppConstant;
 
 @Service
 @Transactional
@@ -37,7 +38,6 @@ public class BackupServiceImpl implements BackupService {
 	@Override
 	public List<BackupGridDto> getAll() throws Exception {
 		List<BackupEntity> backupEntities = backupDao.findAllByEnabled(1);
-
 		List<BackupGridDto> dtos = new ArrayList<>();
 		backupEntities.forEach(e -> {
 			dtos.add(getBackupGridDto(e));
@@ -94,5 +94,7 @@ public class BackupServiceImpl implements BackupService {
 		entity.setSendLocation("");
 		return entity;
 	}
+
+
 
 }

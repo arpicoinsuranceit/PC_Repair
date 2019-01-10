@@ -44,24 +44,24 @@
                     <form id="form_add_error">
                         <div class="form-group">
                             <label>Error Id</label>
-                            <input type="text" class="form-control" name="id" placeholder="Enter Error Id">
+                            <input type="text" class="form-control" name="id" id="errorID" placeholder="Enter Error Id" onkeyup="Procces(this)" required />
                         </div>
                         
                         <div class="form-group">
                             <label>Error Name</label>
                             <input type="text" class="form-control" name="name"
-                                   placeholder="Enter Error Name">
+                                   placeholder="Enter Error Name" id="errorName" required oninvalid="this.setCustomValidity('Pleace Input Error Name')"  />
                         </div>
 
                         <div class="form-group">
                             <label>Error Description</label>
                             <input type="text" class="form-control" name="description"
-                                   placeholder="Enter Error Description">
+                                   placeholder="Enter Error Description" id="errorDiscription" required oninvalid="this.setCustomValidity('Pleace Input Error Discription')" />
                         </div>
 
                         <div class="box-footer">
                             <button type="button" class="btn btn-default">Cancel</button>
-                            <button type="button" id="button-addError" class="btn btn-info pull-right">Add Error
+                            <button type="submit" id="button-addError" disabled="true" class="btn btn-info pull-right"><i class="fa fa-plus"></i>&nbsp;Add Error
                             </button>
                         </div>
                     </form>
@@ -83,12 +83,35 @@
 
     <script type="application/javascript">
 
+    
+    function Procces(txt) {
+    	
+		 var dc = document.getElementById('button-addError');
+		 
+		 if(txt.value !=''){
+			 
+			 dc.disabled = false;
+		 }else{
+			 dc.disabled = true;
+		 }
+		 
+	}
+    
         $("#button-addError").click(function () {
+        	
+        	var xa =$("#errorID").val();
+        	var xb =$("#errorName").val();
+        	var xc =$("#errorDiscription").val();
+        	
+        	
 
             var data = "{";
             $("#form_add_error .form-control").each(function () {
                 data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
             });
+            
+            if(xa !=='' && xb !=='' && xc !==''){
+            	
             var jsonString = data.substring(0, data.length - 1);
             jsonString += "}";
 
@@ -105,6 +128,10 @@
                     alert('Error');
                 }
             });
+            
+            }else{
+            	alert('Please Fill Missing Filds');
+            }
         });
     </script>
 </body>

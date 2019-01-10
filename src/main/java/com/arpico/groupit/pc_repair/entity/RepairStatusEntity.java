@@ -82,10 +82,10 @@ public class RepairStatusEntity {
 		this.statusEntity = statusEntity;
 	}
 
-	@Override
-	public String toString() {
-		return "RepairStatusEntity [id=" + id + ", enabled=" + enabled + ", createDate=" + createDate + ", modifyDate="
-				+ modifyDate + ", repairEntity=" + repairEntity + ", statusEntity=" + statusEntity + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "RepairStatusEntity [id=" + id + ", enabled=" + enabled + ", createDate=" + createDate + ", modifyDate="
+//				+ modifyDate + ", repairEntity=" + repairEntity + ", statusEntity=" + statusEntity + "]";
+//	}
 
 }

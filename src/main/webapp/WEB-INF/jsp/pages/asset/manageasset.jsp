@@ -38,7 +38,7 @@
 
             <div class="row">
                 <div class="col-md-3 col-sm-3 col-xs-6">
-                    <a href="/add_asset">
+                    <a href="/PCRepair/add_asset">
                         <button type="button" class="btn btn-block btn-success btn-flat">Add Asset</button>
                     </a>
                 </div>
@@ -126,7 +126,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">   
                         <span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Success</h4>
                 </div>

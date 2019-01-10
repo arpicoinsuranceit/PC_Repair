@@ -59,7 +59,7 @@
 	<script src="${path}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="${path}/dist/js/adminlte.min.js"></script>
 	
-	<!-- <script type="text/javascript">
+	 <script type="text/javascript">
 		$("#button_login").click(function (){
 			var data = $("#form_login").serialize();
 			
@@ -73,8 +73,21 @@
                   alert('Error');
               }
 			});
+			
+			
+			/* $.ajax({
+				  url: "${path}/getLogin",
+				  type: "GET",
+				  data: data,
+				  success: function (resp) {
+					  console.log(resp)
+	              },
+	              error: function () {
+	                  alert('Error');
+	              }
+				}); */
 		});
-	</script> -->
+	</script> 
 	
 </body>
 

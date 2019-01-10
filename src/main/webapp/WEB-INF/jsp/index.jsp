@@ -164,12 +164,12 @@
 		<script
 			src="${path}/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 
-		<script type="text/javascript">
-			var table = $('#table_repair').DataTable({
+		 <script type="text/javascript">
+			 var table = $('#table_repair').DataTable({
 				"pageLength" : 10,
 				"ajax" : "${path}/dashboard_repair_dt"
 
-			});
+			}); 
 
 			function showRepair(id) {
 				window.location.replace("${path}/repair/" + id);

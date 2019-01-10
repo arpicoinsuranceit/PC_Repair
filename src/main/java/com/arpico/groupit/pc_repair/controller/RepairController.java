@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -162,6 +163,7 @@ public class RepairController {
 
 		mav.addObject("title", "PC REPAIR | RETURN REPAIRS");
 
+		System.out.println(mav.toString());
 		return mav;
 
 	}
@@ -173,6 +175,7 @@ public class RepairController {
 
 		mav.addObject("title", "PC REPAIR | ONGOING REPAIRS");
 
+		System.out.println(mav.toString());
 		return mav;
 
 	}
@@ -184,6 +187,7 @@ public class RepairController {
 
 		mav.addObject("title", "PC REPAIR | ALL REPAIRS");
 
+		
 		return mav;
 
 	}

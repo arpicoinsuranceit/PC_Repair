@@ -13,6 +13,21 @@
     <link rel="stylesheet" href="${path}/bower_components/Ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
+    <style type="text/css">
+    	
+    	.error{
+    		color:red;
+    		display: none;
+    	}
+    	
+    	#cancel:hover{
+		
+		background-color: red;
+		color: white;
+		font: bold;
+	}
+    	
+   	 </style>
     <title>${title}</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -44,18 +59,20 @@
                     <form id="form_add_assignee">
                         <div class="form-group">
                             <label>Assignee Id</label>
-                            <input type="text" class="form-control" name="assigneeId" placeholder="Enter Assignee Id">
+                            <input type="text" class="form-control" name="assigneeId" id="AssigneeId" placeholder="Enter Assignee Id" required oninvalid="this.setCustomValidity('Pleace Input Assignee ID')" onkeyup="Prosees(this)" />
+                           	<span class="error" id="spnAssigneeId">Assignee Is Required</span>
                         </div>
 
                         <div class="form-group">
                             <label>Assignee Name</label>
                             <input type="text" class="form-control" name="assigneeName"
-                                   placeholder="Enter Assignee Name">
+                                   placeholder="Enter Assignee Name" id="AssigneeName" required oninvalid="this.setCustomValidity('Pleace Input Assignee Name')" />
+                                   <span class="error" id="spnAssigneeName">Assignee Name Is Required</span>
                         </div>
 
                         <div class="box-footer">
-                            <button type="button" class="btn btn-default">Cancel</button>
-                            <button type="button" id="button-addassignee" class="btn btn-info pull-right">Add Assignee
+                            <button type="button" class="btn btn-default" id="cancel">Cancel</button>
+                            <button type="submit" id="button-addassignee" disabled="true" class="btn btn-info pull-right"  ><i class="fa fa-plus"></i>&nbsp;Add Assignee
                             </button>
                         </div>
                     </form>
@@ -77,12 +94,33 @@
 
     <script type="application/javascript">
 
+    
+    function Prosees(txt) {
+		
+		var xd = document.getElementById('button-addassignee');
+		
+		if(txt.value !=''){
+			
+			xd.disabled = false;
+		}else{
+			xd.disabled = true;
+		}
+		
+	}
+    
+    
+    
         $("#button-addassignee").click(function () {
 
+        	var a=$("#AssigneeName").val();
+        	
             var data = "{";
             $("#form_add_assignee .form-control").each(function () {
                 data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
             });
+            
+            if(a !== ""){
+            	
             var jsonString = data.substring(0, data.length - 1);
             jsonString += "}";
 
@@ -99,6 +137,9 @@
                     alert('Error');
                 }
             });
+            }else{
+            	alert('Please Fill Missing Fillds');
+            }
         });
     </script>
 </body>

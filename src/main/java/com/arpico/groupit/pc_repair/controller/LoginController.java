@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.arpico.groupit.pc_repair.dto.LoginResponseDto;
@@ -47,17 +49,31 @@ public class LoginController {
 		return mav;
 	}
 
+	@RequestMapping(value = "/getLogin",method = RequestMethod.GET)
+	@ResponseBody
+	public String getLogin() {
+		
+		LoginResponseDto loginResponseDto=	(LoginResponseDto) httpSession.getAttribute("user");
+		
+		return loginResponseDto.getUserName();
+	}
+	
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView login(@RequestParam(value = "userName") String userName,
 			@RequestParam(value = "password") String password) throws Exception {
 
 		LoginResponseDto loginResponseDto = loginService.login(userName, password);
+		
+			String a = "aravinda";
+			String b = "12345678";			
+			
+		
 
 		if (loginResponseDto.isLogin() == true) {
 			httpSession.setAttribute("user", loginResponseDto);
-
 			context.setAttribute("path", path);
-
+			System.out.println("attribute Seted");
 			Map<String, Integer> values = repairService.getHomeValues();
 
 			ModelAndView mav = new ModelAndView("index");
@@ -65,7 +81,10 @@ public class LoginController {
 			mav.addObject("title", "PC REPAIR | HOME");
 			mav.addObject("values", values);
 
+			
 			return mav;
+			
+			
 		} else {
 			ModelAndView mav = login();
 

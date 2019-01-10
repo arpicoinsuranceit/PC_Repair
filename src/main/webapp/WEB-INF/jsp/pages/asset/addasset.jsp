@@ -16,6 +16,17 @@
     <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
 
+	<style type="text/css">
+		
+		#cancel:hover{
+		
+		background-color: red;
+		color: white;
+		font: bold;
+	}
+		
+	</style>
+
     <title>${title}</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -49,7 +60,7 @@
                             <div class="row">
                                 <div class="col-md-6 col-xs-6">
                                     <label>Supplier</label>
-                                    <select class="form-control select2" style="width: 100%;" name="supplier">
+                                    <select class="form-control select2" style="width: 100%;" name="supplier" required />
                                         <c:if test="${not empty suppliers}">
                                             <c:forEach items="${suppliers}" var="supplier">
                                                 <option value="${supplier.value}">${supplier.name}</option>
@@ -59,7 +70,7 @@
                                 </div>
                                 <div class="col-md-6 col-xs-6">
                                     <label>Location</label>
-                                    <select class="form-control select2" style="width: 100%;" name="location">
+                                    <select class="form-control select2" style="width: 100%;" name="location" required />
                                         <c:if test="${not empty locations}">
                                             <c:forEach items="${locations}" var="location">
                                                 <option value="${location.value}">${location.name}</option>
@@ -76,11 +87,11 @@
                             <div class="row">
                                 <div class="col-md-6 col-xs-6">
                                     <label>Asset Id</label>
-                                    <input type="text" class="form-control" name="assetId" placeholder="Enter Asset Id">
+                                    <input type="text" class="form-control" name="assetId" id="assestId" placeholder="Enter Asset Id" required />
                                 </div>
                                 <div class="col-md-6 col-xs-6">
                                     <label>Serial No</label>
-                                    <input type="text" class="form-control" name="serialNo" placeholder="Enter Serial No">
+                                    <input type="text" class="form-control" name="serialNo" id="serialNo" placeholder="Enter Serial No" onkeyup="Procces(this)" required />
                                 </div>
                             </div>
                         </div>
@@ -89,7 +100,7 @@
                             <div class="row">
                                 <div class="col-md-6 col-xs-6">
                                     <label>IP Address</label>
-                                    <input type="text" class="form-control" name="ipAddress" placeholder="Enter IP Address">
+                                    <input type="text" class="form-control" name="ipAddress" id="ipAddress" placeholder="Enter IP Address" required />
                                 </div>
                                 <div class="col-md-6 col-xs-6">
                                     <label>Operating System</label>
@@ -106,18 +117,18 @@
 
                         <div class="form-group">
                             <label>Asset Description</label>
-                            <textarea class="form-control" rows="3" name="description" placeholder="Enter ..."></textarea>
+                            <textarea class="form-control" rows="3" name="description" placeholder="Enter ..." ></textarea>
                         </div>
 
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-6 col-xs-6">
                                     <label>Asset Value</label>
-                                    <input type="number" class="form-control" name="value" placeholder="Enter Value">
+                                    <input type="number" class="form-control" id="asset-value" name="value" placeholder="Enter Value" required />
                                 </div>
                                 <div class="col-md-6 col-xs-6">
                                     <label>Purchase Date</label>
-                                    <input type="date" class="form-control" name="purchaseDate" placeholder="Enter Purchase Date">
+                                    <input type="date" class="form-control" id="purchaseDate" name="purchaseDate" placeholder="Enter Purchase Date" required />
                                 </div>
                             </div>
                         </div>
@@ -126,22 +137,22 @@
                             <div class="row">
                                 <div class="col-md-6 col-xs-6">
                                     <label>Remark</label>
-                                    <input type="text" class="form-control" name="remark" placeholder="Enter Remark">
+                                    <input type="text" class="form-control" id="remark" name="remark" placeholder="Enter Remark" required />
                                 </div>
                                 <div class="col-md-3 col-xs-6">
                                     <label>Warranty Period</label>
-                                    <input type="text" class="form-control" name="warranty" placeholder="Enter Warrenty">
+                                    <input type="text" class="form-control" id="warranty" name="warranty" placeholder="Enter Warrenty" required />
                                 </div>
                                 <div class="col-md-3 col-xs-6">
                                     <label>Warranty Expired</label>
-                                    <input type="date" class="form-control" name="warrantyExp" placeholder="Enter Warrenty">
+                                    <input type="date" class="form-control" id="warrantyExp" name="warrantyExp" placeholder="Enter Warrenty" required />
                                 </div>
                             </div>
                         </div>
 
                         <div class="box-footer">
-                            <button type="button" class="btn btn-default">Cancel</button>
-                            <button type="button" id="button-addAsset" class="btn btn-info pull-right">Add Asset
+                            <button type="button" id="cancel" class="btn btn-default" >Cancel</button>
+                            <button type="submit" disabled="true" id="button-addAsset" class="btn btn-info pull-right" ><i class="fa fa-plus"></i>&nbsp;Add Asset
                             </button>
                         </div>
                     </form>
@@ -163,7 +174,31 @@
 
 
     <script type="application/javascript">
+    
+    
+    function Procces(txt) {
+    	
+		 var dc = document.getElementById('button-addAsset');
+		 
+		 if(txt.value !=''){
+			 
+			 dc.disabled = false;
+		 }else{
+			 dc.disabled = true;
+		 }
+		 
+	}
+    
         $('.select2').select2();
+        
+        var a=$("#assestId").val();
+        var b=$("#serialNo").val();
+        var c=$("#ipAddress").val();
+        var d=$("#asset-value").val();
+        var e=$("#purchaseDate").val();
+        var f=$("#remark").val();
+        var g=$("#warranty").val();
+        var h=$("#warrantyExp").val();
 
         $("#button-addAsset").click(function () {
 
@@ -171,6 +206,9 @@
             $("#form_add_asset .form-control").each(function () {
                 data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
             });
+            
+            if(a !=='' && b !=='' && c!=='' && d!=='' && e!=='' && f!=='' && g!=='' && h!==''){
+            	
             var jsonString = data.substring(0, data.length - 1);
             jsonString += "}";
 
@@ -187,6 +225,9 @@
                     alert('Error');
                 }
             });
+            }else{
+            	alert('Please Fill Missing Filds');
+            }
         });
     </script>
 </body>

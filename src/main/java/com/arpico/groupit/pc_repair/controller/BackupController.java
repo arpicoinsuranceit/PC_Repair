@@ -49,6 +49,9 @@ public class BackupController {
     
     @RequestMapping("/all_backup")
     public ModelAndView allBackup () throws Exception {
+    	
+    	System.out.println("AllBackups");
+    	
     	context.setAttribute("path", path);
         ModelAndView mav = new ModelAndView("pages/backup/allbackup");
         mav.addObject("title", "PC REPAIR | ALL BACKUP");
@@ -61,7 +64,7 @@ public class BackupController {
     public ModelAndView addBackup () throws Exception {
     	context.setAttribute("path", path);
     	
-    	List<AssetDto> assetDtos = assetService.getAllBackups();
+    	List<AssetDto> assetDtos = assetService.getAll();
     	List<RepairDto> repairDtos = repairService.getRepairForDashboard();
     	
     	

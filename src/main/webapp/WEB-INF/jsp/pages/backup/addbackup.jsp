@@ -18,6 +18,21 @@
 	href="${path}/bower_components/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
 <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
+<style type="text/css">
+	
+	.error{
+	color: red;
+	display: none;
+	}
+	
+	#cancel:hover{
+		
+		background-color: red;
+		color: white;
+		font: bold;
+	}
+	
+</style>
 <title>${title}</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -71,30 +86,33 @@
 						</div>
 
 						<div class="form-group">
-							<label>Remark</label> <input type="text" class="form-control"
-								name="remark" placeholder="Enter Remark">
+							<label>Remark</label> <input type="text" class="form-control" id="remark" onkeyup="Process(this)"
+								name="remark" placeholder="Enter Remark" required />
 						</div>
 
 						<div class="form-group">
-							<label>Hand Over to</label> <input type="text"
+							<label>Hand Over to</label> <input type="text" id="handOverTo"
 								class="form-control" name="handOver"
-								placeholder="Hand Over to">
+								placeholder="Hand Over to" required />
+								<span class="error">Hand Over To Required</span>
 						</div>
 
 						<div class="form-group">
-							<label>Send Date</label> <input type="date" class="form-control"
-								name="sendDate">
+							<label>Send Date</label> <input type="date" class="form-control" id="sendDate"
+								name="sendDate" required />
+								<span class="error">Send Date Required</span>
 						</div>
 
 						<div class="form-group">
 							<label>Return Date</label> <input type="date" id="date-return"
-								class="form-control" name="returnDate">
+								class="form-control" name="returnDate" required />
+								<span class="error">Date Return Required</span>
 						</div>
 
 						<div class="box-footer">
-							<button type="button" class="btn btn-default">Cancel</button>
-							<button type="button" id="button-addBackup"
-								class="btn btn-info pull-right">Add Backup</button>
+							<button type="button" id="cancel" class="btn btn-default">Cancel</button>
+							<button type="submit" id="button-addBackup"
+								class="btn btn-info pull-right" disabled="true"><i class="fa fa-plus"></i>&nbsp;Add Backup</button>
 						</div>
 					</form>
 				</div>
@@ -116,17 +134,39 @@
 
 		<script type="application/javascript">
 		
+		function Process(txt) {
+			 var xd = document.getElementById('button-addBackup');
+			 
+			 if(txt.value !==''){
+				  xd.disabled = false;
+				  
+			 } else{
+				 xd.disabled = true;
+			 }
+		}
+		
+		
 		var now = new Date(),
 	    minDate = now.toISOString().substring(0,10);
 
 		$('#date-return').prop('min', minDate);
 
         $("#button-addBackup").click(function () {
-
+        	
+        	
+        	var a=$("#handOverTo").val();
+        	var b=$("#sendDate").val();
+        	var c=$("#date-return").val();
+        	
+        	
             var data = "{";
             $("#form_add_backup .form-control").each(function () {
                 data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
             });
+            
+            if(a !=='' && b !=='' && c !==''){
+            	
+            
             var jsonString = data.substring(0, data.length - 1);
             jsonString += "}";
 
@@ -143,6 +183,9 @@
                     alert('Error');
                 }
             });
+            }else{
+            	alert('Pleace Fill Missing Filds');
+            }
         });
     
 		</script>

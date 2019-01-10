@@ -20,6 +20,18 @@
 <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
 <link rel="stylesheet"
 	href="${path}/bower_components/select2/dist/css/select2.min.css">
+
+<style type="text/css">
+	
+	.error{
+	
+		display:none;
+		color:red;
+		
+	}
+
+</style>
+
 <title>${title}</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -61,9 +73,10 @@
 						</div>
 
 						<div class="form-group">
-							<label>Hand Over To</label> <input type="text"
-								class="form-control" name="handOverTo"
-								placeholder="Enter Hand Over To">
+							<label>Hand Over To</label> <input type="text" id="handOver"
+								class="form-control" name="handOverTo" onkeyup="Prosees(this)"
+								placeholder="Enter Hand Over To" required oninvalid="this.setCustomValidity('Pleace Input HandOver')" />
+								<span class="error" id="spnHandOver">Hand Over Is Requird</span>
 						</div>
 
 						<div class="form-group">
@@ -89,24 +102,28 @@
 						</div>
 
 						<div class="form-group">
-							<label>Sending Method</label> <input type="text"
+							<label>Sending Method</label> <input type="text" id="sendingMethord"
 								class="form-control" name="sendingMethod"
-								placeholder="Enter Sending Method">
+								placeholder="Enter Sending Method" required oninvalid="this.setCustomValidity('Pleace Input Sending Methord')" />
+								<span class="error" id="spnSendingMethord">Sending Methord Is Required</span>
 						</div>
 
 						<div class="form-group">
 							<label>Courire Id</label> <input type="text" class="form-control"
-								name="courierId" placeholder="Enter Courire Id">
+								id="courireID"  name="courierId" placeholder="Enter Courire Id" required oninvalid="this.setCustomValidity('Pleace Input Courire Id')" />
+								<span class="error" id="spnCourireID">Courire ID Is Required</span>
 						</div>
 
 						<div class="form-group">
 							<label>Remark</label> <input type="text" class="form-control"
-								name="remark" placeholder="Enter Remark">
+								name="remark" id="remark" placeholder="Enter Remark" required oninvalid="this.setCustomValidity('Pleace Input Remark')" />
+								<span class="error" id="spnRemark">Remark Is Required</span>
 						</div>
 
 						<div class="box-footer">
 							<button type="button" class="btn btn-default">Cancel</button>
-							<button type="button" id="button-addRepair"
+							
+							<button type="submit" id="button-addRepair" disabled="true"
 								class="btn btn-info pull-right">Return Repair</button>
 						</div>
 					</form>
@@ -129,15 +146,73 @@
 
 		<script type="application/javascript">
 			
+		
+		function Prosees(txt) {
+			
+			var xd = document.getElementById('button-addRepair');
+			
+			if(txt.value !=''){
+				
+				xd.disabled = false;
+			}else{
+				xd.disabled = true;
+			}
+			
+		}
+		
+		
 			
 		$('.select2').select2();
 
         $("#button-addRepair").click(function () {
 
+        	var a=$("#handOver").val();
+        	var b=$("#sendingMethord").val();
+        	var c=$("#courireID").val();
+        	var d=$("#remark").val();
+        	
+        	var ab = document.getElementById('spnHandOver');
+        	var ac = document.getElementById('spnSendingMethord');
+        	var ad = document.getElementById('spnCourireID');
+        	var ae = document.getElementById('spnRemark');
+        		
             var data = "{";
             $("#form_return_repair .form-control").each(function () {
+            	
+            	
+               
                 data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
             });
+            
+            /* if(a !== ""){
+            	 ab.visible = true;
+            	 
+            }else{
+            	ab.visible = false;
+            	
+            }if(b !== ""){
+            	ac.visible = true;
+            	
+            }else{
+            	ac.visible = false;
+            	
+            }if(c !==""){
+            	ad.visible = true;
+            	
+            }else{
+            	ad.visible = false;
+            	
+            }if(d !== ""){
+            	ae.visible = true;
+            	
+            }else{
+            	ae.visible = false;
+            } */
+           
+            if(a !== "" && b !=="" && c !=="" && d !==""){
+            	
+            	
+            	
             var jsonString = data.substring(0, data.length - 1);
             jsonString += "}";
 
@@ -154,6 +229,9 @@
                     alert('Error');
                 }
             });
+            }else{
+            	alert('Please Fill Missing Filds');
+            }
         });
     
 		

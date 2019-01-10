@@ -35,6 +35,9 @@ public class StatusServiceImpl implements StatusService{
 
 	@Override
 	public StatusDto getStatusDto(StatusEntity e) {
+		
+		 System.out.println(e.toString()); 
+		
 		StatusDto dto = new StatusDto();
 		
 		dto.setCreateBy(e.getCreateBy());

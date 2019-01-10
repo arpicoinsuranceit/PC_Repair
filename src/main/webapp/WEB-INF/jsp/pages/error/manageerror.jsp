@@ -38,7 +38,7 @@
 
             <div class="row">
                 <div class="col-md-3 col-sm-3 col-xs-6">
-                    <a href="/add_error">
+                    <a href="/PCRepair/add_error">
                         <button type="button" class="btn btn-block btn-success btn-flat">Add Error</button>
                     </a>
                 </div>

@@ -21,7 +21,24 @@
 <link rel="stylesheet"
 	href="${path}/bower_components/select2/dist/css/select2.min.css">
 <title>${title}</title>
+<style type="text/css">
+	
+	.error{
+		display:none;
+		color:red;
+		margin-left: 10px;	
+	}
+	
+	#cancel:hover{
+		
+		background-color: red;
+		color: white;
+		font: bold;
+	}
+	
+</style>
 </head>
+
 <body class="hold-transition skin-blue sidebar-mini">
 
 	<div class="wrapper">
@@ -62,15 +79,15 @@
 
 						<div class="form-group">
 							<label>Reason</label> <input type="text" class="form-control"
-								name="reason" placeholder="Enter Reason">
+								name="reason" placeholder="Enter Reason" id="reasons" onKeyup="manage(this)" required />
 						</div>
 
 						<div class="form-group">
-							<label>From Location</label> <select class="form-control select2"
-								style="width: 100%;" name="fromLocation">
+							<label>From Location</label> <select class="form-control select2" id="Location" onChange="Location"
+								style="width: 100%;" name="fromLocation" required />
 								<c:if test="${not empty locations}">
 									<c:forEach items="${locations}" var="location">
-										<option value="${location.value}">${location.name}</option>
+										<option value="${location.value}" >${location.name}</option>
 									</c:forEach>
 								</c:if>
 							</select>
@@ -78,35 +95,44 @@
 
 						<div class="form-group">
 							<label>To Location</label> <select class="form-control select2"
-								style="width: 100%;" name="toLocation">
-								<c:if test="${not empty locations}">
+								style="width: 100%;" name="toLocation" id="toLocation" onchange="toLocation" required>
+								<c:if test="${not empty locations}" >
 									<c:forEach items="${locations}" var="location">
-										<option value="${location.value}">${location.name}</option>
+										<option value="${location.value}" id="toLocation">${location.name}</option>
 									</c:forEach>
 								</c:if>
 							</select>
 						</div>
 
 						<div class="form-group">
-							<label>Sending Method</label> <input type="text"
+							<label>Sending Method</label> <input type="text" id="sendingMethord" 
+							
 								class="form-control" name="sendingMethod"
-								placeholder="Enter Sending Method">
+								placeholder="Enter Sending Method" required oninvalid="this.setCustomValidity('Pleace Input Sending Methord')"/>
+								<span class="error" >Sending Method is Requird</span>
 						</div>
 
 						<div class="form-group">
-							<label>Courire Id</label> <input type="text" class="form-control"
-								name="courierId" placeholder="Enter Courire Id">
+							<label>Courire Id</label> <input type="text" id="courireId" class="form-control" 
+								name="courierId" placeholder="Enter Courire Id" required oninvalid="this.setCustomValidity('Pleace Input Courire ID')" />
+								<span class="error" >Courire id is Requird</span>
 						</div>
 
 						<div class="form-group">
-							<label>Remark</label> <input type="text" class="form-control"
-								name="remark" placeholder="Enter Remark">
+							<label>Remark</label> <input type="text" class="form-control" id="remark" 
+								name="remark" placeholder="Enter Remark" required oninvalid="this.setCustomValidity('Pleace Input Remark')"/>
+								<span class="error">Remark is Requird</span>
 						</div>
 
 						<div class="box-footer">
-							<button type="button" class="btn btn-default">Cancel</button>
-							<button type="button" id="button-addRepair"
-								class="btn btn-info pull-right">Send Repair</button>
+							<button type="button" class="btn btn-default" id="cancel">Cancel</button>
+							
+							<div id="contact_submit">
+							
+							<button type="submit" id="button-addRepair"
+								class="btn btn-info pull-right" disabled="true" onclick="ok()"><i class="fa fa-paper-plane"></i>&nbsp;Send Repair</button>
+								</div>
+							
 						</div>
 					</form>
 				</div>
@@ -125,13 +151,87 @@
 		<script src="${path}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script src="${path}/dist/js/adminlte.min.js"></script>
 		<script src="${path}/bower_components/select2/dist/js/select2.full.min.js"></script>
+		
+	
+		
 		<script type="application/javascript">
+		
+		
+		/* $("#contact_submit button").click(function(event) {
+			var form_data=$("#contact").serializeArray();
+			var error_free=true;
 			
+			for(var input in form_data){
+				var elemen=$("#contact"+form_data[input]['sendingMethod']);
+				var valid=element.hasClass("valid");
+				var error_element=$("span",element.parent());
+				if(!valid){error_element.removeClass("error").addClass("error_show");error_free=false;}
+				
+				else{error_element.removeClass("error").addClasss("error_show");error_free=false;}
+			}
+			if(!error_free){
+				event.preventDefault();
+			}else{
+				alert('No errors: Form will be submitted');
+			}
+		}); */
+		
+		
+		function manage(txt) {
+			var bt = document.getElementById('button-addRepair');
+			if(txt.value !=''){
+				bt.disabled  = false;
+			}else{
+				bt.disabled = true;
+			}
+		}
+		
+		/* function ok() {
+			var a = document.getElementById("sendingMethord").required;
+			var b = document.getElementById("courireId").required;
+			var c = document.getElementById("remark").required;
+		} */
+		
+		
+		/* 
+		$("#fromLocation").click(function () {
+			var x=document.getElementById("remark")
+			x.disabled=false
+		}); */
+		
+		
+		
+		
+			/* var loacatio=document.getElementById('toLocation').value
+			alert(location);
+			if(loacatio!=null){
+				console.log(location);
+			} */
+		
+		
+		
 		$('.select2').select2();
 			
 
         $("#button-addRepair").click(function () {
 
+        	var a=$("#reasons").val();
+        	
+        	var b=$("#sendingMethord").val();
+        	
+        	var c=$("#courireId").val();
+       
+        	var d=$("#remark").val();
+        	
+        	$("#form_send_repair .form-control").each(function () {
+        		
+        		
+        		
+                data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
+            });
+        	
+        	if(a !== "" && b !=="" && c !=="" && d !==""){
+        		
             var data = "{";
             $("#form_send_repair .form-control").each(function () {
                 data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
@@ -152,6 +252,9 @@
                     alert('Error');
                 }
             });
+        	}else{
+        		alert("Pleace Fill Missing Filds");
+        	}
         });
     
 		

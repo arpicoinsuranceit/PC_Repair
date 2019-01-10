@@ -13,6 +13,18 @@
     <link rel="stylesheet" href="${path}/bower_components/Ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
+    
+    <style type="text/css">
+    	
+    	#cancel:hover{
+		
+		background-color: red;
+		color: white;
+		font: bold;
+	}
+    	
+    </style>
+    
     <title>${title}</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -44,18 +56,18 @@
                     <form id="form_add_supplier">
                         <div class="form-group">
                             <label>Supplier Id</label>
-                            <input type="text" class="form-control" name="supplierId" placeholder="Enter Supplier Id">
+                            <input type="text" class="form-control" id="supplierID" name="supplierId" placeholder="Enter Supplier Id" required onkeyup="Proccess(this)" />
                         </div>
 
                         <div class="form-group">
                             <label>Supplier Name</label>
                             <input type="text" class="form-control" name="supplierName"
-                                   placeholder="Enter Supplier Name">
+                                   placeholder="Enter Supplier Name" id="supplierName" required />
                         </div>
 
                         <div class="box-footer">
-                            <button type="button" class="btn btn-default">Cancel</button>
-                            <button type="button" id="button-addsupplier" class="btn btn-info pull-right">Add Supplier
+                            <button type="button" class="btn btn-default" id="cancel">Cancel</button>
+                            <button type="submit" id="button-addsupplier" disabled="true" class="btn btn-info pull-right"><i class="fa fa-plus"></i>&nbsp;Add Supplier
                             </button>
                         </div>
                     </form>
@@ -76,13 +88,36 @@
     <script src="${path}/dist/js/adminlte.min.js"></script>
 
     <script type="application/javascript">
+    
+    
+    function Proccess(txt) {
+		
+    	var cx = document.getElementById('button-addsupplier');
+    	
+    	if(txt.value !=''){
+    		 cx.disabled = false;
+    	}else{
+    		cx.disabled = true;
+    	}
+	}
+    
+    
+    
 
         $("#button-addsupplier").click(function () {
-
+        	
+        	var a=$("#supplierID").val();
+        	var b=$("#supplierName").val();
+        	
+        		
             var data = "{";
             $("#form_add_supplier .form-control").each(function () {
                 data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
             });
+            
+            
+            if(a !=="" & b !==""){
+            	
             var jsonString = data.substring(0, data.length - 1);
             jsonString += "}";
 
@@ -99,6 +134,9 @@
                     alert('Error');
                 }
             });
+        	}else{
+        		alert('Please Fill Missing Filds');
+        	}
         });
     </script>
 </body>

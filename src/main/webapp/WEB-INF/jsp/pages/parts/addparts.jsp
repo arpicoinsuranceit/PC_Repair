@@ -15,7 +15,18 @@
 
     <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
-
+	
+	<style type="text/css">
+	
+		#cancel:hover{
+		
+		background-color: red;
+		color: white;
+		font: bold;
+	}
+	
+	</style>
+	
     <title>${title}</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -59,7 +70,7 @@
                                 </div>
                                 <div class="col-md-6 col-xs-6">
                                     <label>Serial No</label>
-                                    <input type="text" class="form-control" name="serialId" placeholder="Enter Serial No">
+                                    <input type="text" class="form-control" id="serialNo" name="serialId" placeholder="Enter Serial No" onkeyup="process(this)" required />
                                 </div>
                             </div>
                         </div>
@@ -74,7 +85,7 @@
                                 </div> -->
                                 <div class="col-md-12 col-xs-12">
                                     <label>Name</label>
-                                    <input type="text" class="form-control" name="partName" placeholder="Enter Part Name">
+                                    <input type="text" class="form-control" id="name" name="partName" placeholder="Enter Part Name" required />
                                 </div>
                             </div>
                         </div>
@@ -83,11 +94,11 @@
                             <div class="row">
                                 <div class="col-md-6 col-xs-6">
                                     <label>Part Value</label>
-                                    <input type="number" class="form-control" name="value" placeholder="Enter Value">
+                                    <input type="number" class="form-control" id="partValue" name="value" placeholder="Enter Value" required />
                                 </div>
                                 <div class="col-md-6 col-xs-6">
                                     <label>Purchase Date</label>
-                                    <input type="date" class="form-control" name="purchaseDate" placeholder="Enter Purchase Date">
+                                    <input type="date" class="form-control" id="purchaseDate" name="purchaseDate" placeholder="Enter Purchase Date" required />
                                 </div>
                             </div>
                         </div>
@@ -96,22 +107,22 @@
                             <div class="row">
                                 <div class="col-md-6 col-xs-6">
                                     <label>Remark</label>
-                                    <input type="text" class="form-control" name="remark" placeholder="Enter Remark">
+                                    <input type="text" class="form-control" id="remark" name="remark" placeholder="Enter Remark" required />
                                 </div>
                                 <div class="col-md-3 col-xs-6">
                                     <label>Warranty Details</label>
-                                    <input type="text" class="form-control" name="warrentyPeriod" placeholder="Enter Warrenty Details">
+                                    <input type="text" class="form-control" id="warrantyDe" name="warrentyPeriod" placeholder="Enter Warrenty Details" required />
                                 </div>
                                 <div class="col-md-3 col-xs-6">
                                     <label>Warranty Expired</label>
-                                    <input type="date" class="form-control" name="warrentyExp" placeholder="Enter Warrenty Exp Date">
+                                    <input type="date" class="form-control" id="warrantyEx" name="warrentyExp" placeholder="Enter Warrenty Exp Date" required />
                                 </div>
                             </div>
                         </div>
 
                         <div class="box-footer">
-                            <button type="button" class="btn btn-default">Cancel</button>
-                            <button type="button" id="button-addAsset" class="btn btn-info pull-right">Add Part
+                            <button type="button" id="cancel" class="btn btn-default">Cancel</button>
+                            <button type="submit" id="button-addAsset" class="btn btn-info pull-right"  disabled="true"><i class="fa fa-plus"></i>&nbsp;Add Part
                             </button>
                         </div>
                     </form>
@@ -134,6 +145,20 @@
 
 
     <script type="application/javascript">
+    
+    function process(txt) {
+		
+    	var xd= document.getElementById('button-addAsset');
+    	
+    	if(txt.value !=''){
+    		xd.disabled = false;
+    	}else{
+    		xd.disabled = true;
+    	}
+	}
+    
+    
+    
         $('.select2').select2();
 
         $("#button-addAsset").click(function () {
