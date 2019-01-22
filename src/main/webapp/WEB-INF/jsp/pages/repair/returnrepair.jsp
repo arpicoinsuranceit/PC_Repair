@@ -74,8 +74,8 @@
 
 						<div class="form-group">
 							<label>Hand Over To</label> <input type="text" id="handOver"
-								class="form-control" name="handOverTo" onkeyup="Prosees(this)"
-								placeholder="Enter Hand Over To" required oninvalid="this.setCustomValidity('Pleace Input HandOver')" />
+								class="form-control" name="handOverTo" onkeyup="Prosees(this) & req(this)"
+								placeholder="Enter Hand Over To" required  />
 								<span class="error" id="spnHandOver">Hand Over Is Requird</span>
 						</div>
 
@@ -123,7 +123,7 @@
 						<div class="box-footer">
 							<button type="button" class="btn btn-default">Cancel</button>
 							
-							<button type="submit" id="button-addRepair" disabled="true"
+							<button type="submit button" id="button-addRepair" disabled="true"
 								class="btn btn-info pull-right">Return Repair</button>
 						</div>
 					</form>
@@ -146,6 +146,17 @@
 
 		<script type="application/javascript">
 			
+		function req(color) {
+			
+			if ($('#handOver').val() == '') {
+			    $('#handOver').css('border-color', 'red');
+			}
+			else {
+			    $('#handOver').css('border-color', '');
+			}
+			
+		}
+		
 		
 		function Prosees(txt) {
 			

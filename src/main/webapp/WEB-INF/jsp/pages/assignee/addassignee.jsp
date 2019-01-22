@@ -59,7 +59,7 @@
                     <form id="form_add_assignee">
                         <div class="form-group">
                             <label>Assignee Id</label>
-                            <input type="text" class="form-control" name="assigneeId" id="AssigneeId" placeholder="Enter Assignee Id" required oninvalid="this.setCustomValidity('Pleace Input Assignee ID')" onkeyup="Prosees(this)" />
+                            <input type="text" class="form-control" name="assigneeId" id="AssigneeId" placeholder="Enter Assignee Id" required oninvalid="this.setCustomValidity('Pleace Input Assignee ID')" onkeyup="Prosees(this) & req(this)" />
                            	<span class="error" id="spnAssigneeId">Assignee Is Required</span>
                         </div>
 
@@ -91,10 +91,21 @@
     <script src="${path}/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="${path}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="${path}/dist/js/adminlte.min.js"></script>
-
+	<script src="${path}/dist/js/notify.min.js"></script>
     <script type="application/javascript">
 
+	function req(color) {
+		
+		if ($('#AssigneeId').val() == '') {
+		    $('#AssigneeId').css('border-color', 'red');
+		}
+		else {
+		    $('#AssigneeId').css('border-color', '');
+		}
+		
+	}
     
+  
     function Prosees(txt) {
 		
 		var xd = document.getElementById('button-addassignee');
@@ -130,7 +141,10 @@
                 data: jsonString,
                 contentType: "application/json",
                 success: function (resp) {
-                    $("#modal-success").modal("show");
+                	
+                	$.notify("Assignee Added Succsess");
+                	
+                    /* $("#modal-success").modal("show"); */
                     $("#form_add_assignee").trigger("reset");
                 },
                 error: function () {

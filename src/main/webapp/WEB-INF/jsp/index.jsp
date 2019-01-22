@@ -20,6 +20,7 @@
 <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
 <link rel="stylesheet"
 	href="${path}/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+	<link rel="icon" type="image/x-icon" href="${path}/images/logo_1.ico">
 <title>${title}</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">

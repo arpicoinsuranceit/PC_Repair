@@ -70,7 +70,7 @@
                                 </div>
                                 <div class="col-md-6 col-xs-6">
                                     <label>Serial No</label>
-                                    <input type="text" class="form-control" id="serialNo" name="serialId" placeholder="Enter Serial No" onkeyup="process(this)" required />
+                                    <input type="text" class="form-control" id="serialNo" name="serialId" placeholder="Enter Serial No" onkeyup="process(this) & req(this)" required />
                                 </div>
                             </div>
                         </div>
@@ -122,7 +122,7 @@
 
                         <div class="box-footer">
                             <button type="button" id="cancel" class="btn btn-default">Cancel</button>
-                            <button type="submit" id="button-addAsset" class="btn btn-info pull-right"  disabled="true"><i class="fa fa-plus"></i>&nbsp;Add Part
+                            <button type="submit button" id="button-addAsset" class="btn btn-info pull-right"  disabled="true"><i class="fa fa-plus"></i>&nbsp;Add Part
                             </button>
                         </div>
                     </form>
@@ -146,6 +146,17 @@
 
     <script type="application/javascript">
     
+	function req(color) {
+		
+		if ($('#serialNo').val() == '') {
+		    $('#serialNo').css('border-color', 'red');
+		}
+		else {
+		    $('#serialNo').css('border-color', '');
+		}
+		
+	}
+    
     function process(txt) {
 		
     	var xd= document.getElementById('button-addAsset');
@@ -163,10 +174,18 @@
 
         $("#button-addAsset").click(function () {
 
+        	
+        	var a=$('#name').val();
+        	var b=$('#partValue').val();
+        	var c=$('#remark').val();
+        	var d=$('#warrantyDe').val();
+        	
             var data = "{";
             $("#form_add_part .form-control").each(function () {
                 data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
             });
+            
+            if(a !=="" && b !=="" && c !=="" && d !==""){
             var jsonString = data.substring(0, data.length - 1);
             jsonString += "}";
 
@@ -183,6 +202,9 @@
                     alert('Error');
                 }
             });
+            }else{
+            	alert("Pleace Fill Missing Filds");
+            }
         });
     </script>
 </body>

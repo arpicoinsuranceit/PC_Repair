@@ -56,7 +56,7 @@
                     <form id="form_add_supplier">
                         <div class="form-group">
                             <label>Supplier Id</label>
-                            <input type="text" class="form-control" id="supplierID" name="supplierId" placeholder="Enter Supplier Id" required onkeyup="Proccess(this)" />
+                            <input type="text" class="form-control" id="supplierID" name="supplierId" placeholder="Enter Supplier Id" required onkeyup="Proccess(this) & req(this)" />
                         </div>
 
                         <div class="form-group">
@@ -67,7 +67,7 @@
 
                         <div class="box-footer">
                             <button type="button" class="btn btn-default" id="cancel">Cancel</button>
-                            <button type="submit" id="button-addsupplier" disabled="true" class="btn btn-info pull-right"><i class="fa fa-plus"></i>&nbsp;Add Supplier
+                            <button type="submit button" id="button-addsupplier" disabled="true" class="btn btn-info pull-right"><i class="fa fa-plus"></i>&nbsp;Add Supplier
                             </button>
                         </div>
                     </form>
@@ -89,6 +89,16 @@
 
     <script type="application/javascript">
     
+	function req(color) {
+		
+		if ($('#supplierID').val() == '') {
+		    $('#supplierID').css('border-color', 'red');
+		}
+		else {
+		    $('#supplierID').css('border-color', '');
+		}
+		
+	}
     
     function Proccess(txt) {
 		

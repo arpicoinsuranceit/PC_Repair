@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="${path}/bower_components/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
 <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
+<link rel="icon" type="image/x-icon" href="${path}/images/logo_1.ico">
 <title>${title}</title>
 </head>
 
@@ -75,17 +76,6 @@
 			});
 			
 			
-			/* $.ajax({
-				  url: "${path}/getLogin",
-				  type: "GET",
-				  data: data,
-				  success: function (resp) {
-					  console.log(resp)
-	              },
-	              error: function () {
-	                  alert('Error');
-	              }
-				}); */
 		});
 	</script> 
 	

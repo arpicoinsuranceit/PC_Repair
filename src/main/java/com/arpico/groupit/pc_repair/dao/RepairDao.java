@@ -12,7 +12,7 @@ public interface RepairDao extends CrudRepository<RepairEntity, String>{
 	List<RepairEntity> findByStatus(String send) throws Exception;
 
 	List<RepairEntity> findByStatusIn(List<String> param) throws Exception;
-	
+
 	List<RepairEntity> findByStatusNotInOrderByPriorityAscCerateDateAsc(List<String> param) throws Exception;
 
 	@Query("SELECT coalesce(max(r.jobNo), 10000) FROM RepairEntity r")

@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,12 +22,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.arpico.groupit.pc_repair.dto.AssetDto;
 import com.arpico.groupit.pc_repair.dto.AssigneeDto;
 import com.arpico.groupit.pc_repair.dto.ErrorDto;
+import com.arpico.groupit.pc_repair.dto.LoginResponseDto;
 import com.arpico.groupit.pc_repair.dto.NameValueDto;
 import com.arpico.groupit.pc_repair.dto.RepairBasicsDto;
 import com.arpico.groupit.pc_repair.dto.RepairDto;
 import com.arpico.groupit.pc_repair.dto.RepairReturnDto;
 import com.arpico.groupit.pc_repair.dto.RepairSentDto;
 import com.arpico.groupit.pc_repair.dto.StatusDto;
+import com.arpico.groupit.pc_repair.security.JwtDecorder;
 import com.arpico.groupit.pc_repair.service.AssetService;
 import com.arpico.groupit.pc_repair.service.AssigneeService;
 import com.arpico.groupit.pc_repair.service.ErrorService;
@@ -71,6 +73,9 @@ public class RepairController {
 
 	@Autowired
 	private ServletContext context;
+	
+	@Autowired
+	private JwtDecorder jwtDecorder;
 
 	@RequestMapping("/repair/{id}")
 	public ModelAndView navigateRepair(@PathVariable String id) throws Exception {
@@ -102,7 +107,7 @@ public class RepairController {
 	}
 
 	@RequestMapping("/send_repair")
-	public ModelAndView sendRepair() throws Exception {
+	public ModelAndView sendRepair(HttpSession httpSession) throws Exception {
 		context.setAttribute("path", path);
 		ModelAndView mav = new ModelAndView("pages/repair/sendrepair");
 
@@ -112,6 +117,20 @@ public class RepairController {
 		mav.addObject("title", "PC REPAIR | SEND REPAIR");
 		mav.addObject("locations", locations);
 		mav.addObject("assets", assetDtos);
+		
+		
+		LoginResponseDto user=(LoginResponseDto) httpSession.getAttribute("user");
+		
+		System.out.println(user + " user");
+		
+		String locCode=jwtDecorder.generateLoc(user.getJwtToken());
+		
+		httpSession.setAttribute("branch", locCode);
+		
+		mav.addObject("branch", locCode);
+		
+		
+		System.out.println(locCode + " locCode");
 
 		return mav;
 
@@ -123,7 +142,7 @@ public class RepairController {
 		ModelAndView mav = new ModelAndView("pages/repair/returnrepair");
 
 		List<NameValueDto> locations = locationService.getAllNameValue();
-		List<AssetDto> assetDtos = repairService.getAllRepaired();
+		List<AssetDto> assetDtos = assetService.getAll();
 
 		mav.addObject("title", "PC REPAIR | SEND REPAIR");
 		mav.addObject("locations", locations);
@@ -295,6 +314,7 @@ public class RepairController {
 			entity.add(repairSentDto.getFromLocation());
 			entity.add(repairSentDto.getReason());
 
+
 			entity.add("<button type=\"button\" class=\"btn btn-default\" id=\"" + repairSentDto.getRepairId()
 					+ "\" onclick = \"showRepair('" + repairSentDto.getRepairId()
 					+ "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i><span>&nbsp;&nbsp;SHOW</span></button>");
@@ -310,36 +330,57 @@ public class RepairController {
 	@RequestMapping("/all_return_repair_dt")
 	@ResponseBody
 	public Map allReturnDetails() throws Exception {
+
 		List entities = new ArrayList();
 		List<RepairReturnDto> repairReturnDtos = repairService.getReturnRepairs();
 		for (RepairReturnDto repairReturnDto : repairReturnDtos) {
 			List entity = new ArrayList<>();
 
-			entity.add(repairReturnDto.getRepairId());
+			entity.add(repairReturnDto.getRepairReturnId());
 			entity.add(repairReturnDto.getAssetId());
 			entity.add(repairReturnDto.getSendingMethod());
 			entity.add(repairReturnDto.getCourierId());
 			entity.add(repairReturnDto.getFromLocation());
+			entity.add(repairReturnDto.getToLocation());
 			entity.add(repairReturnDto.getHandOverTo());
-			if (repairReturnDto.getStatus().equals(AppConstant.RETURN)) {
-				entity.add("<button type=\"button\" class=\"btn btn-default\" id=\"" + repairReturnDto.getRepairId()
-						+ "\" onclick = \"repairReceived('" + repairReturnDto.getRepairId()
-						+ "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i><span>&nbsp;&nbsp;RECEIVED</span></button>");
-			} else {
-				entity.add("<button disabled type=\"button\" class=\"btn btn-default\" id=\""
-						+ repairReturnDto.getRepairId() + "\" onclick = \"repairReceived('"
-						+ repairReturnDto.getRepairId()
-						+ "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i><span>&nbsp;&nbsp;RECEIVED</span></button>");
+			entity.add(repairReturnDto.getRemark());
 
-			}
+
+
+			try {
+
+                if (repairReturnDto.getStatus().equals(AppConstant.RETURN)) {
+                    entity.add("<button type=\"button\" class=\"btn btn-default\" id=\"" +
+                            repairReturnDto.getStatus() + "\" onclick = \"repairReceived('" +
+                            repairReturnDto.getStatus() +
+                            "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i><span>&nbsp;&nbsp;RECEIVED</span></button>"
+                    ); } else {
+                    entity.add("<button disabled type=\"button\" class=\"btn btn-default\" id=\""
+                            + repairReturnDto.getRepairId() + "\" onclick = \"repairReceived('" +
+                            repairReturnDto.getRepairId() +
+                            "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i><span>&nbsp;&nbsp;RECEIVED</span></button>"
+                    );
+
+                }
+
+            }catch (NullPointerException e){
+			    e.printStackTrace();
+            }
+
+
+			 
 
 			entities.add(entity);
+		
+		
 		}
-		Map responseMap = new HashMap();
-		responseMap.put("data", entities);
-		return responseMap;
-
-	}
+	  System.out.println(entities.toString());
+	  Map responseMap = new HashMap();
+	  responseMap.put("data", entities);
+	  return responseMap;
+	  
+	  }
+	 
 
 	@RequestMapping("/dashboard_repair_dt")
 	@ResponseBody

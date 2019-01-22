@@ -14,6 +14,36 @@ public class RepairReturnDto {
 	private String sendDate;
 	private String status;
 
+	public RepairReturnDto() {
+	}
+
+	public RepairReturnDto(String repairId, String assetId, String repairReturnId, String fromLocation, String toLocation, String handOverTo, String remark, String sendingMethod, String courierId, String sendDate) {
+		this.repairId = repairId;
+		this.assetId = assetId;
+		this.repairReturnId = repairReturnId;
+		this.fromLocation = fromLocation;
+		this.toLocation = toLocation;
+		this.handOverTo = handOverTo;
+		this.remark = remark;
+		this.sendingMethod = sendingMethod;
+		this.courierId = courierId;
+		this.sendDate = sendDate;
+	}
+
+	public RepairReturnDto(String repairId, String assetId, String repairReturnId, String fromLocation, String toLocation, String handOverTo, String remark, String sendingMethod, String courierId, String sendDate, String status) {
+		this.repairId = repairId;
+		this.assetId = assetId;
+		this.repairReturnId = repairReturnId;
+		this.fromLocation = fromLocation;
+		this.toLocation = toLocation;
+		this.handOverTo = handOverTo;
+		this.remark = remark;
+		this.sendingMethod = sendingMethod;
+		this.courierId = courierId;
+		this.sendDate = sendDate;
+		this.status = status;
+	}
+
 	public String getRepairId() {
 		return repairId;
 	}

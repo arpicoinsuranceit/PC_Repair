@@ -86,7 +86,7 @@
 						</div>
 
 						<div class="form-group">
-							<label>Remark</label> <input type="text" class="form-control" id="remark" onkeyup="Process(this)"
+							<label>Remark</label> <input type="text" class="form-control" id="remark" onkeyup="Process(this) & req(this)"
 								name="remark" placeholder="Enter Remark" required />
 						</div>
 
@@ -111,7 +111,7 @@
 
 						<div class="box-footer">
 							<button type="button" id="cancel" class="btn btn-default">Cancel</button>
-							<button type="submit" id="button-addBackup"
+							<button type="submit button" id="button-addBackup"
 								class="btn btn-info pull-right" disabled="true"><i class="fa fa-plus"></i>&nbsp;Add Backup</button>
 						</div>
 					</form>
@@ -133,6 +133,17 @@
 		<script src="${path}/dist/js/adminlte.min.js"></script>
 
 		<script type="application/javascript">
+		
+		function req(color) {
+			
+			if ($('#remark').val() == '') {
+			    $('#remark').css('border-color', 'red');
+			}
+			else {
+			    $('#remark').css('border-color', '');
+			}
+			
+		}
 		
 		function Process(txt) {
 			 var xd = document.getElementById('button-addBackup');

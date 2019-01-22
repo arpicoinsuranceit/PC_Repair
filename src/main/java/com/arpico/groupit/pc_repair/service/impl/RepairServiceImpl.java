@@ -19,6 +19,7 @@ import com.arpico.groupit.pc_repair.dao.PartsDao;
 import com.arpico.groupit.pc_repair.dao.RepairDao;
 import com.arpico.groupit.pc_repair.dao.RepairErrorDetailsDao;
 import com.arpico.groupit.pc_repair.dao.RepairPartsDao;
+import com.arpico.groupit.pc_repair.dao.RepairReturnsDao;
 import com.arpico.groupit.pc_repair.dao.RepairStatusDao;
 import com.arpico.groupit.pc_repair.dto.AssetDto;
 import com.arpico.groupit.pc_repair.dto.ErrorDto;
@@ -36,6 +37,7 @@ import com.arpico.groupit.pc_repair.entity.PartsEntity;
 import com.arpico.groupit.pc_repair.entity.RepairEntity;
 import com.arpico.groupit.pc_repair.entity.RepairErrorDetailEntity;
 import com.arpico.groupit.pc_repair.entity.RepairPartsEntity;
+import com.arpico.groupit.pc_repair.entity.RepairReturnEntity;
 import com.arpico.groupit.pc_repair.entity.RepairStatusEntity;
 import com.arpico.groupit.pc_repair.service.AssetService;
 import com.arpico.groupit.pc_repair.service.AssigneeService;
@@ -86,6 +88,9 @@ public class RepairServiceImpl implements RepairService {
 	@Autowired
 	private PartsDao partsDao;
 
+	@Autowired
+	private RepairReturnsDao repairReturnsDao;
+	
 	@Override
 	public List<RepairSentDto> getSendRepairs() throws Exception {
 		List<String> param = new ArrayList<>();
@@ -181,25 +186,44 @@ public class RepairServiceImpl implements RepairService {
 
 	}
 
-	@Override
-	public List<RepairReturnDto> getReturnRepairs() throws Exception {
-		List<String> param = new ArrayList<>();
-		param.add(AppConstant.SEND);
-		param.add(AppConstant.SEND_REC);
-		param.add(AppConstant.RETURN);
-		param.add(AppConstant.RETURN_REC);
-		param.add(AppConstant.COMPLETE);
-		List<RepairEntity> repairEntities = repairDao.findByStatusIn(param);
+	
+	  @Override 
+	  public List<RepairReturnDto> getReturnRepairs() throws Exception {
+	  List<String> param = new ArrayList<>();
+	  param.add(AppConstant.RETURN);
+	  param.add(AppConstant.RETURN_REC);
 
-		System.out.println(repairEntities.size());
+	  /*param.add(AppConstant.RETURN); param.add(AppConstant.RETURN_REC);
+	  param.add(AppConstant.COMPLETE);*/
 
-		List<RepairReturnDto> repairReturnDtos = new ArrayList<>();
-		repairEntities.forEach(e -> {
-			repairReturnDtos.add(getRepairReturnDto(e));
-		});
+	  List<RepairReturnEntity> repairEntities =(List<RepairReturnEntity>) repairReturnsDao.findAll();
 
-		return repairReturnDtos;
-	}
+	  System.out.println(repairEntities.size());
+	  
+	  List<RepairReturnDto> repairReturnDtos = new ArrayList<>();
+	  repairEntities.forEach(e -> { repairReturnDtos.add(getRepairReturn(e));
+
+	  });
+
+	  return repairReturnDtos; }
+
+	  private  RepairReturnDto getRepairReturn(RepairReturnEntity e){
+
+		RepairReturnDto repairReturnDto = new RepairReturnDto();
+		repairReturnDto.setRepairReturnId(e.getRepairReturnId());
+		repairReturnDto.setAssetId(e.getRepairEntity().getAssetEntity().getAssetCode());
+		repairReturnDto.setSendingMethod(e.getSendingMethod());
+		repairReturnDto.setCourierId(e.getCourierId());
+		repairReturnDto.setFromLocation(e.getFromLocation());
+		repairReturnDto.setToLocation(e.getToLocation());
+		repairReturnDto.setHandOverTo(e.getHandOverTo());
+		repairReturnDto.setRemark(e.getRemark());
+
+		  System.out.println("ggggg" + e.getHandOverTo());
+
+
+		return  repairReturnDto;
+	  }
 
 	private RepairReturnDto getRepairReturnDto(RepairEntity e) {
 		RepairReturnDto repairReturnDto = new RepairReturnDto();
@@ -207,7 +231,9 @@ public class RepairServiceImpl implements RepairService {
 		repairReturnDto.setStatus(e.getStatus());
 		repairReturnDto.setAssetId(e.getAssetEntity().getAssetCode());
 		repairReturnDto.setSendingMethod(e.getRepairSendEntity().getSendingMethod());
-		repairReturnDto.setSendDate(new SimpleDateFormat("yyyy-MM-dd").format(e.getRepairSendEntity().getSendDate()));
+
+		  repairReturnDto.setSendDate(new SimpleDateFormat("yyyy-MM-dd").format(e.getRepairSendEntity().getSendDate()));
+
 		try {
 			repairReturnDto.setCourierId(e.getRepairReturnEntity().getCourierId());
 			repairReturnDto.setFromLocation(e.getRepairReturnEntity().getFromLocation());
@@ -217,7 +243,7 @@ public class RepairServiceImpl implements RepairService {
 			// TODO: handle exception
 		}
 
-		return repairReturnDto;
+		return null;
 	}
 
 	@Override
@@ -486,5 +512,21 @@ public class RepairServiceImpl implements RepairService {
 
 		return repairSentDtos;
 	}
+
+	/*
+	 * @Override public ArrayList<RepairReturnDto> getReturnRepairs() throws
+	 * Exception {
+	 * 
+	 * List<RepairReturnEntity> repairReturnEntities = (List<RepairReturnEntity>)
+	 * repairReturnsDao.findAll();
+	 * 
+	 * ArrayList<RepairReturnDto>alReturnRepaires = new ArrayList();
+	 * 
+	 * for (RepairReturnEntity entity : repairReturnEntities) {
+	 * 
+	 * RepairReturnDto repairReturnDto = new RepairReturnDto(); }
+	 * 
+	 * return null; }
+	 */
 
 }

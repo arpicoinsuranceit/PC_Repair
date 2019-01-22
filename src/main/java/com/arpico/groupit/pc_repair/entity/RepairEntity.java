@@ -3,20 +3,7 @@ package com.arpico.groupit.pc_repair.entity;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -62,6 +49,38 @@ public class RepairEntity {
 	private List<RepairErrorDetailEntity> repairErrorDetailEntities;
 	
 	private List<RepairStatusEntity> repairStatusEntities;
+	
+	
+
+	public RepairEntity() {
+		super();
+	}
+
+	public RepairEntity(String repairId, Integer jobNo, String status, String priority, String remark, Date cerateDate,
+			Date modifydate, String cerateby, String modifyby, AssetEntity assetEntity,
+			List<RepairPartsEntity> repairPartsEntities, List<BackupEntity> backupEntities,
+			RepairSendEntity repairSendEntity, RepairReturnEntity repairReturnEntity,
+			List<AssigneeRepairEntity> assigneeRepairEntities, List<RepairErrorDetailEntity> repairErrorDetailEntities,
+			List<RepairStatusEntity> repairStatusEntities) {
+		super();
+		RepairId = repairId;
+		this.jobNo = jobNo;
+		this.status = status;
+		this.priority = priority;
+		this.remark = remark;
+		this.cerateDate = cerateDate;
+		this.modifydate = modifydate;
+		this.cerateby = cerateby;
+		this.modifyby = modifyby;
+		this.assetEntity = assetEntity;
+		this.repairPartsEntities = repairPartsEntities;
+		this.backupEntities = backupEntities;
+		this.repairSendEntity = repairSendEntity;
+		this.repairReturnEntity = repairReturnEntity;
+		this.assigneeRepairEntities = assigneeRepairEntities;
+		this.repairErrorDetailEntities = repairErrorDetailEntities;
+		this.repairStatusEntities = repairStatusEntities;
+	}
 
 	@Id
 	public String getRepairId() {
@@ -176,7 +195,7 @@ public class RepairEntity {
 		this.repairSendEntity = repairSendEntity;
 	}
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinColumn(name = "REPAIR_RETURN_ID")
 	public RepairReturnEntity getRepairReturnEntity() {
 		return repairReturnEntity;
@@ -217,7 +236,7 @@ public class RepairEntity {
 		this.repairStatusEntities = repairStatusEntities;
 	}
 
-	/*@Override
+	@Override
 	public String toString() {
 		return "RepairEntity [RepairId=" + RepairId + ", jobNo=" + jobNo + ", status=" + status + ", priority="
 				+ priority + ", remark=" + remark + ", cerateDate=" + cerateDate + ", modifydate=" + modifydate
@@ -226,7 +245,7 @@ public class RepairEntity {
 				+ ", repairSendEntity=" + repairSendEntity + ", repairReturnEntity=" + repairReturnEntity
 				+ ", assigneeRepairEntities=" + assigneeRepairEntities + ", repairErrorDetailEntities="
 				+ repairErrorDetailEntities + ", repairStatusEntities=" + repairStatusEntities + "]";
-	}*/
+	}
 
 
 

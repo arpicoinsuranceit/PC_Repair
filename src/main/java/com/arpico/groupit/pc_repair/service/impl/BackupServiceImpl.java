@@ -40,30 +40,34 @@ public class BackupServiceImpl implements BackupService {
 		List<BackupEntity> backupEntities = backupDao.findAllByEnabled(1);
 		List<BackupGridDto> dtos = new ArrayList<>();
 		backupEntities.forEach(e -> {
-			dtos.add(getBackupGridDto(e));
+			try {
+				dtos.add(getBackupGridDto(e));
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		});
 
 		return dtos;
 
 	}
 
-	private BackupGridDto getBackupGridDto(BackupEntity e) {
-
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-		BackupGridDto dto = new BackupGridDto();
-
-		dto.setAssetId(e.getAssetEntity().getAssetCode());
-		dto.setHandoverTo(e.getHandOverTo());
-		dto.setRemark(e.getRemark());
-		dto.setRepairId(e.getRepairEntity().getJobNo());
-		dto.setReturnDate(simpleDateFormat.format(e.getReturnDate()));
-		dto.setSendDate(simpleDateFormat.format(e.getSendDate()));
-		dto.setSendLoc(e.getSendLocation());
-		dto.setBackupId(e.getBackupId());
-
-		return dto;
-	}
+	/*
+	 * private BackupGridDto getBackupGridDto(BackupEntity e) {
+	 * 
+	 * SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	 * 
+	 * BackupGridDto dto = new BackupGridDto();
+	 * 
+	 * dto.setAssetId(e.getAssetEntity().getAssetCode());
+	 * dto.setHandoverTo(e.getHandOverTo()); dto.setRemark(e.getRemark());
+	 * dto.setRepairId(e.getRepairEntity().getJobNo());
+	 * dto.setReturnDate(simpleDateFormat.format(e.getReturnDate()));
+	 * dto.setSendDate(simpleDateFormat.format(e.getSendDate()));
+	 * dto.setSendLoc(e.getSendLocation()); dto.setBackupId(e.getBackupId());
+	 * 
+	 * return dto; }
+	 */
 
 	@Override
 	public String save(BackupDto backupDto) throws Exception {
@@ -93,6 +97,30 @@ public class BackupServiceImpl implements BackupService {
 		entity.setSendDate(sdf.parse(backupDto.getSendDate()));
 		entity.setSendLocation("");
 		return entity;
+	}
+
+	@Override
+	public BackupGridDto getBackupGridDto(BackupEntity e) throws Exception {
+		
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		  
+		  BackupGridDto dto = new BackupGridDto();
+		  try {
+			  dto.setAssetId(e.getAssetEntity().getAssetCode());
+		} catch (NullPointerException e2) {
+			// TODO: handle exception
+		}
+		  
+		/* dto.setAssetId(e.getAssetEntity().getAssetCode()); */
+		  dto.setHandoverTo(e.getHandOverTo()); dto.setRemark(e.getRemark());
+		  dto.setRepairId(e.getRepairEntity().getJobNo());
+		  dto.setReturnDate(simpleDateFormat.format(e.getReturnDate()));
+		  dto.setSendDate(simpleDateFormat.format(e.getSendDate()));
+		  dto.setSendLoc(e.getSendLocation()); dto.setBackupId(e.getBackupId());
+		  
+		  return dto;
+		 
+		
 	}
 
 

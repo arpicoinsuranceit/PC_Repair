@@ -60,7 +60,7 @@
                             <div class="row">
                                 <div class="col-md-6 col-xs-6">
                                     <label>Supplier</label>
-                                    <select class="form-control select2" style="width: 100%;" name="supplier" required />
+                                    <select class="form-control select2" style="width: 100%;" name="supplier" />
                                         <c:if test="${not empty suppliers}">
                                             <c:forEach items="${suppliers}" var="supplier">
                                                 <option value="${supplier.value}">${supplier.name}</option>
@@ -70,7 +70,7 @@
                                 </div>
                                 <div class="col-md-6 col-xs-6">
                                     <label>Location</label>
-                                    <select class="form-control select2" style="width: 100%;" name="location" required />
+                                    <select class="form-control select2" style="width: 100%;" name="location" />
                                         <c:if test="${not empty locations}">
                                             <c:forEach items="${locations}" var="location">
                                                 <option value="${location.value}">${location.name}</option>
@@ -91,7 +91,7 @@
                                 </div>
                                 <div class="col-md-6 col-xs-6">
                                     <label>Serial No</label>
-                                    <input type="text" class="form-control" name="serialNo" id="serialNo" placeholder="Enter Serial No" onkeyup="Procces(this)" required />
+                                    <input type="text" class="form-control" name="serialNo" id="serialNo" placeholder="Enter Serial No" onkeyup="Procces(this) & req(this)" required />
                                 </div>
                             </div>
                         </div>
@@ -100,7 +100,7 @@
                             <div class="row">
                                 <div class="col-md-6 col-xs-6">
                                     <label>IP Address</label>
-                                    <input type="text" class="form-control" name="ipAddress" id="ipAddress" placeholder="Enter IP Address" required />
+                                    <input type="text" class="form-control" name="ipAddress" id="ipAddress" placeholder="Enter IP Address" />
                                 </div>
                                 <div class="col-md-6 col-xs-6">
                                     <label>Operating System</label>
@@ -117,18 +117,18 @@
 
                         <div class="form-group">
                             <label>Asset Description</label>
-                            <textarea class="form-control" rows="3" name="description" placeholder="Enter ..." ></textarea>
+                            <textarea class="form-control" rows="3" id="ideiscription" name="description" placeholder="Enter ..." ></textarea>
                         </div>
 
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-6 col-xs-6">
                                     <label>Asset Value</label>
-                                    <input type="number" class="form-control" id="asset-value" name="value" placeholder="Enter Value" required />
+                                    <input type="number" class="form-control" id="asset-value" name="value" placeholder="Enter Value"  />
                                 </div>
                                 <div class="col-md-6 col-xs-6">
                                     <label>Purchase Date</label>
-                                    <input type="date" class="form-control" id="purchaseDate" name="purchaseDate" placeholder="Enter Purchase Date" required />
+                                    <input type="date" class="form-control" id="purchaseDate" name="purchaseDate" placeholder="Enter Purchase Date" />
                                 </div>
                             </div>
                         </div>
@@ -137,22 +137,22 @@
                             <div class="row">
                                 <div class="col-md-6 col-xs-6">
                                     <label>Remark</label>
-                                    <input type="text" class="form-control" id="remark" name="remark" placeholder="Enter Remark" required />
+                                    <input type="text" class="form-control" id="remark" name="remark" placeholder="Enter Remark" />
                                 </div>
                                 <div class="col-md-3 col-xs-6">
                                     <label>Warranty Period</label>
-                                    <input type="text" class="form-control" id="warranty" name="warranty" placeholder="Enter Warrenty" required />
+                                    <input type="text" class="form-control" id="warranty" name="warranty" placeholder="Enter Warrenty" />
                                 </div>
                                 <div class="col-md-3 col-xs-6">
                                     <label>Warranty Expired</label>
-                                    <input type="date" class="form-control" id="warrantyExp" name="warrantyExp" placeholder="Enter Warrenty" required />
+                                    <input type="date" class="form-control" id="warrantyExp" name="warrantyExp" placeholder="Enter Warrenty"  />
                                 </div>
                             </div>
                         </div>
 
                         <div class="box-footer">
                             <button type="button" id="cancel" class="btn btn-default" >Cancel</button>
-                            <button type="submit" disabled="true" id="button-addAsset" class="btn btn-info pull-right" ><i class="fa fa-plus"></i>&nbsp;Add Asset
+                            <button type="submit button" disabled="true" id="button-addAsset" class="btn btn-info pull-right" ><i class="fa fa-plus"></i>&nbsp;Add Asset
                             </button>
                         </div>
                     </form>
@@ -175,6 +175,16 @@
 
     <script type="application/javascript">
     
+    function req(color) {
+		
+		if ($('#serialNo').val() == '') {
+		    $('#serialNo').css('border-color', 'red');
+		}
+		else {
+		    $('#serialNo').css('border-color', '');
+		}
+		
+	}
     
     function Procces(txt) {
     	
@@ -191,23 +201,22 @@
     
         $('.select2').select2();
         
-        var a=$("#assestId").val();
-        var b=$("#serialNo").val();
-        var c=$("#ipAddress").val();
-        var d=$("#asset-value").val();
-        var e=$("#purchaseDate").val();
-        var f=$("#remark").val();
-        var g=$("#warranty").val();
-        var h=$("#warrantyExp").val();
+        
+       
 
         $("#button-addAsset").click(function () {
 
+        	var a=$("#serialNo").val();
+            var b=$("#assestId").val();
+        	
+        		 
             var data = "{";
             $("#form_add_asset .form-control").each(function () {
                 data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
             });
             
-            if(a !=='' && b !=='' && c!=='' && d!=='' && e!=='' && f!=='' && g!=='' && h!==''){
+            
+            if(a !=='' && b !==''){ 
             	
             var jsonString = data.substring(0, data.length - 1);
             jsonString += "}";
@@ -225,9 +234,9 @@
                     alert('Error');
                 }
             });
-            }else{
+             }else{
             	alert('Please Fill Missing Filds');
-            }
+            } 
         });
     </script>
 </body>

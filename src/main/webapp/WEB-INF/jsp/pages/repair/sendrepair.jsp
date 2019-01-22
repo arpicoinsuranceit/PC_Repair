@@ -36,10 +36,14 @@
 		font: bold;
 	}
 	
+	/* #sendingMethord{
+		
+		border-color: red;
+	} */
 </style>
 </head>
 
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini" onload="setSelectedData('${branch}')">
 
 	<div class="wrapper">
 		<jsp:include page="../../core/navigation.jsp"></jsp:include>
@@ -79,11 +83,11 @@
 
 						<div class="form-group">
 							<label>Reason</label> <input type="text" class="form-control"
-								name="reason" placeholder="Enter Reason" id="reasons" onKeyup="manage(this)" required />
+								name="reason" placeholder="Enter Reason" id="reasons" onKeyup="manage(this) & req(this)" required/>
 						</div>
 
 						<div class="form-group">
-							<label>From Location</label> <select class="form-control select2" id="Location" onChange="Location"
+							<label>From Location</label> <select class="form-control select2" id="fromLocation" onChange="Location"
 								style="width: 100%;" name="fromLocation" required />
 								<c:if test="${not empty locations}">
 									<c:forEach items="${locations}" var="location">
@@ -113,7 +117,7 @@
 						</div>
 
 						<div class="form-group">
-							<label>Courire Id</label> <input type="text" id="courireId" class="form-control" 
+							<label>Courire Id</label> <input type="text" id="courireId" class="form-control" onclick="click"
 								name="courierId" placeholder="Enter Courire Id" required oninvalid="this.setCustomValidity('Pleace Input Courire ID')" />
 								<span class="error" >Courire id is Requird</span>
 						</div>
@@ -151,10 +155,42 @@
 		<script src="${path}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script src="${path}/dist/js/adminlte.min.js"></script>
 		<script src="${path}/bower_components/select2/dist/js/select2.full.min.js"></script>
-		
+
 	
 		
 		<script type="application/javascript">
+	
+		function req(color) {
+			
+			if ($('#reasons').val() == '') {
+			    $('#reasons').css('border-color', 'red');
+			}
+			else {
+			    $('#reasons').css('border-color', '');
+			}
+			
+		}
+		
+		function  setSelectedData(data) {
+			
+			console.log('dsgshfhd');
+			 if(data == 'HO'){
+					
+					var dt = document.getElementById('toLocation');
+				
+					if(dt.value == 'Head Office'){
+						dt.attr('selected', 'selected');
+					}else{
+						dt.removeAttr('selected');
+					}
+
+				
+				}else{
+					
+
+			}	
+			
+		}
 		
 		
 		/* $("#contact_submit button").click(function(event) {
@@ -185,6 +221,7 @@
 				bt.disabled = true;
 			}
 		}
+		
 		
 		/* function ok() {
 			var a = document.getElementById("sendingMethord").required;
@@ -231,7 +268,7 @@
             });
         	
         	if(a !== "" && b !=="" && c !=="" && d !==""){
-        		
+
             var data = "{";
             $("#form_send_repair .form-control").each(function () {
                 data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
@@ -245,6 +282,7 @@
                 data: jsonString,
                 contentType: "application/json",
                 success: function (resp) {
+                	alert('Send Repair Added Succsess');
                     $("#modal-success").modal("show");
                     $("#form_send_repair").trigger("reset");
                 },

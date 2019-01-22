@@ -50,11 +50,12 @@
                                 <tr>
                                     <th>Repair Id</th>
                                     <th>Asset</th>
-                                    <th>Sent Date</th>
-                                    <th>Method</th>
+                                    <th>Send Methord</th>
                                     <th>Courier</th>
-                                    <th>Send From</th>
+                                    <th>From Location</th>
+                                    <th>To Location</th>
                                     <th>Hand Over to</th>
+                                    <th>Remark</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -66,11 +67,12 @@
                                 <tr>
                                     <th>Repair Id</th>
                                     <th>Asset</th>
-                                    <th>Sent Date</th>
-                                    <th>Method</th>
+                                    <th>Send Methord</th>
                                     <th>Courier</th>
-                                    <th>Send From</th>
+                                    <th>From Location</th>
+                                    <th>To Location</th>
                                     <th>Hand Over to</th>
+                                    <th>Remark</th>
                                     <th></th>
                                 </tr>
                                 </tfoot>

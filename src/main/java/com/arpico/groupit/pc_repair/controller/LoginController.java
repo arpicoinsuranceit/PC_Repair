@@ -49,14 +49,18 @@ public class LoginController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/getLogin",method = RequestMethod.GET)
-	@ResponseBody
-	public String getLogin() {
-		
-		LoginResponseDto loginResponseDto=	(LoginResponseDto) httpSession.getAttribute("user");
-		
-		return loginResponseDto.getUserName();
-	}
+	/*
+	 * @RequestMapping(value = "/getLogin",method = RequestMethod.GET) public String
+	 * getLogin() {
+	 * 
+	 * String x = "aravinda"; String y = "12345678";
+	 * 
+	 * context.setAttribute("path", path); LoginResponseDto loginResponseDto=
+	 * (LoginResponseDto) httpSession.getAttribute("user");
+	 * 
+	 * if(loginResponseDto.getUserName() ==x) { System.out.println("OK"); } return
+	 * "Fine"; }
+	 */
 	
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -65,9 +69,11 @@ public class LoginController {
 
 		LoginResponseDto loginResponseDto = loginService.login(userName, password);
 		
-			String a = "aravinda";
-			String b = "12345678";			
-			
+		/*
+		 * String a = "aravinda"; String b = "12345678";
+		 */			
+		
+		
 		
 
 		if (loginResponseDto.isLogin() == true) {

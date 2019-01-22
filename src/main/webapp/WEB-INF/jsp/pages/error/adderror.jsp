@@ -44,7 +44,7 @@
                     <form id="form_add_error">
                         <div class="form-group">
                             <label>Error Id</label>
-                            <input type="text" class="form-control" name="id" id="errorID" placeholder="Enter Error Id" onkeyup="Procces(this)" required />
+                            <input type="text" class="form-control" name="id" id="errorID" placeholder="Enter Error Id" onkeyup="Procces(this) & req(this)" required />
                         </div>
                         
                         <div class="form-group">
@@ -61,7 +61,7 @@
 
                         <div class="box-footer">
                             <button type="button" class="btn btn-default">Cancel</button>
-                            <button type="submit" id="button-addError" disabled="true" class="btn btn-info pull-right"><i class="fa fa-plus"></i>&nbsp;Add Error
+                            <button type="submit button" id="button-addError" disabled="true" class="btn btn-info pull-right"><i class="fa fa-plus"></i>&nbsp;Add Error
                             </button>
                         </div>
                     </form>
@@ -95,6 +95,17 @@
 			 dc.disabled = true;
 		 }
 		 
+	}
+    
+    function req(color) {
+		
+		if ($('#errorID').val() == '') {
+		    $('#errorID').css('border-color', 'red');
+		}
+		else {
+		    $('#errorID').css('border-color', '');
+		}
+		
 	}
     
         $("#button-addError").click(function () {

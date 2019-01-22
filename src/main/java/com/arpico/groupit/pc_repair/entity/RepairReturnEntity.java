@@ -2,11 +2,7 @@ package com.arpico.groupit.pc_repair.entity;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "REPAIR_RETURN")
@@ -47,6 +43,38 @@ public class RepairReturnEntity {
 	private String recivedBy;
 	
 	private RepairEntity repairEntity;
+
+	public RepairReturnEntity() {
+	}
+
+	public RepairReturnEntity(String repairReturnId, String fromLocation, String toLocation, String sendingMethod, String courierId, String handOverTo, String remark, Date sendDate, String sendBy, Date recivedDate, String recivedBy) {
+		this.repairReturnId = repairReturnId;
+		this.fromLocation = fromLocation;
+		this.toLocation = toLocation;
+		this.sendingMethod = sendingMethod;
+		this.courierId = courierId;
+		this.handOverTo = handOverTo;
+		this.remark = remark;
+		this.sendDate = sendDate;
+		this.sendBy = sendBy;
+		this.recivedDate = recivedDate;
+		this.recivedBy = recivedBy;
+	}
+
+	public RepairReturnEntity(String repairReturnId, String fromLocation, String toLocation, String sendingMethod, String courierId, String handOverTo, String remark, Date sendDate, String sendBy, Date recivedDate, String recivedBy, RepairEntity repairEntity) {
+		this.repairReturnId = repairReturnId;
+		this.fromLocation = fromLocation;
+		this.toLocation = toLocation;
+		this.sendingMethod = sendingMethod;
+		this.courierId = courierId;
+		this.handOverTo = handOverTo;
+		this.remark = remark;
+		this.sendDate = sendDate;
+		this.sendBy = sendBy;
+		this.recivedDate = recivedDate;
+		this.recivedBy = recivedBy;
+		this.repairEntity = repairEntity;
+	}
 
 	@Id
 	public String getRepairReturnId() {
@@ -105,7 +133,7 @@ public class RepairReturnEntity {
 		this.remark = remark;
 	}
 
-	@OneToOne(mappedBy = "repairReturnEntity" , targetEntity = RepairEntity.class)
+	@OneToOne(mappedBy = "repairReturnEntity" , targetEntity = RepairEntity.class,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	public RepairEntity getRepairEntity() {
 		return repairEntity;
 	}
