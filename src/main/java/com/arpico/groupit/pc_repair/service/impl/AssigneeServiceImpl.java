@@ -47,8 +47,11 @@ public class AssigneeServiceImpl implements AssigneeService {
 
 
     @Override
-    public String delete(String assigneeId) throws Exception {
-        return null;
+    public boolean delete(String assigneeId) throws Exception {
+
+        assigneeDao.delete(assigneeId);
+
+        return true;
     }
 
     @Override

@@ -88,13 +88,11 @@ public class ErrorController {
 
 				entity.add("<button type=\"button\" class=\"btn btn-default\" id=\"" + errorDto.getId()
 						+ "\" onclick = \"editError('" + errorDto.getId()
-						+ "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i></button>");
-				/*
-				 * entity.add("<button type=\"button\" class=\"btn btn-default\" id=\"" +
-				 * assigneeDto.getAssigneeId() + "\" onclick = \"deleteAssignee('" +
-				 * assigneeDto.getAssigneeId() +
-				 * "')\" ><i class=\"fa fa-trash\" aria-hidden=\"true\"></i></button>");
-				 */
+						+ "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i>&nbsp;Edit</button>");
+
+				entity.add("<button type=\"button\" class=\"btn btn-default btn-danger\" id=\"" + errorDto.getId()
+						+ "\" onclick = \"deleteError('" + errorDto.getId() + "')\" ><i class=\"fa fa-trash\" aria-hidden=\"true\"></i>&nbsp;Delete</button>");
+
 
 				entities.add(entity);
 			}
@@ -125,4 +123,9 @@ public class ErrorController {
 		return errorService.save(errorDro);
 	}
 
+	@RequestMapping(value = "/error",method = RequestMethod.DELETE)
+	@ResponseBody
+	public String deleteError(@RequestBody String errorId)throws Exception{
+		return errorService.delete(errorId);
+	}
 }

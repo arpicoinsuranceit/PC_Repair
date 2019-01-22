@@ -1,5 +1,6 @@
 package com.arpico.groupit.pc_repair.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -337,7 +338,6 @@ public class RepairController {
 			List entity = new ArrayList<>();
 
 			entity.add(repairReturnDto.getRepairReturnId());
-			entity.add(repairReturnDto.getAssetId());
 			entity.add(repairReturnDto.getSendingMethod());
 			entity.add(repairReturnDto.getCourierId());
 			entity.add(repairReturnDto.getFromLocation());
@@ -345,11 +345,9 @@ public class RepairController {
 			entity.add(repairReturnDto.getHandOverTo());
 			entity.add(repairReturnDto.getRemark());
 
-
-
 			try {
 
-                if (repairReturnDto.getStatus().equals(AppConstant.RETURN)) {
+                if (repairReturnDto.getStatus().equals(AppConstant.SEND)) {
                     entity.add("<button type=\"button\" class=\"btn btn-default\" id=\"" +
                             repairReturnDto.getStatus() + "\" onclick = \"repairReceived('" +
                             repairReturnDto.getStatus() +
@@ -364,7 +362,7 @@ public class RepairController {
                 }
 
             }catch (NullPointerException e){
-			    e.printStackTrace();
+
             }
 
 

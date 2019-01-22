@@ -45,7 +45,9 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public String delete(String supplierId) throws  Exception{
+
         supplierDao.delete(supplierId);
+
         return "201";
     }
 

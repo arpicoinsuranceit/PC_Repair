@@ -56,8 +56,8 @@ public class ErrorServiceImpl implements ErrorService{
 
 	@Override
 	public String delete(String errorId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		errorDao.delete(errorId);
+		return "Error Deleted";
 	}
 
 	@Override

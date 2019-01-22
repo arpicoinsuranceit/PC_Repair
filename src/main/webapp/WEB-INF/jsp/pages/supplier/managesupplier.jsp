@@ -58,6 +58,7 @@
                                     <th>Supplier Id</th>
                                     <th>Supplier Name</th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                                 </thead>
 
@@ -68,6 +69,7 @@
                                 <tr>
                                     <th>Supplier Id</th>
                                     <th>Supplier Name</th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                                 </tfoot>

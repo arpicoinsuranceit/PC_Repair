@@ -66,6 +66,7 @@
                                     <th>Warranty</th>
                                     <th>Supplier</th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                                 </thead>
 
@@ -84,6 +85,7 @@
                                     <th>Purchase Date</th>
                                     <th>Warranty</th>
                                     <th>Supplier</th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                                 </tfoot>

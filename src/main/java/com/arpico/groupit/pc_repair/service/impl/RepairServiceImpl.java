@@ -190,8 +190,8 @@ public class RepairServiceImpl implements RepairService {
 	  @Override 
 	  public List<RepairReturnDto> getReturnRepairs() throws Exception {
 	  List<String> param = new ArrayList<>();
-	  param.add(AppConstant.RETURN);
-	  param.add(AppConstant.RETURN_REC);
+	  param.add(AppConstant.SEND);
+	  param.add(AppConstant.SEND_REC);
 
 	  /*param.add(AppConstant.RETURN); param.add(AppConstant.RETURN_REC);
 	  param.add(AppConstant.COMPLETE);*/
@@ -211,13 +211,13 @@ public class RepairServiceImpl implements RepairService {
 
 		RepairReturnDto repairReturnDto = new RepairReturnDto();
 		repairReturnDto.setRepairReturnId(e.getRepairReturnId());
-		repairReturnDto.setAssetId(e.getRepairEntity().getAssetEntity().getAssetCode());
 		repairReturnDto.setSendingMethod(e.getSendingMethod());
 		repairReturnDto.setCourierId(e.getCourierId());
 		repairReturnDto.setFromLocation(e.getFromLocation());
 		repairReturnDto.setToLocation(e.getToLocation());
 		repairReturnDto.setHandOverTo(e.getHandOverTo());
 		repairReturnDto.setRemark(e.getRemark());
+
 
 		  System.out.println("ggggg" + e.getHandOverTo());
 

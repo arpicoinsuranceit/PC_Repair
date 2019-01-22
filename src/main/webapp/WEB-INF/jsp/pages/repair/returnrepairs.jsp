@@ -49,14 +49,13 @@
                                 <thead>
                                 <tr>
                                     <th>Repair Id</th>
-                                    <th>Asset</th>
                                     <th>Send Methord</th>
                                     <th>Courier</th>
                                     <th>From Location</th>
                                     <th>To Location</th>
                                     <th>Hand Over to</th>
                                     <th>Remark</th>
-                                    <th></th>
+
                                 </tr>
                                 </thead>
 
@@ -66,14 +65,13 @@
                                 <tfoot>
                                 <tr>
                                     <th>Repair Id</th>
-                                    <th>Asset</th>
                                     <th>Send Methord</th>
                                     <th>Courier</th>
                                     <th>From Location</th>
                                     <th>To Location</th>
                                     <th>Hand Over to</th>
                                     <th>Remark</th>
-                                    <th></th>
+
                                 </tr>
                                 </tfoot>
                             </table>

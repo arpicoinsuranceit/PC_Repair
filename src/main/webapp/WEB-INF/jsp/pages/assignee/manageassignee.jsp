@@ -58,6 +58,7 @@
                                     <th>Assignee Id</th>
                                     <th>Assignee Name</th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                                 </thead>
 
@@ -68,6 +69,7 @@
                                 <tr>
                                     <th>Assignee Id</th>
                                     <th>Assignee Name</th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                                 </tfoot>

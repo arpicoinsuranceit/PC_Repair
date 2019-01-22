@@ -20,6 +20,7 @@
 <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
 <link rel="stylesheet"
 	href="${path}/bower_components/select2/dist/css/select2.min.css">
+
 <title>${title}</title>
 <style type="text/css">
 	
@@ -155,8 +156,8 @@
 		<script src="${path}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script src="${path}/dist/js/adminlte.min.js"></script>
 		<script src="${path}/bower_components/select2/dist/js/select2.full.min.js"></script>
+		<script src="${path}/dist/js/sweetalert.min.js"></script>
 
-	
 		
 		<script type="application/javascript">
 	
@@ -282,16 +283,15 @@
                 data: jsonString,
                 contentType: "application/json",
                 success: function (resp) {
-                	alert('Send Repair Added Succsess');
-                    $("#modal-success").modal("show");
+                   $("#modal-success").modal("show");
                     $("#form_send_repair").trigger("reset");
                 },
                 error: function () {
-                    alert('Error');
+					alert('Opps Error Occerd Try Again');
                 }
             });
         	}else{
-        		alert("Pleace Fill Missing Filds");
+				alert('Please Fill Missing Filds');
         	}
         });
     

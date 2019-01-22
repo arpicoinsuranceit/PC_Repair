@@ -12,7 +12,7 @@ public interface AssigneeService {
 
     List<AssigneeDto> getAll () throws  Exception;
 
-    String delete(String assigneeId) throws  Exception;
+    boolean delete(String assigneeId) throws  Exception;
 
     AssigneeDto get(String id) throws  Exception;
 

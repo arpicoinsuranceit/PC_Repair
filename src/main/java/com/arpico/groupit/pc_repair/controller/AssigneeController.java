@@ -80,9 +80,10 @@ public class AssigneeController {
                 entity.add(assigneeDto.getAssigneeName());
 
                 entity.add("<button type=\"button\" class=\"btn btn-default\" id=\"" + assigneeDto.getAssigneeId()
-                        + "\" onclick = \"editAssignee('" + assigneeDto.getAssigneeId() + "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i></button>");
-                /*entity.add("<button type=\"button\" class=\"btn btn-default\" id=\"" + assigneeDto.getAssigneeId()
-                        + "\" onclick = \"deleteAssignee('" + assigneeDto.getAssigneeId() + "')\" ><i class=\"fa fa-trash\" aria-hidden=\"true\"></i></button>");*/
+                        + "\" onclick = \"editAssignee('" + assigneeDto.getAssigneeId() + "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i>&nbsp;Edit</button>");
+                entity.add("<button type=\"button\" class=\"btn btn-default btn-danger\" id=\"" + assigneeDto.getAssigneeId()
+                        + "\" onclick = \"deleteAssignee('" + assigneeDto.getAssigneeId() + "')\" ><i class=\"fa fa-trash\" aria-hidden=\"true\"></i>&nbsp;Delete</button>");
+
 
                 entities.add(entity);
             }
@@ -102,7 +103,7 @@ public class AssigneeController {
 
     @RequestMapping(value = "/assignee", method = RequestMethod.DELETE)
     @ResponseBody
-    public String deleteAssignee (@RequestBody String assigneeId) throws Exception {
+    public boolean deleteAssignee (@RequestBody String assigneeId) throws Exception {
 
         return assigneeService.delete(assigneeId);
     }

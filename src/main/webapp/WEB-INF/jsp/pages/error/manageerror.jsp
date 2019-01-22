@@ -59,6 +59,7 @@
                                     <th>Error Name</th>
                                     <th>Error Description</th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                                 </thead>
 
@@ -70,6 +71,7 @@
                                     <th>Error Id</th>
                                     <th>Error Name</th>
                                     <th>Error Description</th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                                 </tfoot>
@@ -135,12 +137,34 @@
     <script src="${path}/bower_components/fastclick/lib/fastclick.js"></script>
 
     <script type="application/javascript">
+
+        function deleteError(id) {
+            $("#txt-delete-id").val(id);
+            $("#modal-danger").modal('show');
+        }
+
         var table = $('#table_error').DataTable({
             "pageLength": 10,
             "ajax": "${path}/all_error_dt"
 
         });
-        
+
+        $("#button-delete").click(function () {
+            $.ajax({
+                type: 'DELETE',
+                url: '${path}/error',
+                data:$("#txt-delete-id").val(),
+                success:function () {
+                    $('#modal-danger').modal('hide');
+                    $('#modal-success').modal('show');
+                    table.ajax.reload();
+                },
+                error:function () {
+                    alert('Error Occerd Try Again');
+                }
+            });
+        });
+
         function editError(id) {
             window.location.replace("${path}/edit_error/"+id);
         }
