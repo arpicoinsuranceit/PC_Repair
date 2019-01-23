@@ -92,8 +92,10 @@ public class PartsServiceImpl implements PartsService {
 
 	@Override
 	public String delete(String partId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+
+		partsDao.delete(partId);
+
+		return "Deleted Succsess";
 	}
 
 	@Override

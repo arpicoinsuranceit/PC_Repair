@@ -96,10 +96,14 @@ public class BackupController {
     			entity.add(e.getRemark());
     			entity.add(e.getHandoverTo());
     			
-    			entity.add("<button type=\"button\" class=\"btn btn-default\" id=\"" + e.getBackupId()
+    			entity.add("<button type=\"button\" class=\"btn btn-info\" id=\"" + e.getBackupId()
 				+ "\" onclick = \"editBackup('" + e.getBackupId()
-				+ "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i></button>");
-    			
+				+ "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i>&nbsp;Edit</button>");
+
+				entity.add("<button type=\"button\" class=\"btn btn-danger\" id=\"" + e.getBackupId()
+						+ "\" onclick = \"deleteBackup('" + e.getBackupId()
+						+ "')\" ><i class=\"fa fa-trash\" aria-hidden=\"true\"></i>&nbsp;Delete</button>");
+
     			entities.add(entity);
     		});
     	}
@@ -112,11 +116,13 @@ public class BackupController {
     @RequestMapping(value = "/backup", method = RequestMethod.POST)
 	@ResponseBody
 	public String addError(@RequestBody BackupDto backupDto) throws Exception {
-
-    	
-    	
 		return backupService.save(backupDto);
-		
 	}
-	
+
+	@RequestMapping(value = "/backup",method = RequestMethod.DELETE)
+	@ResponseBody
+	public boolean deleteBackup(@RequestBody String backupId)throws Exception{
+    	return backupService.delete(backupId);
+	}
+
 }

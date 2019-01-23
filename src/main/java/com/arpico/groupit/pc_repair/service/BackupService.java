@@ -12,7 +12,7 @@ public interface BackupService {
 
 	String save(BackupDto backupDto) throws Exception;
 	
-	
+	boolean delete(String backupId) throws Exception;
 
 	BackupGridDto getBackupGridDto(BackupEntity e) throws Exception;
 

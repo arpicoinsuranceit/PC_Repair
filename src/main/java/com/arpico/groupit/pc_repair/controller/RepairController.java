@@ -345,25 +345,25 @@ public class RepairController {
 			entity.add(repairReturnDto.getHandOverTo());
 			entity.add(repairReturnDto.getRemark());
 
-			try {
 
-                if (repairReturnDto.getStatus().equals(AppConstant.SEND)) {
-                    entity.add("<button type=\"button\" class=\"btn btn-default\" id=\"" +
-                            repairReturnDto.getStatus() + "\" onclick = \"repairReceived('" +
-                            repairReturnDto.getStatus() +
-                            "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i><span>&nbsp;&nbsp;RECEIVED</span></button>"
-                    ); } else {
-                    entity.add("<button disabled type=\"button\" class=\"btn btn-default\" id=\""
-                            + repairReturnDto.getRepairId() + "\" onclick = \"repairReceived('" +
-                            repairReturnDto.getRepairId() +
-                            "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i><span>&nbsp;&nbsp;RECEIVED</span></button>"
+
+
+                    entity.add("<button type=\"button\" class=\"btn btn-info\" id=\"" +
+                            repairReturnDto.getRepairReturnId() + "\" onclick = \"repairReceived('" +
+							repairReturnDto.getRepairReturnId() +
+                            "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i><span>&nbsp;RECEIVED</span></button>"
+                    );
+                    entity.add("<button  type=\"button\" class=\"btn btn-danger\" id=\""
+                            + repairReturnDto.getRepairReturnId() + "\" onclick = \"deleteReturn('" +
+							repairReturnDto.getRepairReturnId() +
+                            "')\" ><i class=\"fa fa-trash\" aria-hidden=\"true\"></i><span>&nbsp;Delete</span></button>"
                     );
 
-                }
 
-            }catch (NullPointerException e){
 
-            }
+
+
+
 
 
 			 
@@ -420,6 +420,12 @@ public class RepairController {
 	@ResponseBody
 	public String receivedRepairReturn(@PathVariable String id) throws Exception {
 		return repairSendService.received(id, AppConstant.RETURN_REC);
+	}
+
+	@RequestMapping(value = "/returnRepair" , method = RequestMethod.DELETE)
+	@ResponseBody
+	public String deleteReturn(@RequestBody String repairReturnId)throws Exception{
+		return repairReturnService.delete(repairReturnId);
 	}
 
 	@RequestMapping(value = "/addAssigneeToRepair/{repairId}/{id}", method = RequestMethod.GET)

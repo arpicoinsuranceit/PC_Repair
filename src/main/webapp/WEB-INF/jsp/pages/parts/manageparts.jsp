@@ -52,7 +52,7 @@
                         </div>
                         <div class="box-body">
 
-                            <table id="table_parts" class="table table-bordered">
+                            <table id="table_parts" class="table table-bordered col-10" >
                                 <thead>
                                 <tr>
                                    <!--  <th>Part Id</th> -->
@@ -63,6 +63,7 @@
                                     <th>Purchase Date</th>
                                     <th>Warranty</th>
                                     <th>Supplier</th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -80,6 +81,7 @@
                                     <th>Purchase Date</th>
                                     <th>Warranty</th>
                                     <th>Supplier</th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                                 </tfoot>
@@ -145,10 +147,33 @@
     <script src="${path}/bower_components/fastclick/lib/fastclick.js"></script>
 
     <script type="application/javascript">
+
         var table = $('#table_parts').DataTable({
             "pageLength": 10,
             "ajax": "${path}/all_parts_dt"
         });
+
+        function deletePart(id) {
+            $("#txt-delete-id").val(id);
+            $("#modal-danger").modal('show');
+        }
+
+        $("#button-delete").click(function () {
+            $.ajax({
+                type:'DELETE',
+                url:'${path}/parts',
+                data:$("#txt-delete-id").val(),
+                success:function () {
+                    $('#modal-danger').modal('hide');
+                    $('#modal-success').modal('show');
+                    table.ajax.reload();
+                },
+                error:function () {
+                    alert('Opps Error Occerd Try Again');
+                }
+            });
+        });
+
         function editPart(id) {
             window.location.replace("${path}/edit_part/"+id);
         }

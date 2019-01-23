@@ -120,15 +120,15 @@ public class PartsController {
 				entity.add(partsDto.getWarrentyExp());
 				entity.add(partsDto.getSupplier());
 
-				entity.add("<button type=\"button\" class=\"btn btn-default\" id=\"" + partsDto.getPartId()
+				entity.add("<button type=\"button\" class=\"btn btn-info\" id=\"" + partsDto.getPartId()
 						+ "\" onclick = \"editPart('" + partsDto.getPartId()
-						+ "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i></button>");
-				/*
-				 * entity.add("<button type=\"button\" class=\"btn btn-default\" id=\"" +
-				 * assigneeDto.getAssigneeId() + "\" onclick = \"deleteAssignee('" +
-				 * assigneeDto.getAssigneeId() +
-				 * "')\" ><i class=\"fa fa-trash\" aria-hidden=\"true\"></i></button>");
-				 */
+						+ "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i>&nbsp;Edit</button>");
+
+				  entity.add("<button type=\"button\" class=\"btn btn-danger\" id=\"" +
+						  partsDto.getPartId() + "\" onclick = \"deletePart('" +
+						  partsDto.getPartId() +
+				 "')\" ><i class=\"fa fa-trash\" aria-hidden=\"true\"></i>&nbsp;Delete</button>");
+
 
 				entities.add(entity);
 			}
@@ -152,7 +152,13 @@ public class PartsController {
     public String editPart (@RequestBody PartsDto partsDto) throws Exception {
         return partsService.save(partsDto);
     }
-	
+
+    @RequestMapping(value = "/parts",method = RequestMethod.DELETE)
+	@ResponseBody
+    public String deletePart(@RequestBody String partId)throws Exception{
+		return partsService.delete(partId);
+	}
+
 	@RequestMapping(value = "/searchPartSerial/{value}", method = RequestMethod.GET)
 	@ResponseBody
 	public List<PartsDto> searchPartSerial(@PathVariable String value) throws Exception {

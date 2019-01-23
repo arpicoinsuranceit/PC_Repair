@@ -83,6 +83,14 @@ public class BackupServiceImpl implements BackupService {
 		return null;
 	}
 
+	@Override
+	public boolean delete(String backupId) throws Exception {
+
+		backupDao.delete(backupId);
+
+		return true;
+	}
+
 	private BackupEntity getBackupEntity(BackupDto backupDto, AssetEntity assetEntity, RepairEntity repairEntity) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		

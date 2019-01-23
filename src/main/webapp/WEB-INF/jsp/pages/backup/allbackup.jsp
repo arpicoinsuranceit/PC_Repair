@@ -52,7 +52,7 @@
                         </div>
                         <div class="box-body">
 
-                            <table id="table_assignee" class="table table-bordered">
+                            <table id="table_assignee" class="table table-bordered col-10" >
                                 <thead>
                                 <tr>
                                     <th>Repair ID</th>
@@ -61,6 +61,7 @@
                                     <th>Return Date</th>
                                     <th>Remark</th>
                                     <th>Hand Over to</th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -76,6 +77,7 @@
                                     <th>Return Date</th>
                                     <th>Remark</th>
                                     <th>Hand Over to</th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                                 </tfoot>
@@ -147,7 +149,7 @@
 
         });
 
-        function deleteAssignee(id) {
+        function deleteBackup(id) {
             $("#txt-delete-id").val(id);
             $('#modal-danger').modal('show');
         }
@@ -155,7 +157,7 @@
         $("#button-delete").click(function () {
             $.ajax({
                 type: 'DELETE',
-                url: '${path}/assignee',
+                url: '${path}/backup',
                 data: $("#txt-delete-id").val(),
                 success: function () {
                     $('#modal-danger').modal('hide');

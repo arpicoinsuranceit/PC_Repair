@@ -10,7 +10,7 @@ public interface RepairReturnService {
 
     String save(RepairReturnDto repairReturnDto) throws Exception;
 
-    String delete(String id) throws Exception;
+    String delete(String repairReturnId) throws Exception;
 
     RepairReturnDto get(String id) throws Exception;
 

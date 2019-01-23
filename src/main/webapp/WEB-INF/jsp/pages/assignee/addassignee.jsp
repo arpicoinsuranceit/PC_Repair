@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="${path}/bower_components/Ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
+
     <style type="text/css">
     	
     	.error{
@@ -66,13 +67,14 @@
                         <div class="form-group">
                             <label>Assignee Name</label>
                             <input type="text" class="form-control" name="assigneeName"
-                                   placeholder="Enter Assignee Name" id="AssigneeName" required oninvalid="this.setCustomValidity('Pleace Input Assignee Name')" />
+                                   placeholder="Enter Assignee Name" id="AssigneeName" required oninvalid="this.setCustomValidity('')" />
                                    <span class="error" id="spnAssigneeName">Assignee Name Is Required</span>
                         </div>
 
                         <div class="box-footer">
                             <button type="button" class="btn btn-default" id="cancel">Cancel</button>
-                            <button type="submit" id="button-addassignee" disabled="true" class="btn btn-info pull-right"  ><i class="fa fa-plus"></i>&nbsp;Add Assignee
+                            <button type="button" id="button-addassignee" disabled="true" class="btn btn-info pull-right"  ><i class="fa fa-plus"></i>&nbsp;Add Assignee
+
                             </button>
                         </div>
                     </form>
@@ -92,6 +94,8 @@
     <script src="${path}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="${path}/dist/js/adminlte.min.js"></script>
 	<script src="${path}/dist/js/notify.min.js"></script>
+        <script src="${path}/dist/js/sweetalert.min.js"></script>
+
     <script type="application/javascript">
 
 	function req(color) {
@@ -141,18 +145,17 @@
                 data: jsonString,
                 contentType: "application/json",
                 success: function (resp) {
-                	
-                	$.notify("Assignee Added Succsess");
-                	
-                    /* $("#modal-success").modal("show"); */
+
+                    /* $("#modal-success").modal("show");*/
+                    swal("Assignee!", "Succsess Fully Added!", "success");
                     $("#form_add_assignee").trigger("reset");
                 },
                 error: function () {
-                    alert('Error');
+                    swal("OOPS!", " Error Occurd Try Again!", "error");
                 }
             });
             }else{
-            	alert('Please Fill Missing Fillds');
+                alert('Please Fill Missing Filds');
             }
         });
     </script>

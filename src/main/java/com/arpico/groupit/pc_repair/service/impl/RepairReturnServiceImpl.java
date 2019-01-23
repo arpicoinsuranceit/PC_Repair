@@ -149,9 +149,9 @@ public class RepairReturnServiceImpl implements RepairReturnService{
 	 
 
 	@Override
-	public String delete(String id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public String delete(String repairReturnId) throws Exception {
+		repairReturnsDao.delete(repairReturnId);
+		return "deleted";
 	}
 
 	@Override

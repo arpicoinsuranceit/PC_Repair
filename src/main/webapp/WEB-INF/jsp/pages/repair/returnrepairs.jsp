@@ -55,6 +55,8 @@
                                     <th>To Location</th>
                                     <th>Hand Over to</th>
                                     <th>Remark</th>
+                                    <th></th>
+                                    <th></th>
 
                                 </tr>
                                 </thead>
@@ -71,6 +73,8 @@
                                     <th>To Location</th>
                                     <th>Hand Over to</th>
                                     <th>Remark</th>
+                                    <th></th>
+                                    <th></th>
 
                                 </tr>
                                 </tfoot>
@@ -136,10 +140,33 @@
     <script src="${path}/bower_components/fastclick/lib/fastclick.js"></script>
 
     <script type="application/javascript">
+
         var table = $('#table_send_repair').DataTable({
             "pageLength": 10,
             "ajax": "${path}/all_return_repair_dt"
 
+        });
+
+        function deleteReturn(id) {
+            $("#txt-delete-id").val(id);
+            $("#modal-danger").modal('show');
+        }
+    
+        $("#button-delete").click(function () {
+
+            $.ajax({
+                type:'DELETE',
+                url:'${path}/returnRepair',
+                data:$("#txt-delete-id").val(),
+                success:function () {
+                    $('#modal-danger').modal('hide');
+                    $('#modal-success').modal('show');
+                    table.ajax.reload();
+                },
+                error:function () {
+                    alert('OOPS Error Occerd Try Again');
+                }
+            });
         });
 
         function repairReceived(id){
