@@ -18,9 +18,13 @@ public interface RepairDao extends CrudRepository<RepairEntity, String>{
 	@Query("SELECT coalesce(max(r.jobNo), 10000) FROM RepairEntity r")
 	Integer findOneOrderByJobNo() throws Exception;
 	
-	@Query("SELECT count(r.jobNo) FROM RepairEntity r WHERE r.status in ?1")
+	
+    @Query("SELECT count(r.jobNo) FROM RepairEntity r WHERE r.status in ?1")
 	Integer findOnGoing(List<String> status) throws Exception;
-
+	 
+ 
+    
+    
 	@Query("SELECT count(r.jobNo) FROM RepairEntity r WHERE r.status = ?1")
 	Integer findCompleted(String status) throws Exception;
 

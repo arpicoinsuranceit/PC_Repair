@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="${path}/dist/css/CustomStyles.css">
     <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
+    <link rel="stylesheet" href="${path}/dist/css/animate.css">
     <title>${title}</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -34,7 +35,7 @@
             </ol>
         </section>
 
-        <section class="content container-fluid">
+        <section class="content container-fluid animated fadeInLeft">
 
             <div class="row">
                 <div class="col-md-3 col-sm-3 col-xs-6">

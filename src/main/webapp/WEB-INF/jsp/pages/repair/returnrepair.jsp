@@ -20,6 +20,7 @@
 <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
 <link rel="stylesheet"
 	href="${path}/bower_components/select2/dist/css/select2.min.css">
+<link rel="stylesheet" href="${path}/dist/css/animate.css">
 
 <style type="text/css">
 	
@@ -30,6 +31,14 @@
 		
 	}
 
+	#cancel a:hover{
+		font-weight: bold;
+		color: white;
+	}
+
+	#cancel:hover{
+		background-color: red;
+	}
 </style>
 
 <title>${title}</title>
@@ -39,7 +48,7 @@
 	<div class="wrapper">
 		<jsp:include page="../../core/navigation.jsp"></jsp:include>
 
-		<div class="content-wrapper">
+		<div class="content-wrapper animated fadeInLeft">
 			<section class="content-header">
 			<h1>
 				REPAIR <small>RETURN REPAIR</small>
@@ -121,7 +130,7 @@
 						</div>
 
 						<div class="box-footer">
-							<button type="button" class="btn btn-default">Cancel</button>
+							<button type="button" id="cancel" class="btn btn-default"><a href="${path}/home">Cancel</a></button>
 							
 							<button type="submit button" id="button-addRepair" disabled="true"
 								class="btn btn-info pull-right">Return Repair</button>

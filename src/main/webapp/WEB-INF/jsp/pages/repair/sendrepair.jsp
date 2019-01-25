@@ -20,6 +20,7 @@
 <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
 <link rel="stylesheet"
 	href="${path}/bower_components/select2/dist/css/select2.min.css">
+	 <link rel="stylesheet" href="${path}/dist/css/animate.css">
 
 <title>${title}</title>
 <style type="text/css">
@@ -33,23 +34,22 @@
 	#cancel:hover{
 		
 		background-color: red;
-		color: white;
-		font: bold;
 	}
-	
-	/* #sendingMethord{
-		
-		border-color: red;
-	} */
+
+	#cancel a:hover{
+		font-weight: bold;
+		color: white;
+	}
+
 </style>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini" onload="setSelectedData('${branch}')">
 
-	<div class="wrapper">
+	<div class="wrapper animate slideInLeft">
 		<jsp:include page="../../core/navigation.jsp"></jsp:include>
 
-		<div class="content-wrapper">
+		<div class="content-wrapper animated fadeInLeft">
 			<section class="content-header">
 			<h1>
 				REPAIR <small>SEND REPAIR</small>
@@ -70,7 +70,7 @@
 				</div>
 
 				<div class="box-body">
-					<form id="form_send_repair">
+					<form id="form_send_repair" name="sendRepair" onsubmit = "return(validate());">
 						<div class="form-group">
 							<label>Asset Id</label> <select class="form-control select2"
 								style="width: 100%;" name="assetId">
@@ -84,7 +84,7 @@
 
 						<div class="form-group">
 							<label>Reason</label> <input type="text" class="form-control"
-								name="reason" placeholder="Enter Reason" id="reasons" onKeyup="manage(this) & req(this)" required/>
+								name="reason" placeholder="Enter Reason" id="reasons"  title="Reason Is Required" onKeyup="manage(this) & req(this)" required/>
 						</div>
 
 						<div class="form-group">
@@ -103,7 +103,7 @@
 								style="width: 100%;" name="toLocation" id="toLocation" onchange="toLocation" required>
 								<c:if test="${not empty locations}" >
 									<c:forEach items="${locations}" var="location">
-										<option value="${location.value}" id="toLocation">${location.name}</option>
+										<option value="${location.value}" >${location.name}</option>
 									</c:forEach>
 								</c:if>
 							</select>
@@ -113,29 +113,29 @@
 							<label>Sending Method</label> <input type="text" id="sendingMethord" 
 							
 								class="form-control" name="sendingMethod"
-								placeholder="Enter Sending Method" required oninvalid="this.setCustomValidity('Pleace Input Sending Methord')"/>
+								placeholder="Enter Sending Method" title="Sending Methord Is Required" required oninvalid="this.setCustomValidity('Sending Methord Is Required')"/>
 								<span class="error" >Sending Method is Requird</span>
 						</div>
 
 						<div class="form-group">
 							<label>Courire Id</label> <input type="text" id="courireId" class="form-control" onclick="click"
-								name="courierId" placeholder="Enter Courire Id" required oninvalid="this.setCustomValidity('Pleace Input Courire ID')" />
+								name="courierId" placeholder="Enter Courire Id" title="CourireId Is Required" required oninvalid="this.setCustomValidity('CourireID Is Required')" />
 								<span class="error" >Courire id is Requird</span>
 						</div>
 
 						<div class="form-group">
-							<label>Remark</label> <input type="text" class="form-control" id="remark" 
-								name="remark" placeholder="Enter Remark" required oninvalid="this.setCustomValidity('Pleace Input Remark')"/>
-								<span class="error">Remark is Requird</span>
+							<label>Remark</label> <input type="text" class="form-control" id="remark"
+								name="remark" placeholder="Enter Remark" required oninvalid="this.setCustomValidity('Remark Is Required')" />
+
 						</div>
 
 						<div class="box-footer">
-							<button type="button" class="btn btn-default" id="cancel">Cancel</button>
+							<button type="button" class="btn btn-default" id="cancel"><a href="${path}/home">Cancel</a></button>
 							
 							<div id="contact_submit">
 							
 							<button type="submit" id="button-addRepair"
-								class="btn btn-info pull-right" disabled="true" onclick="ok()"><i class="fa fa-paper-plane"></i>&nbsp;Send Repair</button>
+								class="btn btn-info pull-right" disabled="true" ><i class="fa fa-paper-plane"></i>&nbsp;Send Repair</button>
 								</div>
 							
 						</div>
@@ -157,7 +157,7 @@
 		<script src="${path}/dist/js/adminlte.min.js"></script>
 		<script src="${path}/bower_components/select2/dist/js/select2.full.min.js"></script>
 		<script src="${path}/dist/js/sweetalert.min.js"></script>
-
+		<script src="${path}/dist/js/jquery.validate.min.js"></script>
 		
 		<script type="application/javascript">
 	
@@ -251,51 +251,109 @@
 		$('.select2').select2();
 			
 
-        $("#button-addRepair").click(function () {
+        /* $("#button-addRepair").click(function () { */
 
-        	var a=$("#reasons").val();
+        	/*$('#form_send_repair').validate();*/
+
+            /* var res= document.forms["form_send_repair"]["reasons"];
+            var sen = document.forms["form_send_repair"]["sendingMethord"];
+            var cou = document.forms["form_send_repair"]["courireId"];
+            var rem = document.forms["form_send_repair"]["remark"];
+ */
+        	 var a=$("#reasons");
         	
-        	var b=$("#sendingMethord").val();
+        	var b=$("#sendingMethord");
         	
-        	var c=$("#courireId").val();
+        	var c=$("#courireId");
        
-        	var d=$("#remark").val();
-        	
-        	$("#form_send_repair .form-control").each(function () {
-        		
-        		
-        		
-                data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
-            });
-        	
-        	if(a !== "" && b !=="" && c !=="" && d !==""){
+        	var d=$("#remark");
 
-            var data = "{";
-            $("#form_send_repair .form-control").each(function () {
-                data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
-            });
-            var jsonString = data.substring(0, data.length - 1);
-            jsonString += "}";
+        	var main=$("#form_send_repair");
 
-            $.ajax({
-                type: 'POST',
-                url: '${path}/send_repair',
-                data: jsonString,
-                contentType: "application/json",
-                success: function (resp) {
-                   $("#modal-success").modal("show");
-                    $("#form_send_repair").trigger("reset");
-                },
-                error: function () {
-					alert('Opps Error Occerd Try Again');
-                }
-            });
-        	}else{
-				alert('Please Fill Missing Filds');
-        	}
+        	
+        	/*
+        	if (res.value != '' && sen.value != '' && cou.value !='' & rem.value !='') {
+
+                res.focus();
+                sen.focus();
+                cou.focus();
+                rem.focus();
+
+
+            }else {
+                alert('Please Fill Missing Filds');
+            }
         });
-    
+     */
 		
+        function validate() {
+        	
+			$("#form_send_repair .form-control").each(function () {
+        		
+        		
+        		
+                data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
+            });
+			
+			
+        	if(document.sendRepair.reason.value == ""){
+        		window.alert("Reson Is Requierd");
+        		document.sendRepair.reason.Focus();
+        		document.sendRepair.reason.addClass('animated shake');
+        		document.sendRepair.reason.css('border-color','red');
+        		return false;
+        	}
+        	if(document.sendRepair.sendingMethod.value == ""){
+        		window.alert("Sending Methord Is Requierd");
+        		document.sendRepair.sendingMethod.addClass('animated shake');
+        		document.sendRepair.sendingMethod.css('border-color','red');
+        		document.sendRepair.sendingMethod.focus();
+        		return false;
+        	}
+        	if(document.sendRepair.courierId.value == ""){
+        		window.alert("CourierID is Requierd");
+        		document.sendRepair.courierId.addClass('animated shake');
+        		document.sendRepair.courierId.css('border-color','red');
+        		document.sendRepair.courierId.focus();
+        		return false;
+        	}
+        	if(document.sendRepair.remark.value == ""){
+        		window.alert('Remark Is Requierd');
+        		document.sendRepair.remark.addClass('animated shake');
+        		document.sendRepair.remark.css('border-color','red');
+        		document.sendRepair.remark.focus();
+        		return false;
+        		
+        	}else{
+        		
+                var data = "{";
+                $("#form_send_repair .form-control").each(function () {
+                    data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
+                });
+                var jsonString = data.substring(0, data.length - 1);
+                jsonString += "}";
+
+                $.ajax({
+                    type: 'POST',
+                    url: '${path}/send_repair',
+                    data: jsonString,
+                    contentType: "application/json",
+                    success: function (resp) {
+                        $("#modal-success").modal("show");
+                        $("#form_send_repair").trigger("reset");
+                    },
+                    error: function () {
+                        alert('Opps Error Occerd Try Again');
+                    }
+                });
+                
+                alert('Repair Send Succsess');
+        		
+        		
+        	}
+        	
+		}
+        
 		
 		</script>
 </body>

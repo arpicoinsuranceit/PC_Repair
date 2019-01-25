@@ -15,15 +15,19 @@
 
     <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
+    <link rel="stylesheet" href="${path}/dist/css/animate.css">
 	
 	<style type="text/css">
 	
 		#cancel:hover{
 		
 		background-color: red;
-		color: white;
-		font: bold;
+
 	}
+        #cancel a:hover{
+            font-weight: bold;
+            color: white;
+        }
 	
 	</style>
 	
@@ -31,10 +35,10 @@
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 
-<div class="wrapper">
+<div class="wrapper animate slideInLeft">
     <jsp:include page="../../core/navigation.jsp"></jsp:include>
 
-    <div class="content-wrapper">
+    <div class="content-wrapper animated fadeInLeft">
         <section class="content-header">
             <h1>
                 PARTS
@@ -121,8 +125,8 @@
                         </div>
 
                         <div class="box-footer">
-                            <button type="button" id="cancel" class="btn btn-default">Cancel</button>
-                            <button type="submit button" id="button-addAsset" class="btn btn-info pull-right"  disabled="true"><i class="fa fa-plus"></i>&nbsp;Add Part
+                            <button type="button" id="cancel" class="btn btn-default"><a href="${path}/home">Cancel</a></button>
+                            <button type="button" id="button-addAsset" class="btn btn-info pull-right"  disabled="true"><i class="fa fa-plus"></i>&nbsp;Add Part
                             </button>
                         </div>
                     </form>
@@ -174,36 +178,46 @@
 
         $("#button-addAsset").click(function () {
 
+    	    var ab = document.forms["form_add_part"]["name"];
         	
-        	var a=$('#name').val();
-        	var b=$('#partValue').val();
-        	var c=$('#remark').val();
-        	var d=$('#warrantyDe').val();
+        	
+        	var a=$('#name');
+        	var b=$('#partValue');
+        	var c=$('#remark');
+        	var d=$('#warrantyDe');
         	
             var data = "{";
             $("#form_add_part .form-control").each(function () {
                 data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
             });
             
-            if(a !=="" && b !=="" && c !=="" && d !==""){
-            var jsonString = data.substring(0, data.length - 1);
-            jsonString += "}";
-
-            $.ajax({
-                type: 'POST',
-                url: '${path}/parts',
-                data: jsonString,
-                contentType: "application/json",
-                success: function (resp) {
-                    $("#modal-success").modal("show");
-                    $("#form_add_part").trigger("reset");
-                },
-                error: function () {
-                    alert('Error');
-                }
-            });
+            if(ab.value == ""){
+            	
+            	a.focus();
+            	a.css('border-color','red');
+            	a.addClass('animated shake');
+            
             }else{
             	alert("Pleace Fill Missing Filds");
+            	
+            	
+            	var jsonString = data.substring(0, data.length - 1);
+                jsonString += "}";
+
+                $.ajax({
+                    type: 'POST',
+                    url: '${path}/parts',
+                    data: jsonString,
+                    contentType: "application/json",
+                    success: function (resp) {
+                        $("#modal-success").modal("show");
+                        $("#form_add_part").trigger("reset");
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+                
             }
         });
     </script>

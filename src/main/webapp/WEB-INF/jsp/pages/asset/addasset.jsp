@@ -15,27 +15,32 @@
 
     <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
+     <link rel="stylesheet" href="${path}/dist/css/animate.css">
 
 	<style type="text/css">
 		
 		#cancel:hover{
 		
 		background-color: red;
-		color: white;
-		font: bold;
+
 	}
-		
+
+        #cancel a:hover{
+            font-weight: bold;
+            color: white;
+        }
+
 	</style>
 
     <title>${title}</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 
-<div class="wrapper">
+<div class="wrapper slideInLeft">
     <jsp:include page="../../core/navigation.jsp"></jsp:include>
 
-    <div class="content-wrapper">
-        <section class="content-header">
+    <div class="content-wrapper animated fadeInLeft">
+        <section class="content-header ">
             <h1>
                 ASSETS
                 <small>ADD ASSET</small>
@@ -151,8 +156,8 @@
                         </div>
 
                         <div class="box-footer">
-                            <button type="button" id="cancel" class="btn btn-default" >Cancel</button>
-                            <button type="submit button" disabled="true" id="button-addAsset" class="btn btn-info pull-right" ><i class="fa fa-plus"></i>&nbsp;Add Asset
+                            <button type="button" id="cancel" class="btn btn-default" ><a href="${path}/home">Cancel</a></button>
+                            <button type="button" disabled="true" id="button-addAsset" class="btn btn-info pull-right" ><i class="fa fa-plus"></i>&nbsp;Add Asset
                             </button>
                         </div>
                     </form>
@@ -206,8 +211,10 @@
 
         $("#button-addAsset").click(function () {
 
+        	var ab = document.forms["form_add_asset"]["assestId"];
+        	
         	var a=$("#serialNo").val();
-            var b=$("#assestId").val();
+            var b=$("#assestId");
         	
         		 
             var data = "{";
@@ -216,26 +223,35 @@
             });
             
             
-            if(a !=='' && b !==''){ 
+            if(ab.value ==""){ 
             	
-            var jsonString = data.substring(0, data.length - 1);
-            jsonString += "}";
-
-            $.ajax({
-                type: 'POST',
-                url: '${path}/asset',
-                data: jsonString,
-                contentType: "application/json",
-                success: function (resp) {
-                    $("#modal-success").modal("show");
-                    $("#form_add_asset").trigger("reset");
-                },
-                error: function () {
-                    alert('Error');
-                }
-            });
+            	b.focus();
+            	b.css('border-color', 'red');
+            	b.addClass('animated shake');
+            	alert('Assest Id Is Required');
+            	
              }else{
-            	alert('Please Fill Missing Filds');
+            	/* alert('Please Fill Missing Filds'); */
+            	b.removeClass('animated shake');
+            	b.css('border-color', '');
+            	
+            	var jsonString = data.substring(0, data.length - 1);
+                jsonString += "}";
+
+                $.ajax({
+                    type: 'POST',
+                    url: '${path}/asset',
+                    data: jsonString,
+                    contentType: "application/json",
+                    success: function (resp) {
+                        $("#modal-success").modal("show");
+                        $("#form_add_asset").trigger("reset");
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+                
             } 
         });
     </script>

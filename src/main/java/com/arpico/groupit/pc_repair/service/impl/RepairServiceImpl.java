@@ -20,6 +20,7 @@ import com.arpico.groupit.pc_repair.dao.RepairDao;
 import com.arpico.groupit.pc_repair.dao.RepairErrorDetailsDao;
 import com.arpico.groupit.pc_repair.dao.RepairPartsDao;
 import com.arpico.groupit.pc_repair.dao.RepairReturnsDao;
+import com.arpico.groupit.pc_repair.dao.RepairSendDao;
 import com.arpico.groupit.pc_repair.dao.RepairStatusDao;
 import com.arpico.groupit.pc_repair.dto.AssetDto;
 import com.arpico.groupit.pc_repair.dto.ErrorDto;
@@ -89,8 +90,11 @@ public class RepairServiceImpl implements RepairService {
 	private PartsDao partsDao;
 
 	@Autowired
-	private RepairReturnsDao repairReturnsDao;
+	private RepairSendDao repairSendDao;
 	
+	@Autowired
+	private RepairReturnsDao repairReturnsDao;
+
 	@Override
 	public List<RepairSentDto> getSendRepairs() throws Exception {
 		List<String> param = new ArrayList<>();
@@ -439,7 +443,7 @@ public class RepairServiceImpl implements RepairService {
 
 		values.put("complete", repairDao.findCompleted(AppConstant.COMPLETE));
 		values.put("hold", repairDao.findHold("PART_ORDERD"));
-		values.put("ongoing", repairDao.findOnGoing(status));
+		values.put("ongoing", repairDao.findOnGoing(status)); 
 		values.put("incomming", repairDao.findOnInComming(AppConstant.SEND));
 
 		return values;

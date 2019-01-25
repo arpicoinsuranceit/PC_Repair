@@ -127,7 +127,7 @@
 				</c:forEach>
 
 				<c:if test="${br2 eq true}">
-					<li class="header"></li> --%>
+					<li class="header"></li> 
 				</c:if>
 			</ul>
 		</section>

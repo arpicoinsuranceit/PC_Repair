@@ -18,6 +18,8 @@
 	href="${path}/bower_components/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
 <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
+ <link rel="stylesheet" href="${path}/dist/css/animate.css">
+ 
 <style type="text/css">
 	
 	.error{
@@ -28,8 +30,11 @@
 	#cancel:hover{
 		
 		background-color: red;
+	}
+
+	#cancel a:hover{
+		font-weight: bold;
 		color: white;
-		font: bold;
 	}
 	
 </style>
@@ -37,10 +42,10 @@
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 
-	<div class="wrapper">
+	<div class="wrapper slideInLeft">
 		<jsp:include page="../../core/navigation.jsp"></jsp:include>
 
-		<div class="content-wrapper">
+		<div class="content-wrapper animated fadeInLeft">
 			<section class="content-header">
 			<h1>
 				BACKUP <small>ADD BACKUP</small>
@@ -98,20 +103,20 @@
 						</div>
 
 						<div class="form-group">
-							<label>Send Date</label> <input type="date" class="form-control" id="sendDate"
+							<label>Send Date</label> <input type="date" pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))" class="form-control" id="sendDate"
 								name="sendDate" required />
 								<span class="error">Send Date Required</span>
 						</div>
 
 						<div class="form-group">
 							<label>Return Date</label> <input type="date" id="date-return"
-								class="form-control" name="returnDate" required />
+								class="form-control" pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))" name="returnDate" required />
 								<span class="error">Date Return Required</span>
 						</div>
 
 						<div class="box-footer">
-							<button type="button" id="cancel" class="btn btn-default">Cancel</button>
-							<button type="submit button" id="button-addBackup"
+							<button type="button" id="cancel" class="btn btn-default"><a href="${path}/home">Cancel</a></button>
+							<button type="button" id="button-addBackup"
 								class="btn btn-info pull-right" disabled="true"><i class="fa fa-plus"></i>&nbsp;Add Backup</button>
 						</div>
 					</form>
@@ -164,10 +169,12 @@
 
         $("#button-addBackup").click(function () {
         	
+        	var ab = document.forms["form_add_backup"]["handOverTo"];
         	
-        	var a=$("#handOverTo").val();
+        	var a=$("#handOverTo");
         	var b=$("#sendDate").val();
         	var c=$("#date-return").val();
+        	
         	
         	
             var data = "{";
@@ -175,27 +182,35 @@
                 data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
             });
             
-            if(a !=='' && b !=='' && c !==''){
+            if(ab.value ==""){
             	
+            	a.focus();
+            	a.css('border-color','red');
+            	a.addClass('animated shake');
+            	alert('Hand Over Name Is Required');
             
-            var jsonString = data.substring(0, data.length - 1);
-            jsonString += "}";
-
-            $.ajax({
-                type: 'POST',
-                url: '${path}/backup',
-                data: jsonString,
-                contentType: "application/json",
-                success: function (resp) {
-                    $("#modal-success").modal("show");
-                    $("#form_add_error").trigger("reset");
-                },
-                error: function () {
-                    alert('Error');
-                }
-            });
             }else{
+            	
             	alert('Pleace Fill Missing Filds');
+            	a.removeClass('animated shake');
+            	
+            	var jsonString = data.substring(0, data.length - 1);
+                jsonString += "}";
+
+                $.ajax({
+                    type: 'POST',
+                    url: '${path}/backup',
+                    data: jsonString,
+                    contentType: "application/json",
+                    success: function (resp) {
+                        $("#modal-success").modal("show");
+                        $("#form_add_error").trigger("reset");
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+            	
             }
         });
     

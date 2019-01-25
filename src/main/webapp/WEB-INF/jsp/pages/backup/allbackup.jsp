@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="${path}/dist/css/CustomStyles.css">
     <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
+    <link rel="stylesheet" href="${path}/dist/css/animate.css">
     <title>${title}</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -22,7 +23,7 @@
 <div class="wrapper">
     <jsp:include page="../../core/navigation.jsp"></jsp:include>
 	
-	<div class="content-wrapper">
+	<div class="content-wrapper animated fadeInLeft">
         <section class="content-header">
             <h1>
                 BACKUP

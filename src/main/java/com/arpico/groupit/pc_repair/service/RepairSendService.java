@@ -19,7 +19,7 @@ public interface RepairSendService {
 	String received(String id, String status) throws Exception;
 
 	String addAssignee(String id, String repairId) throws Exception;
-	
+
 	public RepairStatusEntity getRepairStatusEntity(RepairEntity repairEntity, String status) throws Exception;
 
 }

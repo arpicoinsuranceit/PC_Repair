@@ -13,26 +13,28 @@
     <link rel="stylesheet" href="${path}/bower_components/Ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
+    <link rel="stylesheet" href="${path}/dist/css/animate.css">
     
     <style type="text/css">
     	
     	#cancel:hover{
 		
 		background-color: red;
-		color: white;
-		font: bold;
 	}
-    	
+    	#cancel a:hover{
+            font-weight: bold;
+            color: white;
+        }
     </style>
     
     <title>${title}</title>
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini ">
 
-<div class="wrapper">
+<div class="wrapper ">
     <jsp:include page="../../core/navigation.jsp"></jsp:include>
 
-    <div class="content-wrapper">
+    <div class="content-wrapper animated fadeInLeft">
         <section class="content-header">
             <h1>
                 SUPPLIER
@@ -66,8 +68,8 @@
                         </div>
 
                         <div class="box-footer">
-                            <button type="button" class="btn btn-default" id="cancel">Cancel</button>
-                            <button type="submit button" id="button-addsupplier" disabled="true" class="btn btn-info pull-right"><i class="fa fa-plus"></i>&nbsp;Add Supplier
+                            <button type="button" class="btn btn-default" id="cancel"><a href="${path}/home">Cancel</a></button>
+                            <button type="button" id="button-addsupplier" disabled="true" class="btn btn-info pull-right"><i class="fa fa-truck"></i>&nbsp;Add Supplier
                             </button>
                         </div>
                     </form>
@@ -86,6 +88,7 @@
     <script src="${path}/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="${path}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="${path}/dist/js/adminlte.min.js"></script>
+    <script src="${path}/dist/js/sweetalert.min.js"></script>
 
     <script type="application/javascript">
     
@@ -115,9 +118,10 @@
     
 
         $("#button-addsupplier").click(function () {
-        	
-        	var a=$("#supplierID").val();
-        	var b=$("#supplierName").val();
+
+        	var b=$("#supplierName");
+
+        	var a = document.forms["form_add_supplier"]["supplierName"];
         	
         		
             var data = "{";
@@ -126,26 +130,34 @@
             });
             
             
-            if(a !=="" & b !==""){
-            	
-            var jsonString = data.substring(0, data.length - 1);
-            jsonString += "}";
+            if(a.value==""){
+            	b.css('border-color','red');
+            	b.addClass('animated shake');
+            	b.focus();
+               /* swal("OOPS!", " Supplier Name Is Required!", "error");*/
+                alert('OOps! Supplier Name Is Required');
 
-            $.ajax({
-                type: 'POST',
-                url: '${path}/supplier',
-                data: jsonString,
-                contentType: "application/json",
-                success: function (resp) {
-                    $("#modal-success").modal("show");
-                    $("#form_add_supplier").trigger("reset");
-                },
-                error: function () {
-                    alert('Error');
-                }
-            });
         	}else{
-        		alert('Please Fill Missing Filds');
+
+                var jsonString = data.substring(0, data.length - 1);
+                jsonString += "}";
+
+                $.ajax({
+                    type: 'POST',
+                    url: '${path}/supplier',
+                    data: jsonString,
+                    contentType: "application/json",
+                    success: function (resp) {
+                        $("#modal-success").modal("show");
+                        /*swal("Supplier!", "Succsess Fully Added!", "success");*/
+                        $("#form_add_supplier").trigger("reset");
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+				b.removeClass('animated shake');
+        		b.css('border-color','');
         	}
         });
     </script>

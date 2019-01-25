@@ -13,14 +13,26 @@
     <link rel="stylesheet" href="${path}/bower_components/Ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
+    <link rel="stylesheet" href="${path}/dist/css/animate.css">
+    
     <title>${title}</title>
+
+    <style type="text/css">
+        #cancel:hover{
+            background-color: red;
+        }
+        #cancel a:hover{
+            font-weight: bold;
+            color: white;
+        }
+    </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 
-<div class="wrapper">
+<div class="wrapper slideInLeft">
     <jsp:include page="../../core/navigation.jsp"></jsp:include>
 
-    <div class="content-wrapper">
+    <div class="content-wrapper animated fadeInLeft">
         <section class="content-header">
             <h1>
                 ERROR
@@ -60,8 +72,8 @@
                         </div>
 
                         <div class="box-footer">
-                            <button type="button" class="btn btn-default">Cancel</button>
-                            <button type="submit button" id="button-addError" disabled="true" class="btn btn-info pull-right"><i class="fa fa-plus"></i>&nbsp;Add Error
+                            <button type="button" id="cancel" class="btn btn-default"><a href="${path}/home">Cancel</a></button>
+                            <button type="button" id="button-addError" disabled="true" class="btn btn-info pull-right"><i class="fa fa-exclamation-triangle"></i>&nbsp;Add Error
                             </button>
                         </div>
                     </form>
@@ -110,38 +122,47 @@
     
         $("#button-addError").click(function () {
         	
-        	var xa =$("#errorID").val();
-        	var xb =$("#errorName").val();
-        	var xc =$("#errorDiscription").val();
-        	
-        	
+
+        	var xb =$("#errorName");
+
+        	var a = document.forms["form_add_error"]["errorName"];
 
             var data = "{";
             $("#form_add_error .form-control").each(function () {
                 data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
             });
             
-            if(xa !=='' && xb !=='' && xc !==''){
-            	
-            var jsonString = data.substring(0, data.length - 1);
-            jsonString += "}";
+            if(a.value ==""){
 
-            $.ajax({
-                type: 'POST',
-                url: '${path}/error',
-                data: jsonString,
-                contentType: "application/json",
-                success: function (resp) {
-                    $("#modal-success").modal("show");
-                    $("#form_add_error").trigger("reset");
-                },
-                error: function () {
-                    alert('Error');
-                }
-            });
-            
+                xb.css('border-color','red');
+                xb.focus();
+                xb.addClass('animated shake');
+                alert('Error Name Is Required');
+
+
             }else{
-            	alert('Please Fill Missing Filds');
+            	/*alert('Please Fill Missing Filds');*/
+
+                xb.css('border-color','');
+				xb.removeClass('animated shake');
+				
+                var jsonString = data.substring(0, data.length - 1);
+                jsonString += "}";
+
+                $.ajax({
+                    type: 'POST',
+                    url: '${path}/error',
+                    data: jsonString,
+                    contentType: "application/json",
+                    success: function (resp) {
+                        $("#modal-success").modal("show");
+                        $("#form_add_error").trigger("reset");
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+
             }
         });
     </script>

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="${path}/bower_components/Ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
+    <link rel="stylesheet" href="${path}/dist/css/animate.css">
 
     <style type="text/css">
     	
@@ -24,10 +25,14 @@
     	#cancel:hover{
 		
 		background-color: red;
-		color: white;
-		font: bold;
+
 	}
-    	
+
+        #cancel a:hover{
+            font-weight: bold;
+            color: white;
+        }
+
    	 </style>
     <title>${title}</title>
 </head>
@@ -36,7 +41,7 @@
 <div class="wrapper">
     <jsp:include page="../../core/navigation.jsp"></jsp:include>
 
-    <div class="content-wrapper">
+    <div class="content-wrapper animated fadeInLeft">
         <section class="content-header">
             <h1>
                 ASSIGNEE
@@ -72,7 +77,7 @@
                         </div>
 
                         <div class="box-footer">
-                            <button type="button" class="btn btn-default" id="cancel">Cancel</button>
+                            <button type="button" class="btn btn-default" id="cancel"><a href="${path}/home">Cancel</a></button>
                             <button type="button" id="button-addassignee" disabled="true" class="btn btn-info pull-right"  ><i class="fa fa-plus"></i>&nbsp;Add Assignee
 
                             </button>
@@ -127,35 +132,45 @@
     
         $("#button-addassignee").click(function () {
 
-        	var a=$("#AssigneeName").val();
-        	
+
+        	var name = document.forms["form_add_assignee"]["AssigneeName"];
+        	var a = $('#AssigneeName');
+
             var data = "{";
             $("#form_add_assignee .form-control").each(function () {
                 data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
             });
             
-            if(a !== ""){
-            	
-            var jsonString = data.substring(0, data.length - 1);
-            jsonString += "}";
+            if(name.value == ""){
+            	a.focus();
+            	a.css('border-color','red');
+            	a.addClass('animated shake');
+            	alert('OOPS! Assignee Name Is Required!');
+                /* swal("OOPS!", " Assignee Name Is Required!", "error"); */
 
-            $.ajax({
-                type: 'POST',
-                url: '${path}/assignee',
-                data: jsonString,
-                contentType: "application/json",
-                success: function (resp) {
-
-                    /* $("#modal-success").modal("show");*/
-                    swal("Assignee!", "Succsess Fully Added!", "success");
-                    $("#form_add_assignee").trigger("reset");
-                },
-                error: function () {
-                    swal("OOPS!", " Error Occurd Try Again!", "error");
-                }
-            });
             }else{
-                alert('Please Fill Missing Filds');
+                var jsonString = data.substring(0, data.length - 1);
+                jsonString += "}";
+
+                $.ajax({
+                    type: 'POST',
+                    url: '${path}/assignee',
+                    data: jsonString,
+                    contentType: "application/json",
+                    success: function (resp) {
+                    	
+                        $("#modal-success").modal("show");
+                        /* swal("Assignee!", "Succsess Fully Added!", "success"); */
+                        $("#form_add_assignee").trigger("reset");
+                    },
+                    error: function () {
+                        /* swal("OOPS!", " Error Occurd Try Again!", "error"); */
+                        alert('OOPS Error Occurd Try Again');
+                    }
+                });
+
+                a.removeClass('animated shake');
+                a.css('border-color','');
             }
         });
     </script>

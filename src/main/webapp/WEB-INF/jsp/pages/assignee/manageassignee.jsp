@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="${path}/dist/css/CustomStyles.css">
     <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
+     <link rel="stylesheet" href="${path}/dist/css/animate.css">
     <title>${title}</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -23,7 +24,7 @@
     <jsp:include page="../../core/navigation.jsp"></jsp:include>
 	
 	<div class="content-wrapper">
-        <section class="content-header">
+        <section class="content-header ">
             <h1>
                 ASSIGNEE
                 <small>ALL ASSIGNEES</small>
@@ -34,12 +35,14 @@
             </ol>
         </section>
 
-        <section class="content container-fluid">
+        <section class="content container-fluid animated fadeInLeft">
 
             <div class="row">
                 <div class="col-md-3 col-sm-3 col-xs-6">
                     <a href="/PCRepair/add_assignee">
-                        <button type="button" class="btn btn-block btn-success btn-flat">Add Assignee</button>
+                        <button type="button" class="btn btn-block btn-success btn-flat">Add Assignee</button><br>
+                        <label> Delete Action</label>
+                        <input type="checkbox" data-toggle="toggle" id="check" onclick="togCheck()" />
                     </a>
                 </div>
             </div>
@@ -135,6 +138,22 @@
     <script src="${path}/bower_components/fastclick/lib/fastclick.js"></script>
 
     <script type="application/javascript">
+    
+    	function togCheck() {
+			
+    		var ch = document.getElementById('check');
+    		
+    		var ad = document.getElementsByClassName('del');
+    		
+    		if(ch.checked !=true){
+    			ad.disabled = false;
+    			alert('cdc');
+    		}else{
+    			ad.disabled = true;
+    			alert('dfdg');
+    		}
+		}
+    
         var table = $('#table_assignee').DataTable({
             "pageLength": 10,
             "ajax": "${path}/all_assignee_dt"
