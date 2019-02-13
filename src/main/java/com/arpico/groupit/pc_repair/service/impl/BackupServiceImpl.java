@@ -8,14 +8,17 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
+import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.arpico.groupit.pc_repair.dao.AssetDao;
 import com.arpico.groupit.pc_repair.dao.BackupDao;
 import com.arpico.groupit.pc_repair.dao.RepairDao;
+import com.arpico.groupit.pc_repair.dao.RepairStatusDao;
 import com.arpico.groupit.pc_repair.dto.BackupDto;
 import com.arpico.groupit.pc_repair.dto.BackupGridDto;
+import com.arpico.groupit.pc_repair.dto.RepairDto;
 import com.arpico.groupit.pc_repair.entity.AssetEntity;
 import com.arpico.groupit.pc_repair.entity.BackupEntity;
 import com.arpico.groupit.pc_repair.entity.RepairEntity;
@@ -34,6 +37,9 @@ public class BackupServiceImpl implements BackupService {
 	
 	@Autowired
 	private RepairDao repairDao;
+	
+	@Autowired
+	private RepairStatusDao repairStatusDao;
 
 	@Override
 	public List<BackupGridDto> getAll() throws Exception {
@@ -71,6 +77,8 @@ public class BackupServiceImpl implements BackupService {
 
 	@Override
 	public String save(BackupDto backupDto) throws Exception {
+		
+		RepairDto repairDto = new RepairDto();
 		AssetEntity assetEntity = assetDao.findOne(backupDto.getAssetId());
 		RepairEntity repairEntity = repairDao.findOne(backupDto.getRepairId());
 		
@@ -113,6 +121,7 @@ public class BackupServiceImpl implements BackupService {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		  
 		  BackupGridDto dto = new BackupGridDto();
+		  
 		  try {
 			  dto.setAssetId(e.getAssetEntity().getAssetCode());
 		} catch (NullPointerException e2) {
@@ -120,17 +129,93 @@ public class BackupServiceImpl implements BackupService {
 		}
 		  
 		/* dto.setAssetId(e.getAssetEntity().getAssetCode()); */
-		  dto.setHandoverTo(e.getHandOverTo()); dto.setRemark(e.getRemark());
-		  dto.setRepairId(e.getRepairEntity().getJobNo());
+		  dto.setHandoverTo(e.getHandOverTo());
+		  dto.setRemark(e.getRemark());
+		  try {
+			  dto.setRepairId(e.getRepairEntity().getJobNo());
+		} catch (NullPointerException e2) {
+			// TODO: handle exception
+		}
+		  
 		  dto.setReturnDate(simpleDateFormat.format(e.getReturnDate()));
 		  dto.setSendDate(simpleDateFormat.format(e.getSendDate()));
 		  dto.setSendLoc(e.getSendLocation()); dto.setBackupId(e.getBackupId());
+		  
 		  
 		  return dto;
 		 
 		
 	}
 
+	@Override
+	public String editBackup(BackupDto backupDto) throws Exception {
+		
+		RepairDto repairDto = new RepairDto();
+		AssetEntity assetEntity = assetDao.findOne(backupDto.getAssetId());
+		RepairEntity repairEntity = repairDao.findOne(backupDto.getRepairId());
+		
+		BackupEntity backupEntity = getBackupEntity(backupDto, assetEntity, repairEntity);
+		
+		if(backupDao.save(backupEntity) != null){
+			
+		}
+		
+		return "Edit";
+	}
+
+	@Override
+	public BackupDto get(String id) throws Exception {
+		
+		BackupEntity backupEntity = backupDao.findOne(id);
+		
+		return getBackupDto(backupEntity);
+	}
+
+	private BackupDto getBackupDto(BackupEntity e) {
+		
+		BackupDto backupDto = new BackupDto();
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		
+		
+		backupDto.setRepairId(e.getRepairEntity().getRepairId());
+		backupDto.setAssetId(e.getAssetEntity().getAssetCode());
+		
+		backupDto.setRemark(e.getRemark());
+		backupDto.setSendDate(dateFormat.format(e.getSendDate()));
+		backupDto.setReturnDate(dateFormat.format(e.getReturnDate()));
+		backupDto.setHandOver(e.getHandOverTo());
+		
+		return backupDto;
+		
+	}
+
+	@Override
+	public String received(String id, String status) throws Exception {
+		
+		
+		BackupEntity backupEntity = backupDao.findOne(id);
+		backupEntity.setStatus("RECIVE");
+		
+		System.out.println("Backup Entity ==/"+backupEntity.getStatus());
+		
+		return "RECIVE";
+	}
+
+	@Override
+	public List<BackupDto> getRecivedBackup() throws Exception {
+		
+		List<String>param = new ArrayList<>();
+		param.add("RECIVE");
+		
+		List<BackupEntity>backupEntities = backupDao.findByStatusIn(param);
+		List<BackupDto> backupDtos = new ArrayList<>();
+		
+		backupEntities.forEach(e->{
+			backupDtos.add(getBackupDto(e));
+		});
+		return backupDtos;
+	}
 
 
 }

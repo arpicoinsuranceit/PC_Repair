@@ -13,7 +13,7 @@
 <link rel="stylesheet"
 	href="${path}/bower_components/bootstrap/dist/css/bootstrap.min.css">
 <link rel="stylesheet"
-	href="${path}/bower_components/font-awesome/css/font-awesome.min.css">
+	href="${path}/bower_components/font-awesome/css/font-awesome.css">
 <link rel="stylesheet"
 	href="${path}/bower_components/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
@@ -21,6 +21,8 @@
 <link rel="stylesheet"
 	href="${path}/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
 	<link rel="icon" type="image/x-icon" href="${path}/images/logo_1.ico">
+	<link rel="stylesheet" href="${path}/dist/css/animate.css">
+	
 <title>${title}</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -39,10 +41,10 @@
 			</ol>
 			</section>
 
-			<section class="content container-fluid">
+			<section class="content container-fluid ">
 
 			<div class="row">
-				<div class="col-lg-3 col-xs-6">
+				<div class="col-lg-3 col-xs-6 animated fadeIn">
 					<!-- small box -->
 					<div class="small-box bg-aqua">
 						<div class="inner">
@@ -57,7 +59,7 @@
 					</div>
 				</div>
 				<!-- ./col -->
-				<div class="col-lg-3 col-xs-6">
+				<div class="col-lg-3 col-xs-6 animated fadeIn">
 					<!-- small box -->
 					<div class="small-box bg-green">
 						<div class="inner">
@@ -72,22 +74,22 @@
 					</div>
 				</div>
 				<!-- ./col -->
-				<div class="col-lg-3 col-xs-6">
+				<div class="col-lg-3 col-xs-6 animated fadeIn">
 					<!-- small box -->
 					<div class="small-box bg-yellow">
 						<div class="inner">
-							<h3>${values.ongoing}</h3>
+							<h3>${values.repair}</h3>
 
-							<p>Ongoing Repairs</p>
+							<p>Repairing</p>
 						</div>
 						<div class="icon" style="margin-top: 20px;">
-							<i class="fa fa-spinner"></i>
+							<i class="fa fa-wrench"></i>
 						</div>
 						<a href="#" class="small-box-footer" style="height: 25px;"></a>
 					</div>
 				</div>
 				<!-- ./col -->
-				<div class="col-lg-3 col-xs-6">
+				<div class="col-lg-3 col-xs-6 animated fadeIn">
 					<!-- small box -->
 					<div class="small-box bg-red">
 						<div class="inner">
@@ -101,10 +103,40 @@
 						<a href="#" class="small-box-footer" style="height: 25px;"></a>
 					</div>
 				</div>
+				
+				<div class="col-lg-3 col-xs-6 animated fadeIn">
+					<!-- small box -->
+					<div class="small-box bg-purple">
+						<div class="inner">
+							<h3>${values.ongoing}</h3>
+
+							<p>Ongoing Repair</p>
+						</div>
+						<div class="icon" style="margin-top: 20px;">
+							<i class="fa fa-spinner"></i>
+						</div>
+						<a href="#" class="small-box-footer" style="height: 25px;"></a>
+					</div>
+				</div> 
+				
+				<div class="col-lg-3 col-xs-6 animated fadeIn">
+					<!-- small box -->
+					<div class="small-box bg-maroon">
+						<div class="inner">
+							<h3>${values.warranty}</h3>
+
+							<p>Warranty</p>
+						</div>
+						<div class="icon" style="margin-top: 20px;">
+							<i class="fa fa-history"></i>
+						</div>
+						<a href="#" class="small-box-footer" style="height: 25px;"></a>
+					</div>
+				</div>
 				<!-- ./col -->
 			</div>
 
-			<div class="row">
+			<div class="row animated fadeIn">
 				<div class="col-md-12">
 					<div class="box box-primary">
 						<div class="box-header with-border">
@@ -120,7 +152,6 @@
 											<th>Asset</th>
 											<th>Send From</th>
 											<th>Reason</th>
-											<th>Priority</th>
 											<th>Status</th>
 											<th></th>
 										</tr>
@@ -135,7 +166,6 @@
 											<th>Asset</th>
 											<th>Send From</th>
 											<th>Reason</th>
-											<th>Priority</th>
 											<th>Status</th>
 											<th></th>
 										</tr>

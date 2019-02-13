@@ -13,7 +13,7 @@
 <link rel="stylesheet"
 	href="${path}/bower_components/bootstrap/dist/css/bootstrap.min.css">
 <link rel="stylesheet"
-	href="${path}/bower_components/font-awesome/css/font-awesome.min.css">
+	href="${path}/bower_components/font-awesome/css/font-awesome.css">
 <link rel="stylesheet"
 	href="${path}/bower_components/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
@@ -48,7 +48,7 @@
 	<div class="wrapper">
 		<jsp:include page="../../core/navigation.jsp"></jsp:include>
 
-		<div class="content-wrapper animated fadeInLeft">
+		<div class="content-wrapper ">
 			<section class="content-header">
 			<h1>
 				REPAIR <small>RETURN REPAIR</small>
@@ -60,7 +60,7 @@
 			</ol>
 			</section>
 
-			<section class="content container-fluid">
+			<section class="content container-fluid animated fadeInLeft">
 
 			<div class="box box-primary">
 
@@ -72,17 +72,17 @@
 					<form id="form_return_repair">
 						<div class="form-group">
 							<label>Asset Id</label> <select class="form-control select2"
-								style="width: 100%;" name="repairId">
+								style="width: 100%;"  name="repairId">
 								<c:if test="${not empty assets}">
 									<c:forEach items="${assets}" var="asset">
-										<option value="${asset.repairId}">${asset.assetId}</option>
+										<option id="repairId" value="${asset.repairId}">${asset.assetId}</option>
 									</c:forEach>
 								</c:if>
 							</select>
 						</div>
 
 						<div class="form-group">
-							<label>Hand Over To</label> <input type="text" id="handOver"
+							<label>Hand Over To</label> <input type="text" id="handOverTo"
 								class="form-control" name="handOverTo" onkeyup="Prosees(this) & req(this)"
 								placeholder="Enter Hand Over To" required  />
 								<span class="error" id="spnHandOver">Hand Over Is Requird</span>
@@ -132,7 +132,7 @@
 						<div class="box-footer">
 							<button type="button" id="cancel" class="btn btn-default"><a href="${path}/home">Cancel</a></button>
 							
-							<button type="submit button" id="button-addRepair" disabled="true"
+							<button type="button" id="button-addRepair" disabled="true"
 								class="btn btn-info pull-right">Return Repair</button>
 						</div>
 					</form>
@@ -152,7 +152,7 @@
 		<script src="${path}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script src="${path}/dist/js/adminlte.min.js"></script>
 		<script src="${path}/bower_components/select2/dist/js/select2.full.min.js"></script>
-
+		<script src="${path}/dist/js/notify.min.js"></script>
 		<script type="application/javascript">
 			
 		function req(color) {
@@ -186,71 +186,48 @@
 
         $("#button-addRepair").click(function () {
 
-        	var a=$("#handOver").val();
-        	var b=$("#sendingMethord").val();
-        	var c=$("#courireID").val();
-        	var d=$("#remark").val();
         	
-        	var ab = document.getElementById('spnHandOver');
-        	var ac = document.getElementById('spnSendingMethord');
-        	var ad = document.getElementById('spnCourireID');
-        	var ae = document.getElementById('spnRemark');
-        		
+        	var b=$("#sendingMethord");
+        	
+        	var formVal = document.forms["form_return_repair"]["sendingMethod"];
+        	
+        	
+        	var id=$("repairId").val();
+        	
             var data = "{";
             $("#form_return_repair .form-control").each(function () {
-            	
-            	
-               
-                data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
+            	data += "\"" + $(this).attr("name") + "\" : \"" + $(this).val() + "\",";
             });
             
-            /* if(a !== ""){
-            	 ab.visible = true;
-            	 
-            }else{
-            	ab.visible = false;
-            	
-            }if(b !== ""){
-            	ac.visible = true;
-            	
-            }else{
-            	ac.visible = false;
-            	
-            }if(c !==""){
-            	ad.visible = true;
-            	
-            }else{
-            	ad.visible = false;
-            	
-            }if(d !== ""){
-            	ae.visible = true;
-            	
-            }else{
-            	ae.visible = false;
-            } */
+            
            
-            if(a !== "" && b !=="" && c !=="" && d !==""){
+            if(formVal.value==""){
             	
-            	
-            	
-            var jsonString = data.substring(0, data.length - 1);
-            jsonString += "}";
-
-            $.ajax({
-                type: 'POST',
-                url: '${path}/return_repair',
-                data: jsonString,
-                contentType: "application/json",
-                success: function (resp) {
-                    $("#modal-success").modal("show");
-                    $("#form_return_repair").trigger("reset");
-                },
-                error: function () {
-                    alert('Error');
-                }
-            });
+            	b.focus();
+            	b.addClass('animated shake');
+            	b.css('border-color','red');
+            	$("#sendingMethord").notify("Hand Over Is Required", { position:"bottom center" });
+            
             }else{
-            	alert('Please Fill Missing Filds');
+            	
+            	
+            	var jsonString = data.substring(0, data.length - 1);
+                jsonString += "}";
+    			console.log(jsonString)
+                 $.ajax({
+                    type: 'POST',
+                    url: '${path}/return_repair',
+                    data: jsonString,
+                    contentType: "application/json",
+                    success: function (resp) {
+                        $("#modal-success").modal("show");
+                        $("#form_return_repair").trigger("reset");
+                    },
+                    error: function () {
+                    	b.removeClass('animated shake');
+                    	b.css('border-color','');
+                    }
+                }); 
             }
         });
     

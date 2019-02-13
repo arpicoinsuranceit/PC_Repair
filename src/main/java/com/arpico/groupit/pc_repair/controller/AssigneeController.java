@@ -79,9 +79,10 @@ public class AssigneeController {
                 entity.add(assigneeDto.getAssigneeId());
                 entity.add(assigneeDto.getAssigneeName());
 
-                entity.add("<button type=\"button\" class=\"btn btn-default\" id=\"" + assigneeDto.getAssigneeId()
+                entity.add("<button type=\"button\" class=\"btn btn-info\" id=\"" + assigneeDto.getAssigneeId()
                         + "\" onclick = \"editAssignee('" + assigneeDto.getAssigneeId() + "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i>&nbsp;Edit</button>");
-                entity.add("<button type=\"button\" class=\"btn btn-default btn-danger del\" id=\"adelete" + assigneeDto.getAssigneeId()
+                
+                entity.add("<button type=\"button\" disabled=\"true\"  class=\"btn btn-default btn-danger del\" id=\"adelete" + assigneeDto.getAssigneeId()
                         + "\" onclick = \"deleteAssignee('" + assigneeDto.getAssigneeId() + "')\" ><i class=\"fa fa-trash\" aria-hidden=\"true\"></i>&nbsp;Delete</button>");
 
 

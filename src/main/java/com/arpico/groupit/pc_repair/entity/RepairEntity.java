@@ -206,7 +206,7 @@ public class RepairEntity {
 	}
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "repairEntity", targetEntity = AssigneeRepairEntity.class)
+	@OneToMany(mappedBy = "repairEntity", targetEntity = AssigneeRepairEntity.class,fetch=FetchType.EAGER)
 	public List<AssigneeRepairEntity> getAssigneeRepairEntities() {
 		return assigneeRepairEntities;
 	}
@@ -236,17 +236,18 @@ public class RepairEntity {
 		this.repairStatusEntities = repairStatusEntities;
 	}
 
-	@Override
-	public String toString() {
-		return "RepairEntity [RepairId=" + RepairId + ", jobNo=" + jobNo + ", status=" + status + ", priority="
-				+ priority + ", remark=" + remark + ", cerateDate=" + cerateDate + ", modifydate=" + modifydate
-				+ ", cerateby=" + cerateby + ", modifyby=" + modifyby + ", assetEntity=" + assetEntity
-				+ ", repairPartsEntities=" + repairPartsEntities + ", backupEntities=" + backupEntities
-				+ ", repairSendEntity=" + repairSendEntity + ", repairReturnEntity=" + repairReturnEntity
-				+ ", assigneeRepairEntities=" + assigneeRepairEntities + ", repairErrorDetailEntities="
-				+ repairErrorDetailEntities + ", repairStatusEntities=" + repairStatusEntities + "]";
-	}
-
+	/*
+	 * @Override public String toString() { return "RepairEntity [RepairId=" +
+	 * RepairId + ", jobNo=" + jobNo + ", status=" + status + ", priority=" +
+	 * priority + ", remark=" + remark + ", cerateDate=" + cerateDate +
+	 * ", modifydate=" + modifydate + ", cerateby=" + cerateby + ", modifyby=" +
+	 * modifyby + ", assetEntity=" + assetEntity + ", repairPartsEntities=" +
+	 * repairPartsEntities + ", backupEntities=" + backupEntities +
+	 * ", repairSendEntity=" + repairSendEntity + ", repairReturnEntity=" +
+	 * repairReturnEntity + ", assigneeRepairEntities=" + assigneeRepairEntities +
+	 * ", repairErrorDetailEntities=" + repairErrorDetailEntities +
+	 * ", repairStatusEntities=" + repairStatusEntities + "]"; }
+	 */
 
 
 	

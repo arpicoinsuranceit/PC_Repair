@@ -1,6 +1,5 @@
 package com.arpico.groupit.pc_repair.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,12 +11,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.arpico.groupit.pc_repair.dto.AssetDto;
@@ -41,8 +41,9 @@ import com.arpico.groupit.pc_repair.service.RepairService;
 import com.arpico.groupit.pc_repair.service.StatusService;
 import com.arpico.groupit.pc_repair.util.AppConstant;
 
-@Controller
+@RestController
 @PropertySource("classpath:application.properties")
+@CrossOrigin
 public class RepairController {
 
 	@Value("${server.context-path}")
@@ -80,12 +81,16 @@ public class RepairController {
 
 	@RequestMapping("/repair/{id}")
 	public ModelAndView navigateRepair(@PathVariable String id) throws Exception {
+	
 		context.setAttribute("path", path);
 		ModelAndView mav = new ModelAndView("pages/repair/repair");
 
 		List<AssigneeDto> assigneeDtos = assigneeService.getAll();
 		List<ErrorDto> errorDtos = errorService.getAll();
 		List<StatusDto> statusDtos = statusService.getAll();
+		
+		
+		
 
 		List<String> priorities = new ArrayList<>();
 		priorities.add("LEVEL 1");
@@ -122,16 +127,21 @@ public class RepairController {
 		
 		LoginResponseDto user=(LoginResponseDto) httpSession.getAttribute("user");
 		
+		
+		
 		System.out.println(user + " user");
 		
-		String locCode=jwtDecorder.generateLoc(user.getJwtToken());
+			String locCode=jwtDecorder.generateLoc(user.getJwtToken());
+			
+			httpSession.setAttribute("branch", locCode);
+			
+			mav.addObject("branch", locCode);
+			
+			
+			System.out.println(locCode + " locCode");
 		
-		httpSession.setAttribute("branch", locCode);
-		
-		mav.addObject("branch", locCode);
 		
 		
-		System.out.println(locCode + " locCode");
 
 		return mav;
 
@@ -144,6 +154,13 @@ public class RepairController {
 
 		List<NameValueDto> locations = locationService.getAllNameValue();
 		List<AssetDto> assetDtos = assetService.getAll();
+		
+		
+		
+		for (AssetDto assetDto : assetDtos) {
+			
+			
+		}
 
 		mav.addObject("title", "PC REPAIR | SEND REPAIR");
 		mav.addObject("locations", locations);
@@ -183,7 +200,7 @@ public class RepairController {
 
 		mav.addObject("title", "PC REPAIR | RETURN REPAIRS");
 
-		System.out.println(mav.toString());
+		
 		return mav;
 
 	}
@@ -230,22 +247,23 @@ public class RepairController {
 			entity.add(repairSentDto.getCourierId());
 			entity.add(repairSentDto.getFromLocation());
 			entity.add(repairSentDto.getReason());
+			
 			if (repairSentDto.getStatus().equals(AppConstant.SEND)) {
-				entity.add("<button type=\"button\" class=\"btn btn-default\" id=\"" + repairSentDto.getRepairId()
+				entity.add("<button type=\"button\" class=\"btn btn-success\" id=\"" + repairSentDto.getRepairId()
 						+ "\" onclick = \"repairReceived('" + repairSentDto.getRepairId()
-						+ "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i><span>&nbsp;&nbsp;RECEIVED</span></button>");
+						+ "')\" ><i class=\"fa fa-mail-reply\" aria-hidden=\"true\"></i><span>&nbsp;&nbsp;RECEIVED</span></button>");
 
-				entity.add("<button disabled type=\"button\" class=\"btn btn-default\" id=\""
+				entity.add("<button disabled type=\"button\" class=\"btn btn-warning\" id=\""
 						+ repairSentDto.getRepairId() + "\" onclick = \"showRepair('" + repairSentDto.getRepairId()
-						+ "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i><span>&nbsp;&nbsp;SHOW</span></button>");
+						+ "')\" ><i class=\"fa fa-eye\" aria-hidden=\"true\"></i><span>&nbsp;&nbsp;SHOW</span></button>");
 			} else {
-				entity.add("<button disabled type=\"button\" class=\"btn btn-default\" id=\""
+				entity.add("<button disabled type=\"button\" class=\"btn btn-success\" id=\""
 						+ repairSentDto.getRepairId() + "\" onclick = \"repairReceived('" + repairSentDto.getRepairId()
-						+ "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i><span>&nbsp;&nbsp;RECEIVED</span></button>");
+						+ "')\" ><i class=\"fa fa-mail-reply\" aria-hidden=\"true\"></i><span>&nbsp;&nbsp;RECEIVED</span></button>");
 
-				entity.add("<button type=\"button\" class=\"btn btn-default\" id=\"" + repairSentDto.getRepairId()
+				entity.add("<button type=\"button\" class=\"btn btn-warning\" id=\"" + repairSentDto.getRepairId()
 						+ "\" onclick = \"showRepair('" + repairSentDto.getRepairId()
-						+ "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i><span>&nbsp;&nbsp;SHOW</span></button>");
+						+ "')\" ><i class=\"fa fa-eye\" aria-hidden=\"true\"></i><span>&nbsp;&nbsp;SHOW</span></button>");
 			}
 
 			entities.add(entity);
@@ -332,50 +350,36 @@ public class RepairController {
 	@ResponseBody
 	public Map allReturnDetails() throws Exception {
 
+		
 		List entities = new ArrayList();
 		List<RepairReturnDto> repairReturnDtos = repairService.getReturnRepairs();
 		for (RepairReturnDto repairReturnDto : repairReturnDtos) {
 			List entity = new ArrayList<>();
 
-			entity.add(repairReturnDto.getRepairReturnId());
+			entity.add(repairReturnDto.getRepairId());
+			entity.add(repairReturnDto.getAssetId());
 			entity.add(repairReturnDto.getSendingMethod());
 			entity.add(repairReturnDto.getCourierId());
 			entity.add(repairReturnDto.getFromLocation());
-			entity.add(repairReturnDto.getToLocation());
 			entity.add(repairReturnDto.getHandOverTo());
-			entity.add(repairReturnDto.getRemark());
+			
+			if (repairReturnDto.getStatus().equals(AppConstant.RETURN)) {
+				entity.add("<button type=\"button\" class=\"btn btn-info\" id=\"" + repairReturnDto.getRepairId()
+						+ "\" onclick = \"repairReceived('" + repairReturnDto.getRepairId()
+						+ "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i><span>&nbsp;&nbsp;RECEIVED</span></button>");
+			} else {
+				entity.add("<button disabled type=\"button\" class=\"btn btn-default\" id=\""
+						+ repairReturnDto.getRepairId() + "\" onclick = \"repairReceived('"
+						+ repairReturnDto.getRepairId()
+						+ "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i><span>&nbsp;&nbsp;RECEIVED</span></button>");
 
-
-
-
-                    entity.add("<button type=\"button\" class=\"btn btn-info\" id=\"" +
-                            repairReturnDto.getRepairReturnId() + "\" onclick = \"repairReceived('" +
-							repairReturnDto.getRepairReturnId() +
-                            "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i><span>&nbsp;RECEIVED</span></button>"
-                    );
-                    entity.add("<button  type=\"button\" class=\"btn btn-danger\" id=\""
-                            + repairReturnDto.getRepairReturnId() + "\" onclick = \"deleteReturn('" +
-							repairReturnDto.getRepairReturnId() +
-                            "')\" ><i class=\"fa fa-trash\" aria-hidden=\"true\"></i><span>&nbsp;Delete</span></button>"
-                    );
-
-
-
-
-
-
-
-
-			 
+			}
 
 			entities.add(entity);
-		
-		
 		}
-	  System.out.println(entities.toString());
-	  Map responseMap = new HashMap();
-	  responseMap.put("data", entities);
-	  return responseMap;
+		Map responseMap = new HashMap();
+		responseMap.put("data", entities);
+		return responseMap;
 	  
 	  }
 	 
@@ -383,31 +387,50 @@ public class RepairController {
 	@RequestMapping("/dashboard_repair_dt")
 	@ResponseBody
 	public Map dashboardRepairDetails() throws Exception {
+		
+	
+			
+			List entities = new ArrayList();
+			
+			
+			
+			List<RepairDto> repairDtos = repairService.getRepairForDashboard();
+			
 
-		List entities = new ArrayList();
-
-		List<RepairDto> repairDtos = repairService.getRepairForDashboard();
-
-		for (RepairDto repairDto : repairDtos) {
-			List entity = new ArrayList<>();
-
-			entity.add(repairDto.getJobNo());
-			entity.add(repairDto.getAssetDto().getAssetId());
-			entity.add(repairDto.getLocationDto().getLocationName());
-			entity.add(repairDto.getReason());
-			entity.add(repairDto.getPriority());
-			entity.add(repairDto.getStatusDto().getDescription());
-
-			entity.add("<button type=\"button\" class=\"btn btn-default\" id=\"" + repairDto.getRepairId()
+			for (RepairDto repairDto : repairDtos) {
+				List entity = new ArrayList<>();
+				
+		
+			  try {
+				  entity.add(repairDto.getJobNo());
+					
+				  entity.add(repairDto.getAssetDto().getAssetId());
+				  
+				  entity.add(repairDto.getLocationDto().getLocationName());
+				  
+				  entity.add(repairDto.getReason());
+				  entity.add(repairDto.getStatusDto().getDescription());
+				  entity.add("<button type=\"button\" class=\"btn btn-default\" id=\"" + repairDto.getRepairId()
 					+ "\" onclick = \"showRepair('" + repairDto.getRepairId()
 					+ "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i><span>&nbsp;&nbsp;SHOW</span></button>");
 
 			entities.add(entity);
-		}
-
-		Map responseMap = new HashMap();
-		responseMap.put("data", entities);
-		return responseMap;
+			} catch (Exception e) {		
+			
+			}		
+				
+			}
+		
+			
+		
+			Map responseMap = new HashMap();
+			responseMap.put("data", entities);
+			
+		
+			
+			return responseMap;
+		
+		
 	}
 
 	@RequestMapping(value = "/received_send/{id}", method = RequestMethod.GET)
@@ -445,6 +468,7 @@ public class RepairController {
 	@ResponseBody
 	public String addRepairParts(@RequestBody List<String> repairParts, @PathVariable String repairId)
 			throws Exception {
+		
 		return repairService.addCartDetails(repairParts, repairId);
 	}
 

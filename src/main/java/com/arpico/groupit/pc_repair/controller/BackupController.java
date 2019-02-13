@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,10 +23,12 @@ import com.arpico.groupit.pc_repair.dto.AssetDto;
 import com.arpico.groupit.pc_repair.dto.BackupDto;
 import com.arpico.groupit.pc_repair.dto.BackupGridDto;
 import com.arpico.groupit.pc_repair.dto.ErrorDto;
+import com.arpico.groupit.pc_repair.dto.NameValueDto;
 import com.arpico.groupit.pc_repair.dto.RepairDto;
 import com.arpico.groupit.pc_repair.service.AssetService;
 import com.arpico.groupit.pc_repair.service.BackupService;
 import com.arpico.groupit.pc_repair.service.RepairService;
+import com.arpico.groupit.pc_repair.util.AppConstant;
 
 @Controller
 @PropertySource("classpath:application.properties")
@@ -60,21 +63,79 @@ public class BackupController {
 
     }
     
+    @RequestMapping("/recived_backup")
+    public ModelAndView recivedBackup()throws Exception{
+    	 
+    	context.setAttribute("path", path);
+    	ModelAndView mav = new ModelAndView("pages/backup/recivedbackup");
+    	mav.addObject("title", "PC REPAIR | RECIVED BACKUPS");
+    	 
+    	 return mav;
+    }
+    
     @RequestMapping("/add_backup")
     public ModelAndView addBackup () throws Exception {
     	context.setAttribute("path", path);
     	
     	List<AssetDto> assetDtos = assetService.getAll();
-    	List<RepairDto> repairDtos = repairService.getRepairForDashboard();
-    	
+    	List<RepairDto> repairDtos = repairService.getAll();
     	
         ModelAndView mav = new ModelAndView("pages/backup/addbackup");
         mav.addObject("title", "PC REPAIR | ADD BACKUP");
         mav.addObject("assets", assetDtos);
         mav.addObject("repairs", repairDtos);
-        
+        System.out.println("repdto =" + mav.toString());
         return mav;
 
+    }
+    
+    @RequestMapping("/edit_backup/{id}")
+    public ModelAndView editBackup(@PathVariable String id)throws Exception{
+    	
+    	context.setAttribute("path", path);
+    	
+    	ModelAndView mav = new ModelAndView("pages/backup/editbackup");
+    	
+		/* BackupDto backupDto = backupService.get(id); */
+    	
+    	List<AssetDto> assetDtos = assetService.getAll();
+    	List<RepairDto> repairDtos = repairService.getAll();
+    	
+    	mav.addObject("title", "PC REPAIR | EDIT BACKUP");
+    	
+		mav.addObject("repairs", repairDtos);
+    	mav.addObject("assets", assetDtos);
+		/*
+		 * mav.addObject("remark", backupDto.getRemark()); mav.addObject("handOver",
+		 * backupDto.getHandOver()); mav.addObject("sendDate", backupDto.getSendDate());
+		 * mav.addObject("returnDate", backupDto.getReturnDate());
+		 */
+    	System.out.println("Model And View ==/"+mav.toString());
+    	
+    	return mav;
+    }
+    
+    @RequestMapping("all_backup_recived_dt")
+    @ResponseBody
+    public Map allBackupRecived()throws Exception{
+    	
+    	List entity = new ArrayList<>();
+    	
+    	List<BackupDto> backupDtos = backupService.getRecivedBackup();
+    	
+    	for (BackupDto backupDto : backupDtos) {
+			
+    		List entitys = new ArrayList<>();
+    		
+    		entitys.add(backupDto.getRepairId());
+    		
+    		entity.add(backupDto.getAssetId());
+    		
+    		entity.add(backupDto.getHandOver());
+    		
+    		
+		}
+    	return null;
     }
     
     @RequestMapping("/all_backup_dt")
@@ -96,15 +157,24 @@ public class BackupController {
     			entity.add(e.getRemark());
     			entity.add(e.getHandoverTo());
     			
+    			System.out.println("Backup Id ==/"+e.getBackupId().toString() );
+    			
     			entity.add("<button type=\"button\" class=\"btn btn-info\" id=\"" + e.getBackupId()
 				+ "\" onclick = \"editBackup('" + e.getBackupId()
 				+ "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i>&nbsp;Edit</button>");
 
-				entity.add("<button type=\"button\" class=\"btn btn-danger\" id=\"" + e.getBackupId()
-						+ "\" onclick = \"deleteBackup('" + e.getBackupId()
-						+ "')\" ><i class=\"fa fa-trash\" aria-hidden=\"true\"></i>&nbsp;Delete</button>");
+				entity.add("<button type=\"button\" class=\"btn btn-success\"  id=\"" + e.getBackupId()
+						+ "\" onclick = \"receivedBackup('" + e.getBackupId()
+						+ "')\" ><i class=\"fa fa-mail-reply\" aria-hidden=\"true\"></i>&nbsp;Recived</button>");
+				
+				entity.add("<button type=\"button\" class=\"btn btn-warning\"  id=\"" + e.getBackupId()
+				+ "\" onclick = \"deleteBackup('" + e.getBackupId()
+				+ "')\" ><i class=\"fa fa-eye\" aria-hidden=\"true\"></i>&nbsp;Show</button>");
 
     			entities.add(entity);
+    			
+    			
+    			System.out.println("BacupId ==/"+entities);
     		});
     	}
     	
@@ -125,4 +195,18 @@ public class BackupController {
     	return backupService.delete(backupId);
 	}
 
+	@RequestMapping(value="/backup",method = RequestMethod.PUT)
+	@ResponseBody
+	public String editBackup(@RequestBody BackupDto backupDto) throws Exception{
+		
+		return backupService.editBackup(backupDto);
+	}
+	@RequestMapping(value="/backup/{id}",method = RequestMethod.GET)
+	@ResponseBody
+	public String received(@PathVariable String id)throws Exception{
+		
+		System.out.println("Backup Resived");
+		return backupService.received(id, AppConstant.SEND_BACK);
+		
+	}
 }

@@ -32,6 +32,9 @@ public class BackupEntity {
 	@Column(name = "HAND_OVER_TO")
 	private String handOverTo;
 
+	@Column(name = "STATUS")
+	private String status;
+	
 	private AssetEntity assetEntity;
 	private RepairEntity repairEntity;
 
@@ -99,6 +102,7 @@ public class BackupEntity {
 		this.handOverTo = handOverTo;
 	}
 
+	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ASSET_ID")
 	public AssetEntity getAssetEntity() {
@@ -157,6 +161,14 @@ public class BackupEntity {
 
 	public void setEnabled(Integer enabled) {
 		this.enabled = enabled;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

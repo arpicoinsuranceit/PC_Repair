@@ -108,7 +108,7 @@
 
 				<c:forEach items="${user.menuDtos}" var="menu">
 					<c:if
-						test="${menu.menuName eq 'Supplier' or menu.menuName eq 'Assignee' or menu.menuName eq 'Errors'}">
+						test="${menu.menuName eq 'Warranty' or menu.menuName eq 'Supplier' or menu.menuName eq 'Assignee' or menu.menuName eq 'Errors'}">
 
 						<li class="treeview"><a href="${menu.href}"><i
 								class="${menu.icon}"></i> <span>${menu.menuDescription}</span> <span

@@ -13,7 +13,7 @@
 <link rel="stylesheet"
 	href="${path}/bower_components/bootstrap/dist/css/bootstrap.min.css">
 <link rel="stylesheet"
-	href="${path}/bower_components/font-awesome/css/font-awesome.min.css">
+	href="${path}/bower_components/font-awesome/css/font-awesome.css">
 <link rel="stylesheet"
 	href="${path}/bower_components/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">

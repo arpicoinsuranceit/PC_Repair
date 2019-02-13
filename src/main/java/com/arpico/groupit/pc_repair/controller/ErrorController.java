@@ -86,11 +86,11 @@ public class ErrorController {
 				entity.add(errorDto.getName());
 				entity.add(errorDto.getDescription());
 
-				entity.add("<button type=\"button\" class=\"btn btn-default\" id=\"" + errorDto.getId()
+				entity.add("<button type=\"button\" class=\"btn btn-info\" id=\"" + errorDto.getId()
 						+ "\" onclick = \"editError('" + errorDto.getId()
 						+ "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i>&nbsp;Edit</button>");
-
-				entity.add("<button type=\"button\" class=\"btn btn-default btn-danger\" id=\"" + errorDto.getId()
+ 
+				entity.add("<button type=\"button\" disabled=\"true\" class=\"btn btn-default btn-danger\" id=\"" + errorDto.getId()
 						+ "\" onclick = \"deleteError('" + errorDto.getId() + "')\" ><i class=\"fa fa-trash\" aria-hidden=\"true\"></i>&nbsp;Delete</button>");
 
 

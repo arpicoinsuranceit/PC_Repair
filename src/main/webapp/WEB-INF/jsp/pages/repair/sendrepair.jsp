@@ -13,7 +13,7 @@
 <link rel="stylesheet"
 	href="${path}/bower_components/bootstrap/dist/css/bootstrap.min.css">
 <link rel="stylesheet"
-	href="${path}/bower_components/font-awesome/css/font-awesome.min.css">
+	href="${path}/bower_components/font-awesome/css/font-awesome.css">
 <link rel="stylesheet"
 	href="${path}/bower_components/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
@@ -46,10 +46,10 @@
 
 <body class="hold-transition skin-blue sidebar-mini" onload="setSelectedData('${branch}')">
 
-	<div class="wrapper animate slideInLeft">
+	<div class="wrapper">
 		<jsp:include page="../../core/navigation.jsp"></jsp:include>
 
-		<div class="content-wrapper animated fadeInLeft">
+		<div class="content-wrapper ">
 			<section class="content-header">
 			<h1>
 				REPAIR <small>SEND REPAIR</small>
@@ -61,7 +61,7 @@
 			</ol>
 			</section>
 
-			<section class="content container-fluid">
+			<section class="content container-fluid animated fadeInLeft">
 
 			<div class="box box-primary">
 
@@ -158,7 +158,7 @@
 		<script src="${path}/bower_components/select2/dist/js/select2.full.min.js"></script>
 		<script src="${path}/dist/js/sweetalert.min.js"></script>
 		<script src="${path}/dist/js/jquery.validate.min.js"></script>
-		
+		<script src="${path}/dist/js/notify.min.js"></script>
 		<script type="application/javascript">
 	
 		function req(color) {
@@ -297,28 +297,32 @@
 			
 			
         	if(document.sendRepair.reason.value == ""){
-        		window.alert("Reson Is Requierd");
+        		/* window.alert("Reson Is Requierd"); */
+        		$("#reasons").notify("Reson Is Requierd!", { position:"bottom right" });
         		document.sendRepair.reason.Focus();
         		document.sendRepair.reason.addClass('animated shake');
         		document.sendRepair.reason.css('border-color','red');
         		return false;
         	}
         	if(document.sendRepair.sendingMethod.value == ""){
-        		window.alert("Sending Methord Is Requierd");
+        		/* window.alert("Sending Methord Is Requierd"); */
+        		$("#sendingMethord").notify("Sending Methord Is Requierd!", { position:"bottom right" });
         		document.sendRepair.sendingMethod.addClass('animated shake');
         		document.sendRepair.sendingMethod.css('border-color','red');
         		document.sendRepair.sendingMethod.focus();
         		return false;
         	}
         	if(document.sendRepair.courierId.value == ""){
-        		window.alert("CourierID is Requierd");
+        		/* window.alert("CourierID is Requierd"); */
+        		$("#courireId").notify("CourierID is Requierd!", { position:"bottom right" });
         		document.sendRepair.courierId.addClass('animated shake');
         		document.sendRepair.courierId.css('border-color','red');
         		document.sendRepair.courierId.focus();
         		return false;
         	}
         	if(document.sendRepair.remark.value == ""){
-        		window.alert('Remark Is Requierd');
+        		/* window.alert('Remark Is Requierd'); */
+        		$("#remark").notify("Remark Is Requierd!", { position:"bottom right" });
         		document.sendRepair.remark.addClass('animated shake');
         		document.sendRepair.remark.css('border-color','red');
         		document.sendRepair.remark.focus();

@@ -107,7 +107,7 @@ public class PartsServiceImpl implements PartsService {
 
 	@Override
 	public List<PartsDto> findBySerial(String value) throws Exception {
-		System.out.println(value);
+		System.out.println("dsfddfd "+value);
 		List<PartsEntity> entities = partsDao.findBySerialIdContainingAndStatus( value, AppConstant.PARTSTATUS_AVAILABLE);
 
 		List<PartsDto> dtos = new ArrayList<>();

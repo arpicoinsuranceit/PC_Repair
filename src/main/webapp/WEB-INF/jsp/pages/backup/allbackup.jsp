@@ -9,7 +9,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="${path}/bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="${path}/bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="${path}/bower_components/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="${path}/bower_components/Ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="${path}/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
@@ -23,7 +23,7 @@
 <div class="wrapper">
     <jsp:include page="../../core/navigation.jsp"></jsp:include>
 	
-	<div class="content-wrapper animated fadeInLeft">
+	<div class="content-wrapper ">
         <section class="content-header">
             <h1>
                 BACKUP
@@ -35,7 +35,7 @@
             </ol>
         </section>
 
-        <section class="content container-fluid">
+        <section class="content container-fluid animated fadeInLeft">
 
             <div class="row">
                 <div class="col-md-3 col-sm-3 col-xs-6">
@@ -64,6 +64,7 @@
                                     <th>Hand Over to</th>
                                     <th></th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                                 </thead>
 
@@ -78,6 +79,7 @@
                                     <th>Return Date</th>
                                     <th>Remark</th>
                                     <th>Hand Over to</th>
+                                    <th></th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -134,6 +136,28 @@
             </div>
         </div>
     </div>
+    
+    
+    
+    <div class="modal modal-success fade" id="modal-success_r">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Success</h4>
+                </div>
+                <div class="modal-body">
+                    Successfully Received....
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
 
     <script src="${path}/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="${path}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -144,6 +168,7 @@
     <script src="${path}/bower_components/fastclick/lib/fastclick.js"></script>
 
     <script type="application/javascript">
+    
         var table = $('#table_assignee').DataTable({
             "pageLength": 10,
             "ajax": "${path}/all_backup_dt"
@@ -154,6 +179,22 @@
             $("#txt-delete-id").val(id);
             $('#modal-danger').modal('show');
         }
+        
+        function receivedBackup(id) {
+			
+        	$.ajax({
+        		type:'GET',
+        		url:'${path}/backup/'+id,
+        		success:function(resp){
+        			 $("#modal-success_r").modal("show");
+                     table.ajax.reload();
+        		},
+        		error: function () {
+                    alert('Error');
+                }
+        	});
+        	
+		}
 
         $("#button-delete").click(function () {
             $.ajax({
@@ -171,8 +212,10 @@
             });
         });
 
+        
+        
         function editBackup(id) {
-        	
+        	window.location.replace("${path}/edit_backup/"+id);
         }
         
     </script>

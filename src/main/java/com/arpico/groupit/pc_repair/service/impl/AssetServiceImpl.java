@@ -7,6 +7,7 @@ import com.arpico.groupit.pc_repair.dao.LocationDao;
 import com.arpico.groupit.pc_repair.dao.OperatingSystemDao;
 import com.arpico.groupit.pc_repair.dao.SupplierDao;
 import com.arpico.groupit.pc_repair.dto.AssetDto;
+import com.arpico.groupit.pc_repair.dto.NameValueDto;
 import com.arpico.groupit.pc_repair.entity.AssetEntity;
 import com.arpico.groupit.pc_repair.entity.AssetLocationEntity;
 import com.arpico.groupit.pc_repair.entity.AssetOsEntity;
@@ -51,6 +52,7 @@ public class AssetServiceImpl implements AssetService {
 	public List<AssetDto> getAll() throws Exception {
 
 		List<AssetEntity> assetEntities = (List<AssetEntity>) assetDao.findAll();
+		
 
 		List<AssetDto> assetDtos = new ArrayList<>();
 
@@ -138,6 +140,9 @@ public class AssetServiceImpl implements AssetService {
 			assetDto.setSupplier(e.getSupplierEntity().getSuplierId());
 		}
 
+		e.getRepairEntities().forEach(repeair->{
+			assetDto.setRepairId(repeair.getRepairId());
+		});
 		assetDto.setValue(e.getAssetValue());
 		assetDto.setWarranty(e.getWarrantyPeriod());
 
@@ -199,6 +204,29 @@ public class AssetServiceImpl implements AssetService {
 		System.out.println(assetDtos.size() + " assetDtos.size()");
 
 		return assetDtos;
+	}
+
+	@Override
+	public List<AssetDto> getAssestBackup() throws Exception {
+		
+		List<AssetEntity> assetEntities = (List<AssetEntity>) assetDao.findAll();
+		
+		List<AssetDto> assestDtos = new ArrayList<>();
+		
+		assetEntities.forEach(e->{
+			assestDtos.add(getAssestDto(e));
+		});
+		return assestDtos;
+	}
+	
+	private AssetDto getAssestDto(AssetEntity e) {
+		
+			AssetDto assetDto = new AssetDto();
+			
+			assetDto.setAssetId(e.getAssetCode());
+			
+		System.out.println("Assest Backup Edit ==/"+assetDto.toString());
+		return assetDto;
 	}
 
 }

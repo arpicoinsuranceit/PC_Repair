@@ -13,7 +13,7 @@
 <link rel="stylesheet"
 	href="${path}/bower_components/bootstrap/dist/css/bootstrap.min.css">
 <link rel="stylesheet"
-	href="${path}/bower_components/font-awesome/css/font-awesome.min.css">
+	href="${path}/bower_components/font-awesome/css/font-awesome.css">
 <link rel="stylesheet"
 	href="${path}/bower_components/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet"
@@ -29,7 +29,7 @@
 	<div class="wrapper">
 		<jsp:include page="../../core/navigation.jsp"></jsp:include>
 
-		<div class="content-wrapper animated fadeInLeft">
+		<div class="content-wrapper ">
 			<section class="content-header">
 			<h1>
 				REPAIR <small>ALL REPAIRS</small>
@@ -41,7 +41,7 @@
 			</ol>
 			</section>
 
-			<section class="content container-fluid">
+			<section class="content container-fluid animated fadeInLeft">
 
 
 			<div class="row voffset10top">

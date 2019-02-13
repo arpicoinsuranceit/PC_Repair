@@ -14,6 +14,8 @@
 <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
 <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
 <link rel="icon" type="image/x-icon" href="${path}/images/logo_1.ico">
+<link rel="stylesheet" href="${path}/dist/css/animate.css">
+
 <title>${title}</title>
 </head>
 
@@ -24,7 +26,7 @@
 			style="height: 80px; margin-top: 5px;"></a>
 		</div>
 		<!-- /.login-logo -->
-		<div class="login-box-body">
+		<div class="login-box-body animated pulse">
 			<p class="login-box-msg">Sign in to start your session</p>
 			
 			<p class="login-form-msg" style="color: #FF0000">${login_error}</p>

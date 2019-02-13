@@ -125,9 +125,10 @@ public class AssetController {
                 entity.add(assetDto.getWarranty());
                 entity.add(assetDto.getSupplier());
 
-                entity.add("<button type=\"button\" class=\"btn btn-default\" id=\"" + assetDto.getAssetId()
+                entity.add("<button type=\"button\" class=\"btn btn-info\" id=\"" + assetDto.getAssetId()
                         + "\" onclick = \"editAsset('" + assetDto.getAssetId() + "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i></button>");
-                entity.add("<button type=\"button\" class=\"btn btn-default btn-danger\" id=\"" + assetDto.getAssetId()
+                
+                entity.add("<button type=\"button\" disabled=\"true\" class=\"btn btn-default btn-danger\" id=\"" + assetDto.getAssetId()
                         + "\" onclick = \"deleteAsset('" + assetDto.getAssetId() + "')\" ><i class=\"fa fa-trash\" aria-hidden=\"true\"></i></button>");
 
                 entities.add(entity);

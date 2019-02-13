@@ -87,8 +87,8 @@ public class PartsController {
         mav.addObject("name", partsDto.getPartName());
         mav.addObject("purchasedate", partsDto.getPurchaseDate());
         mav.addObject("remark", partsDto.getRemark());
-        mav.addObject("serialId", partsDto.getSerialId());
-        mav.addObject("value", partsDto.getValue());
+	    mav.addObject("serialId", partsDto.getSerialId());
+		mav.addObject("value", partsDto.getValue()); 
         mav.addObject("warrenty_exp", partsDto.getWarrentyExp());
         mav.addObject("warrenty_per", partsDto.getWarrentyPeriod());
         mav.addObject("suppliers", suppliers);
@@ -124,7 +124,7 @@ public class PartsController {
 						+ "\" onclick = \"editPart('" + partsDto.getPartId()
 						+ "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i>&nbsp;Edit</button>");
 
-				  entity.add("<button type=\"button\" class=\"btn btn-danger\" id=\"" +
+				  entity.add("<button type=\"button\" disabled=\"true\" class=\"btn btn-danger\" id=\"" +
 						  partsDto.getPartId() + "\" onclick = \"deletePart('" +
 						  partsDto.getPartId() +
 				 "')\" ><i class=\"fa fa-trash\" aria-hidden=\"true\"></i>&nbsp;Delete</button>");

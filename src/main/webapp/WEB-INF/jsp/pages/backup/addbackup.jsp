@@ -13,7 +13,7 @@
 <link rel="stylesheet"
 	href="${path}/bower_components/bootstrap/dist/css/bootstrap.min.css">
 <link rel="stylesheet"
-	href="${path}/bower_components/font-awesome/css/font-awesome.min.css">
+	href="${path}/bower_components/font-awesome/css/font-awesome.css">
 <link rel="stylesheet"
 	href="${path}/bower_components/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
@@ -45,7 +45,7 @@
 	<div class="wrapper slideInLeft">
 		<jsp:include page="../../core/navigation.jsp"></jsp:include>
 
-		<div class="content-wrapper animated fadeInLeft">
+		<div class="content-wrapper ">
 			<section class="content-header">
 			<h1>
 				BACKUP <small>ADD BACKUP</small>
@@ -56,7 +56,7 @@
 			</ol>
 			</section>
 
-			<section class="content container-fluid">
+			<section class="content container-fluid animated fadeInLeft ">
 
 			<div class="box box-primary">
 
@@ -66,6 +66,7 @@
 
 				<div class="box-body">
 					<form id="form_add_backup">
+					
 						<div class="form-group">
 							<label>Repair Id</label> 
 							<select class="form-control"
@@ -136,7 +137,7 @@
 		<script
 			src="${path}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script src="${path}/dist/js/adminlte.min.js"></script>
-
+		<script src="${path}/dist/js/notify.min.js"></script>
 		<script type="application/javascript">
 		
 		function req(color) {
@@ -172,8 +173,7 @@
         	var ab = document.forms["form_add_backup"]["handOverTo"];
         	
         	var a=$("#handOverTo");
-        	var b=$("#sendDate").val();
-        	var c=$("#date-return").val();
+        	
         	
         	
         	
@@ -187,11 +187,11 @@
             	a.focus();
             	a.css('border-color','red');
             	a.addClass('animated shake');
-            	alert('Hand Over Name Is Required');
-            
+            	
+            	$("#handOverTo").notify("Hand Over Name Is Required!", { position:"bottom center" });
             }else{
             	
-            	alert('Pleace Fill Missing Filds');
+            	
             	a.removeClass('animated shake');
             	
             	var jsonString = data.substring(0, data.length - 1);

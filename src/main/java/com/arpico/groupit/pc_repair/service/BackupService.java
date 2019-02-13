@@ -16,5 +16,11 @@ public interface BackupService {
 
 	BackupGridDto getBackupGridDto(BackupEntity e) throws Exception;
 
+	String editBackup(BackupDto backupDto)throws Exception;
 
+	BackupDto get(String id)throws Exception;
+	
+	String received(String id, String status) throws Exception;
+	
+	List<BackupDto> getRecivedBackup()throws Exception;
 }

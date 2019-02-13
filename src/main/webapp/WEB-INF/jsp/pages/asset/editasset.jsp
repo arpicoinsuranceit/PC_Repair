@@ -14,7 +14,7 @@
 <link rel="stylesheet"
 	href="${path}/bower_components/bootstrap/dist/css/bootstrap.min.css">
 <link rel="stylesheet"
-	href="${path}/bower_components/font-awesome/css/font-awesome.min.css">
+	href="${path}/bower_components/font-awesome/css/font-awesome.css">
 <link rel="stylesheet"
 	href="${path}/bower_components/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet"
@@ -31,7 +31,7 @@
 	<div class="wrapper">
 		<jsp:include page="../../core/navigation.jsp"></jsp:include>
 
-		<div class="content-wrapper animated fadeInLeft">
+		<div class="content-wrapper ">
 			<section class="content-header">
 			<h1>
 				ASSETS <small>ADD ASSET</small>
@@ -43,7 +43,7 @@
 			</ol>
 			</section>
 
-			<section class="content container-fluid">
+			<section class="content container-fluid animated fadeInLeft">
 
 			<div class="box box-primary">
 
@@ -53,47 +53,7 @@
 
 				<div class="box-body">
 					<form id="form_edit_asset">
-						<div class="form-group">
-							<div class="row">
-								<div class="col-md-6 col-xs-6">
-									<label>Supplier</label> <select id="select_supplier"
-										class="form-control select2" style="width: 100%;"
-										name="supplier">
-
-
-										<c:if test="${not empty suppliers}">
-											<c:forEach items="${suppliers}" var="supplier">
-												<c:choose>
-													<c:when test="${supplier.value eq sup_id}">
-														<option value="${supplier.value}" selected>${supplier.name}</option>
-													</c:when>
-													<c:otherwise>
-														<option value="${supplier.value}">${supplier.name}</option>
-													</c:otherwise>
-												</c:choose>
-											</c:forEach>
-										</c:if>
-									</select>
-								</div>
-								<div class="col-md-6 col-xs-6">
-									<label>Location</label> <select class="form-control select2"
-										style="width: 100%;" name="location">
-										<c:if test="${not empty locations}">
-											<c:forEach items="${locations}" var="location">
-												<c:choose>
-													<c:when test="${location.value eq location}">
-														<option value="${location.value}" selected>${location.name}</option>
-													</c:when>
-													<c:otherwise>
-														<option value="${location.value}">${location.name}</option>
-													</c:otherwise>
-												</c:choose>
-											</c:forEach>
-										</c:if>
-									</select>
-								</div>
-							</div>
-						</div>
+						
 
 
 						<div class="form-group">

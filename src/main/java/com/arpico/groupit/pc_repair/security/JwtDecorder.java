@@ -16,7 +16,7 @@ public class JwtDecorder {
 
 	public String generateLoc(String token) {
 		String usercode = null;
-
+		
 		Jwt jwtToken = JwtHelper.decode(token);
 		String claims = jwtToken.getClaims();
 		try {

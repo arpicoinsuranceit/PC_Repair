@@ -20,17 +20,29 @@ public interface RepairDao extends CrudRepository<RepairEntity, String>{
 	
 	
     @Query("SELECT count(r.jobNo) FROM RepairEntity r WHERE r.status in ?1")
-	Integer findOnGoing(List<String> status) throws Exception;
-	 
- 
+	Integer findOnGoingN(String status) throws Exception;
+	
+    @Query("SELECT count(r.jobNo) FROM RepairEntity r WHERE r.status in ?1")
+	Integer findOnGoingP(String status) throws Exception;
     
+    @Query("SELECT count(r.jobNo) FROM RepairEntity r WHERE r.status in ?1")
+	Integer findOnWarranty(String status) throws Exception;
+    
+    @Query("SELECT count(r.jobNo) FROM RepairEntity r WHERE r.status in ?1")
+	Integer findOnRepair(String status) throws Exception;
     
 	@Query("SELECT count(r.jobNo) FROM RepairEntity r WHERE r.status = ?1")
-	Integer findCompleted(String status) throws Exception;
+	Integer findCompletedH(String status) throws Exception;
+	
+	@Query("SELECT count(r.jobNo) FROM RepairEntity r WHERE r.status = ?1")
+	Integer findCompletedB(String status) throws Exception;
 
 	
 	@Query("SELECT count(r.jobNo) FROM RepairEntity r WHERE r.status = ?1")
-	Integer findOnInComming(String status) throws Exception;
+	Integer findOnInCommingh(String status) throws Exception;
+	
+	@Query("SELECT count(r.jobNo) FROM RepairEntity r WHERE r.status = ?1")
+	Integer findOnInCommingb(String status) throws Exception;
 
 	@Query("SELECT count(r.jobNo) FROM RepairEntity r WHERE r.status = ?1")
 	Integer findHold(String status) throws Exception;

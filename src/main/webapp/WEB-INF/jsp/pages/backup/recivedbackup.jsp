@@ -16,23 +16,22 @@
     <link rel="stylesheet" href="${path}/dist/css/CustomStyles.css">
     <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
     <link rel="stylesheet" href="${path}/dist/css/animate.css">
-    
     <title>${title}</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 
 <div class="wrapper">
     <jsp:include page="../../core/navigation.jsp"></jsp:include>
-
-    <div class="content-wrapper ">
+	
+	<div class="content-wrapper ">
         <section class="content-header">
             <h1>
-                PART
-                <small>ALL PARTS</small>
+                BACKUP
+                <small>RECIVED BACKUP</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="${path}/all_parts"><i class="fa fa-dashboard"></i>PART</a></li>
-                <li class="active">ALL PARTS</li>
+                <li><a href="${path}"><i class="fa fa-dashboard"></i>BACKUP</a></li>
+                <li class="active">ALL BACKUP</li>
             </ol>
         </section>
 
@@ -40,8 +39,8 @@
 
             <div class="row">
                 <div class="col-md-3 col-sm-3 col-xs-6">
-                    <a href="${path}/add_part">
-                        <button type="button" class="btn btn-block btn-success btn-flat">Add Part</button>
+                    <a href="${path}/add_backup">
+                        <button type="button" class="btn btn-block btn-success btn-flat">Add Backup</button>
                     </a>
                 </div>
             </div>
@@ -50,21 +49,20 @@
                 <div class="col-md-12">
                     <div class="box box-primary">
                         <div class="box-header">
-                            <h3 class="box-title">Parts</h3>
+                            <h3 class="box-title">Backup</h3>
                         </div>
                         <div class="box-body">
 
-                            <table id="table_parts" class="table table-bordered col-10" >
+                            <table id="table_assignee" class="table table-bordered col-10" >
                                 <thead>
                                 <tr>
-                                   <!--  <th>Part Id</th> -->
-                                    <th>Name</th>
-                                    <th>Value</th>
-                                    <th>Serial No</th>
+                                    <th>Repair ID</th>
+                                    <th>Asset Id</th>
+                                    <th>Send Date</th>
+                                    <th>Return Date</th>
                                     <th>Remark</th>
-                                    <th>Purchase Date</th>
-                                    <th>Warranty</th>
-                                    <th>Supplier</th>
+                                    <th>Hand Over to</th>
+                                    <th></th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -75,14 +73,13 @@
 
                                 <tfoot>
                                 <tr>
-                                    <!-- <th>Part Id</th> -->
-                                    <th>Name</th>
-                                    <th>Value</th>
-                                    <th>Serial No</th>
+                                    <th>Repair ID</th>
+                                    <th>Asset Id</th>
+                                    <th>Send Date</th>
+                                    <th>Return Date</th>
                                     <th>Remark</th>
-                                    <th>Purchase Date</th>
-                                    <th>Warranty</th>
-                                    <th>Supplier</th>
+                                    <th>Hand Over to</th>
+                                    <th></th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -91,9 +88,9 @@
 
                         </div>
                     </div>
-                    <!-- /.col (right) -->
+                   
                 </div>
-                <!-- /.row -->
+                
             </div>
 
 
@@ -102,27 +99,11 @@
 
     <jsp:include page="../../core/footer.jsp"></jsp:include>
 
-    <div class="modal modal-warning fade" id="modal-danger">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Warning</h4>
-                </div>
-                <div class="modal-body">
-                    Are You Sure ?
-                </div>
-                <input id="txt-delete-id" type="text" style="display: none;"/>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-outline" id="button-delete">Yes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal modal-success fade" id="modal-success">
+    
+    
+    
+    
+    <div class="modal modal-success fade" id="modal-success_r">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -131,7 +112,7 @@
                     <h4 class="modal-title">Success</h4>
                 </div>
                 <div class="modal-body">
-                    Successfully Deleted....
+                    Successfully Received....
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline" data-dismiss="modal">Close</button>
@@ -139,6 +120,8 @@
             </div>
         </div>
     </div>
+    
+    
 
     <script src="${path}/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="${path}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -149,36 +132,9 @@
     <script src="${path}/bower_components/fastclick/lib/fastclick.js"></script>
 
     <script type="application/javascript">
-
-        var table = $('#table_parts').DataTable({
-            "pageLength": 10,
-            "ajax": "${path}/all_parts_dt"
-        });
-
-        function deletePart(id) {
-            $("#txt-delete-id").val(id);
-            $("#modal-danger").modal('show');
-        }
-
-        $("#button-delete").click(function () {
-            $.ajax({
-                type:'DELETE',
-                url:'${path}/parts',
-                data:$("#txt-delete-id").val(),
-                success:function () {
-                    $('#modal-danger').modal('hide');
-                    $('#modal-success').modal('show');
-                    table.ajax.reload();
-                },
-                error:function () {
-                    alert('Opps Error Occerd Try Again');
-                }
-            });
-        });
-
-        function editPart(id) {
-            window.location.replace("${path}/edit_part/"+id);
-        }
+    
+       
+        
     </script>
 </body>
 </html>

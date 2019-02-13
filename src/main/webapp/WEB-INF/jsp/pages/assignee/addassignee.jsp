@@ -9,7 +9,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="${path}/bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="${path}/bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="${path}/bower_components/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="${path}/bower_components/Ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
@@ -41,7 +41,7 @@
 <div class="wrapper">
     <jsp:include page="../../core/navigation.jsp"></jsp:include>
 
-    <div class="content-wrapper animated fadeInLeft">
+    <div class="content-wrapper ">
         <section class="content-header">
             <h1>
                 ASSIGNEE
@@ -53,7 +53,7 @@
             </ol>
         </section>
 
-        <section class="content container-fluid">
+        <section class="content container-fluid animated fadeInLeft">
 
             <div class="box box-primary">
 
@@ -145,7 +145,8 @@
             	a.focus();
             	a.css('border-color','red');
             	a.addClass('animated shake');
-            	alert('OOPS! Assignee Name Is Required!');
+            	 $("#AssigneeName").notify("Assignee Name Is Required!", { position:"bottom center" });
+            	/* alert('OOPS! Assignee Name Is Required!'); */
                 /* swal("OOPS!", " Assignee Name Is Required!", "error"); */
 
             }else{

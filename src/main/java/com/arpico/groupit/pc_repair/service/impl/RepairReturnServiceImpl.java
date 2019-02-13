@@ -56,83 +56,34 @@ public class RepairReturnServiceImpl implements RepairReturnService{
 
 	@Override
 	public String save(RepairReturnDto repairReturnDto) throws Exception {
-		
+	
 		RepairEntity repairEntity = repairDao.findOne(repairReturnDto.getRepairId());
-		
-		System.out.println("Return Repaire" + repairReturnDto.getRepairId().toString());
-		
 		RepairReturnEntity repairReturnEntity = getRepairReturnEntity(repairReturnDto);
 		
-		RepairStatusEntity statusEntity = getRepairStatusEntity(repairEntity, AppConstant.SEND);
-		/*
-		 * RepairEntity repairEntity = repairDao.findOne(repairReturnDto.getRepairId());
-		 * RepairReturnEntity repairReturnEntity =
-		 * getRepairReturnEntity(repairReturnDto); RepairStatusEntity statusEntity =
-		 * getRepairStatusEntity(repairEntity, AppConstant.SEND);
-		 * 
-		 * 
-		 * repairEntity.setRepairReturnEntity(repairReturnEntity);
-		 * 
-		 * List<RepairStatusEntity> repairStatusEntities =
-		 * repairEntity.getRepairStatusEntities(); for (RepairStatusEntity
-		 * repairStatusEntity : repairStatusEntities) {
-		 * repairStatusEntity.setEnabled(AppConstant.DISABLE);
-		 * repairStatusEntity.setModifyDate(new Date()); System.out.println("for Loop");
-		 * }
-		 */
-		
-		/*
-		 * System.out.println("Return Repaire");
-		 * 
-		 * repairEntity.setRepairReturnEntity(repairReturnEntity);
-		 * 
-		 * if (repairReturnsDao.save(repairReturnEntity) != null &&
-		 * repairDao.save(repairEntity) != null && repairStatusDao.save(statusEntity) !=
-		 * null && repairStatusDao.save(repairStatusEntities) != null) {
-		 * 
-		 * return "201"; }
-		 * 
-		 * System.out.println("repaire" + repairReturnEntity);
-		 * 
-		 */
-		/* System.out.println("Print"); */
-		repairReturnsDao.save(repairReturnEntity);
-			
+		RepairStatusEntity statusEntity = getRepairStatusEntity(repairEntity, AppConstant.RETURN);
 		
 		
-		/*
-		 * RepairEntity repairEntity = repairDao.findOne(repairReturnDto.getRepairId());
-		 * RepairReturnEntity repairReturnEntity =
-		 * getRepairReturnEntity(repairReturnDto); RepairStatusEntity statusEntity =
-		 * getRepairStatusEntity(repairEntity, AppConstant.SEND);
-		 * 
-		 * 
-		 * repairEntity.setRepairReturnEntity(repairReturnEntity);
-		 * 
-		 * List<RepairStatusEntity> repairStatusEntities =
-		 * repairEntity.getRepairStatusEntities(); for (RepairStatusEntity
-		 * repairStatusEntity : repairStatusEntities) {
-		 * repairStatusEntity.setEnabled(AppConstant.DISABLE);
-		 * repairStatusEntity.setModifyDate(new Date()); System.out.println("for Loop");
-		 * }
-		 */
+		System.out.println("repear entity "+repairEntity);
+		System.out.println("repear status entity "+repairEntity.getRepairStatusEntities());
 		
-		/*
-		 * System.out.println("Return Repaire");
-		 * 
-		 * repairEntity.setRepairReturnEntity(repairReturnEntity);
-		 * 
-		 * if (repairReturnsDao.save(repairReturnEntity) != null &&
-		 * repairDao.save(repairEntity) != null && repairStatusDao.save(statusEntity) !=
-		 * null && repairStatusDao.save(repairStatusEntities) != null) {
-		 * 
-		 * return "201"; }
-		 * 
-		 * System.out.println("repaire" + repairReturnEntity);
-		 * 
-		 */
-		/* System.out.println("Print"); */
-		return null;
+		List<RepairStatusEntity> repairStatusEntities = repairEntity.getRepairStatusEntities();
+		for (RepairStatusEntity repairStatusEntity : repairStatusEntities) {
+			repairStatusEntity.setEnabled(AppConstant.ENABLE);
+			repairStatusEntity.setModifyDate(new Date());
+		}
+		
+		repairEntity.setRepairReturnEntity(repairReturnEntity);
+
+		if (repairReturnsDao.save(repairReturnEntity) != null && repairDao.save(repairEntity) != null
+				&& repairStatusDao.save(statusEntity) != null && repairStatusDao.save(repairStatusEntities) != null) {
+
+			return "201";
+		}
+
+		return "204";
+		
+		
+		
 	}
 
 	private RepairStatusEntity getRepairStatusEntity(RepairEntity repairEntity, String status) {
@@ -173,16 +124,18 @@ public class RepairReturnServiceImpl implements RepairReturnService{
 		RepairReturnEntity entity = new RepairReturnEntity();
 		
 		entity.setCourierId(dto.getCourierId());
-		System.out.println("ttttttttttttttttttttttttttttttttttttttttt");
+		
 		entity.setFromLocation(dto.getFromLocation());
 		entity.setHandOverTo(dto.getHandOverTo());
 		entity.setRemark(dto.getRemark());
 		entity.setRepairReturnId(UUID.randomUUID().toString());
 		entity.setSendingMethod(dto.getSendingMethod());
 		entity.setToLocation(dto.getToLocation());
-		 entity.setSendDate(new Date());
-		System.out.println("entity" + entity.toString());
+		entity.setSendDate(new Date());
+		
 		return entity;
 	}
+
+	
 
 }

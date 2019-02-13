@@ -9,7 +9,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="${path}/bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="${path}/bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="${path}/bower_components/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="${path}/bower_components/Ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="${path}/dist/css/skins/skin-blue.css">
@@ -34,7 +34,7 @@
 <div class="wrapper ">
     <jsp:include page="../../core/navigation.jsp"></jsp:include>
 
-    <div class="content-wrapper animated fadeInLeft">
+    <div class="content-wrapper ">
         <section class="content-header">
             <h1>
                 SUPPLIER
@@ -46,7 +46,7 @@
             </ol>
         </section>
 
-        <section class="content container-fluid">
+        <section class="content container-fluid animated fadeInLeft">
 
             <div class="box box-primary">
 
@@ -89,6 +89,7 @@
     <script src="${path}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="${path}/dist/js/adminlte.min.js"></script>
     <script src="${path}/dist/js/sweetalert.min.js"></script>
+    <script src="${path}/dist/js/notify.min.js"></script>
 
     <script type="application/javascript">
     
@@ -135,8 +136,8 @@
             	b.addClass('animated shake');
             	b.focus();
                /* swal("OOPS!", " Supplier Name Is Required!", "error");*/
-                alert('OOps! Supplier Name Is Required');
-
+                
+                $("#supplierName").notify("Supplier Name Is Required", { position:"bottom center" });
         	}else{
 
                 var jsonString = data.substring(0, data.length - 1);
