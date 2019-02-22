@@ -140,27 +140,29 @@ public class RepairSendServiceImpl implements RepairSendService {
 
 	@Override
 	public String received(String id, String status) throws Exception {
-		RepairEntity repairEntity = repairDao.findOne(id);
-		repairStatusDao.setDisablePrevious(repairEntity);
-
-		RepairSendEntity repairSendEntity = repairEntity.getRepairSendEntity();
-		RepairReturnEntity repairReturnEntity = repairEntity.getRepairReturnEntity();
-		RepairStatusEntity repairStatusEntity = null;
-		if (status.equals(AppConstant.RETURN_REC)) {
-			repairReturnEntity.setRecivedDate(new Date());
-			repairReturnsDao.save(repairReturnEntity);
-			repairStatusEntity = getRepairStatusEntity(repairEntity, AppConstant.RETURN_REC);
-		} else if (status.equals(AppConstant.SEND_REC)) {
-			repairSendEntity.setRecivedDate(new Date());
-			repairStatusEntity = getRepairStatusEntity(repairEntity, AppConstant.SEND_REC);
-			repairSendDao.save(repairSendEntity);
-		}
-
-		repairEntity.setStatus(status);
-
-		if (repairDao.save(repairEntity) != null && repairStatusDao.save(repairStatusEntity) != null) {
-			return "201";
-		}
+		/* RepairEntity repairEntity = repairDao.findOne(id); */
+		
+		RepairReturnEntity repairReturnEntity = repairReturnsDao.findOne(id);
+		repairReturnEntity.setStatus("COMPLETED");
+		/*
+		 * repairStatusDao.setDisablePrevious(repairEntity);
+		 * 
+		 * RepairSendEntity repairSendEntity = repairEntity.getRepairSendEntity();
+		 * RepairReturnEntity repairReturnEntity = repairEntity.getRepairReturnEntity();
+		 * repairReturnEntity.setStatus("COMPLETED"); RepairStatusEntity
+		 * repairStatusEntity = null; if (status.equals(AppConstant.RETURN_REC)) {
+		 * repairReturnEntity.setRecivedDate(new Date());
+		 * repairReturnsDao.save(repairReturnEntity); repairStatusEntity =
+		 * getRepairStatusEntity(repairEntity, AppConstant.RETURN_REC); } else if
+		 * (status.equals(AppConstant.SEND_REC)) { repairSendEntity.setRecivedDate(new
+		 * Date()); repairStatusEntity = getRepairStatusEntity(repairEntity,
+		 * AppConstant.SEND_REC); repairSendDao.save(repairSendEntity); }
+		 * 
+		 * repairEntity.setStatus(status);
+		 * 
+		 * if (repairDao.save(repairEntity) != null &&
+		 * repairStatusDao.save(repairStatusEntity) != null) { return "201"; }
+		 */
 
 		return "204";
 	}
@@ -168,12 +170,11 @@ public class RepairSendServiceImpl implements RepairSendService {
 	@Override
 	public String addAssignee(String id, String repairId) throws Exception {
 
-		System.out.println(id);
+		
 
 		AssigneeEntity assignee = assigneeDao.findOne(id);
 
-		System.out.println(assignee.toString());
-
+		
 		RepairEntity repair = repairDao.findOne(repairId);
 
 		AssigneeRepairEntity assigneeRepairEntity = getAssigneeRepairEntity(assignee, repair);

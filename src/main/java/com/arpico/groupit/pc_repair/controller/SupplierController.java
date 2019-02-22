@@ -94,8 +94,7 @@ public class SupplierController {
     @ResponseBody
     public String addSupplier (@RequestBody SupplierDto supplierDto) throws Exception {
 
-        System.out.println(supplierDto.getSupplierId());
-        System.out.println(supplierDto.getSupplierName());
+       
 
 
         return supplierService.save(supplierDto);
@@ -105,7 +104,7 @@ public class SupplierController {
     @ResponseBody
     public String deleteSupplier (@RequestBody String supplierId) throws Exception {
 
-        System.out.println(supplierId);
+       
 
         return supplierService.delete(supplierId);
     }

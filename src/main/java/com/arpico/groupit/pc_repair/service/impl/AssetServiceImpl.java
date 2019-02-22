@@ -7,7 +7,6 @@ import com.arpico.groupit.pc_repair.dao.LocationDao;
 import com.arpico.groupit.pc_repair.dao.OperatingSystemDao;
 import com.arpico.groupit.pc_repair.dao.SupplierDao;
 import com.arpico.groupit.pc_repair.dto.AssetDto;
-import com.arpico.groupit.pc_repair.dto.NameValueDto;
 import com.arpico.groupit.pc_repair.entity.AssetEntity;
 import com.arpico.groupit.pc_repair.entity.AssetLocationEntity;
 import com.arpico.groupit.pc_repair.entity.AssetOsEntity;
@@ -201,8 +200,7 @@ public class AssetServiceImpl implements AssetService {
 				assetDtos.add(getAssetDto(e.getAssetEntity(), 0, 0, 0));
 		});
 		
-		System.out.println(assetDtos.size() + " assetDtos.size()");
-
+		
 		return assetDtos;
 	}
 
@@ -225,7 +223,7 @@ public class AssetServiceImpl implements AssetService {
 			
 			assetDto.setAssetId(e.getAssetCode());
 			
-		System.out.println("Assest Backup Edit ==/"+assetDto.toString());
+		
 		return assetDto;
 	}
 

@@ -107,8 +107,7 @@ public class ErrorController {
 	@ResponseBody
 	public String addError(@RequestBody ErrorDto errorDro) throws Exception {
 
-		System.out.println(errorDro.getId());
-		System.out.println(errorDro.getDescription());
+		
 
 		return errorService.save(errorDro);
 	}
@@ -117,8 +116,7 @@ public class ErrorController {
 	@ResponseBody
 	public String editError(@RequestBody ErrorDto errorDro) throws Exception {
 
-		System.out.println(errorDro.getId());
-		System.out.println(errorDro.getDescription());
+		
 
 		return errorService.save(errorDro);
 	}

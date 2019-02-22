@@ -38,7 +38,9 @@ public class RepairReturnEntity {
 	@Column(name = "RECEIVED_DATE")
 	private Date recivedDate;
 	
-
+	@Column(name="STATUS")
+	private String status;
+	
 	@Column(name = "RECEIVED_BY")
 	private String recivedBy;
 	
@@ -47,34 +49,7 @@ public class RepairReturnEntity {
 	public RepairReturnEntity() {
 	}
 
-	public RepairReturnEntity(String repairReturnId, String fromLocation, String toLocation, String sendingMethod, String courierId, String handOverTo, String remark, Date sendDate, String sendBy, Date recivedDate, String recivedBy) {
-		this.repairReturnId = repairReturnId;
-		this.fromLocation = fromLocation;
-		this.toLocation = toLocation;
-		this.sendingMethod = sendingMethod;
-		this.courierId = courierId;
-		this.handOverTo = handOverTo;
-		this.remark = remark;
-		this.sendDate = sendDate;
-		this.sendBy = sendBy;
-		this.recivedDate = recivedDate;
-		this.recivedBy = recivedBy;
-	}
-
-	public RepairReturnEntity(String repairReturnId, String fromLocation, String toLocation, String sendingMethod, String courierId, String handOverTo, String remark, Date sendDate, String sendBy, Date recivedDate, String recivedBy, RepairEntity repairEntity) {
-		this.repairReturnId = repairReturnId;
-		this.fromLocation = fromLocation;
-		this.toLocation = toLocation;
-		this.sendingMethod = sendingMethod;
-		this.courierId = courierId;
-		this.handOverTo = handOverTo;
-		this.remark = remark;
-		this.sendDate = sendDate;
-		this.sendBy = sendBy;
-		this.recivedDate = recivedDate;
-		this.recivedBy = recivedBy;
-		this.repairEntity = repairEntity;
-	}
+	
 
 	@Id
 	public String getRepairReturnId() {
@@ -173,5 +148,18 @@ public class RepairReturnEntity {
 	public void setRecivedBy(String recivedBy) {
 		this.recivedBy = recivedBy;
 	}
+
+
+
+	public String getStatus() {
+		return status;
+	}
+
+
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
 
 }

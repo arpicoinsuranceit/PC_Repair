@@ -59,12 +59,11 @@ public class RepairReturnServiceImpl implements RepairReturnService{
 	
 		RepairEntity repairEntity = repairDao.findOne(repairReturnDto.getRepairId());
 		RepairReturnEntity repairReturnEntity = getRepairReturnEntity(repairReturnDto);
-		
+		repairReturnEntity.setStatus("RETURN_REPAIR");
 		RepairStatusEntity statusEntity = getRepairStatusEntity(repairEntity, AppConstant.RETURN);
 		
 		
-		System.out.println("repear entity "+repairEntity);
-		System.out.println("repear status entity "+repairEntity.getRepairStatusEntities());
+		
 		
 		List<RepairStatusEntity> repairStatusEntities = repairEntity.getRepairStatusEntities();
 		for (RepairStatusEntity repairStatusEntity : repairStatusEntities) {

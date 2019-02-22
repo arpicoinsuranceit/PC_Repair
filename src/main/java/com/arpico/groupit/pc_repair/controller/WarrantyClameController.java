@@ -65,7 +65,7 @@ public class WarrantyClameController {
 		Map responseMap = new HashMap();
 		responseMap.put("data",entity);
 		
-		System.out.println("All Warranty ==/" +responseMap.toString());
+		
 		
 		return responseMap;
 	}
@@ -77,7 +77,7 @@ public class WarrantyClameController {
 		ModelAndView mav = new ModelAndView("pages/warranty/allwarrantyclame");
 		
 		mav.addObject("title", "PC REPAIR | All Warranty Clames");
-		System.out.println("call" +mav);
+		
 		return mav;
 	}
 }

@@ -22,48 +22,45 @@
 
 <div class="wrapper">
     <jsp:include page="../../core/navigation.jsp"></jsp:include>
-	
-	<div class="content-wrapper ">
+
+    <div class="content-wrapper ">
         <section class="content-header">
             <h1>
-                BACKUP
-                <small>ALL BACKUP</small>
+                TO BE REPAIR
+                <small>TO BE RETURN REPAIRS</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="${path}/all_supplier"><i class="fa fa-dashboard"></i>BACKUP</a></li>
-                <li class="active">ALL BACKUP</li>
+                <li><a href="${path}/all_supplier"><i class="fa fa-dashboard"></i>REPAIR</a></li>
+                <li class="active">TO BE RETURN REPAIRS</li>
             </ol>
         </section>
 
         <section class="content container-fluid animated fadeInLeft">
 
-            <div class="row">
-                <div class="col-md-3 col-sm-3 col-xs-6">
-                    <a href="${path}/add_backup">
-                        <button type="button" class="btn btn-block btn-success btn-flat">Add Backup</button>
-                    </a>
-                </div>
-            </div>
-
+           
             <div class="row voffset10top">
                 <div class="col-md-12">
                     <div class="box box-primary">
                         <div class="box-header">
-                            <h3 class="box-title">Backup</h3>
+                            <h3 class="box-title">To Be Repairs</h3>
                         </div>
                         <div class="box-body">
-
-                            <table id="table_assignee" class="table table-bordered col-10" >
+						
+                            <table id="table_tobe_repair" class="table table-bordered col-12 col-lg-12 col-md-12">
                                 <thead>
                                 <tr>
-                                    <th>Repair ID</th>
-                                    <th>Asset Id</th>
-                                    <th>Send Date</th>
-                                    <th>Return Date</th>
+                                    <th>Repair Return ID</th>
+                                   	<th>Assest ID</th>
+                                    <th>CourierId</th>
+                                    <th>Hand Over To</th>
                                     <th>Remark</th>
-                                    <th>Hand Over to</th>
-                                    <th></th>
+                                    <th>Sending Methord</th>
+                                    <th>From Location</th>
+                                    <th>To Location</th>
+                                    <th>Status</th>
                                    
+                                    
+
                                 </tr>
                                 </thead>
 
@@ -72,13 +69,15 @@
 
                                 <tfoot>
                                 <tr>
-                                    <th>Repair ID</th>
-                                    <th>Asset Id</th>
-                                    <th>Send Date</th>
-                                    <th>Return Date</th>
+                                    <th>Repair Return ID</th>
+                                    <th>Assest ID</th>
+                                    <th>CourierId</th>
+                                    <th>Hand Over To</th>
                                     <th>Remark</th>
-                                    <th>Hand Over to</th>
-                                    <th></th>
+                                    <th>Sending Methord</th>
+                                    <th>From Location</th>
+                                    <th>To Location</th>
+                                    <th>Status</th>
                                    
                                 </tr>
                                 </tfoot>
@@ -126,26 +125,6 @@
                     <h4 class="modal-title">Success</h4>
                 </div>
                 <div class="modal-body">
-                    Successfully Deleted....
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    
-    
-    <div class="modal modal-success fade" id="modal-success_r">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Success</h4>
-                </div>
-                <div class="modal-body">
                     Successfully Received....
                 </div>
                 <div class="modal-footer">
@@ -154,8 +133,6 @@
             </div>
         </div>
     </div>
-    
-    
 
     <script src="${path}/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="${path}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -166,60 +143,51 @@
     <script src="${path}/bower_components/fastclick/lib/fastclick.js"></script>
 
     <script type="application/javascript">
-    
-        var table = $('#table_assignee').DataTable({
+
+        var table = $('#table_tobe_repair').DataTable({
             "pageLength": 10,
-            "ajax": "${path}/all_backup_dt"
+            "ajax": "${path}/all_to_be_repair_dt"
 
         });
-/* 
-        function deleteBackup(id) {
-            $("#txt-delete-id").val(id);
-            $('#modal-danger').modal('show');
-        } */
-        
-        function receivedBackup(id) {
-			
-        	$.ajax({
-        		type:'GET',
-        		url:'${path}/backup/'+id,
-        		success:function(resp){
-        			 $("#modal-success_r").modal("show");
-                     table.ajax.reload();
-        		},
-        		error: function () {
-                    alert('Error');
-                }
-        	});
-        	
-		}
 
-        /* $("#button-delete").click(function () {
+        /* function deleteReturn(id) {
+            $("#txt-delete-id").val(id);
+            $("#modal-danger").modal('show');
+        }
+    
+        $("#button-delete").click(function () {
+
             $.ajax({
-                type: 'DELETE',
-                url: '${path}/backup',
-                data: $("#txt-delete-id").val(),
-                success: function () {
+                type:'DELETE',
+                url:'${path}/returnRepair',
+                data:$("#txt-delete-id").val(),
+                success:function () {
                     $('#modal-danger').modal('hide');
                     $('#modal-success').modal('show');
+                    table.ajax.reload();
+                },
+                error:function () {
+                    alert('OOPS Error Occerd Try Again');
+                }
+            });
+        });
+
+        function repairReceived(id){
+        	$.ajax({
+                type: 'GET',
+                url: '${path}/received_return/'+ id,
+                success: function (resp) {
+                    $("#modal-success").modal("show");
                     table.ajax.reload();
                 },
                 error: function () {
                     alert('Error');
                 }
             });
-        }); */
+        } */
+       
 
-        
-        
-        function editBackup(id) {
-        	window.location.replace("${path}/edit_backup/"+id);
-        }
-        
-        
-        function showBackup() {
-			window.location.replace("${path}/all_backup_recived_dt");
-		}
+
     </script>
 </body>
 </html>

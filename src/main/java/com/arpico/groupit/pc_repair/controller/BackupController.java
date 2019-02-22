@@ -53,7 +53,7 @@ public class BackupController {
     @RequestMapping("/all_backup")
     public ModelAndView allBackup () throws Exception {
     	
-    	System.out.println("AllBackups");
+    	
     	
     	context.setAttribute("path", path);
         ModelAndView mav = new ModelAndView("pages/backup/allbackup");
@@ -84,7 +84,7 @@ public class BackupController {
         mav.addObject("title", "PC REPAIR | ADD BACKUP");
         mav.addObject("assets", assetDtos);
         mav.addObject("repairs", repairDtos);
-        System.out.println("repdto =" + mav.toString());
+       
         return mav;
 
     }
@@ -110,7 +110,7 @@ public class BackupController {
 		 * backupDto.getHandOver()); mav.addObject("sendDate", backupDto.getSendDate());
 		 * mav.addObject("returnDate", backupDto.getReturnDate());
 		 */
-    	System.out.println("Model And View ==/"+mav.toString());
+    	
     	
     	return mav;
     }
@@ -129,13 +129,24 @@ public class BackupController {
     		
     		entitys.add(backupDto.getRepairId());
     		
-    		entity.add(backupDto.getAssetId());
+    		entitys.add(backupDto.getAssetId());
     		
-    		entity.add(backupDto.getHandOver());
+    		entitys.add(backupDto.getSendDate());
+    		
+			entitys.add(backupDto.getReturnDate());
+    		
+    		entitys.add(backupDto.getRemark());
+    		
+    		entitys.add(backupDto.getHandOver());
+    		
+			entity.add(entitys);
     		
     		
 		}
-    	return null;
+    	Map responseMap = new HashMap();
+    	responseMap.put("data", entity);
+    	
+    	return responseMap;
     }
     
     @RequestMapping("/all_backup_dt")
@@ -144,7 +155,7 @@ public class BackupController {
 
     	List entities = new ArrayList();
 
-    	List<BackupGridDto> dtos = backupService.getAll();
+    	List<BackupGridDto> dtos = backupService.getSendBackup();
     	
     	if(dtos != null) {
     		dtos.forEach(e -> {
@@ -157,24 +168,24 @@ public class BackupController {
     			entity.add(e.getRemark());
     			entity.add(e.getHandoverTo());
     			
-    			System.out.println("Backup Id ==/"+e.getBackupId().toString() );
     			
-    			entity.add("<button type=\"button\" class=\"btn btn-info\" id=\"" + e.getBackupId()
-				+ "\" onclick = \"editBackup('" + e.getBackupId()
-				+ "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i>&nbsp;Edit</button>");
+    			
+				/*
+				 * entity.add("<button type=\"button\" class=\"btn btn-info\" id=\"" +
+				 * e.getBackupId() + "\" onclick = \"editBackup('" + e.getBackupId() +
+				 * "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i>&nbsp;Edit</button>"
+				 * );
+				 */
 
 				entity.add("<button type=\"button\" class=\"btn btn-success\"  id=\"" + e.getBackupId()
 						+ "\" onclick = \"receivedBackup('" + e.getBackupId()
 						+ "')\" ><i class=\"fa fa-mail-reply\" aria-hidden=\"true\"></i>&nbsp;Recived</button>");
 				
-				entity.add("<button type=\"button\" class=\"btn btn-warning\"  id=\"" + e.getBackupId()
-				+ "\" onclick = \"deleteBackup('" + e.getBackupId()
-				+ "')\" ><i class=\"fa fa-eye\" aria-hidden=\"true\"></i>&nbsp;Show</button>");
-
+				
     			entities.add(entity);
     			
     			
-    			System.out.println("BacupId ==/"+entities);
+    			
     		});
     	}
     	
@@ -205,7 +216,7 @@ public class BackupController {
 	@ResponseBody
 	public String received(@PathVariable String id)throws Exception{
 		
-		System.out.println("Backup Resived");
+		
 		return backupService.received(id, AppConstant.SEND_BACK);
 		
 	}

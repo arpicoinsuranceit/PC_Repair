@@ -53,7 +53,7 @@
                         </div>
                         <div class="box-body">
 
-                            <table id="table_assignee" class="table table-bordered col-10" >
+                            <table id="table_backup_resived" class="table table-bordered col-10" >
                                 <thead>
                                 <tr>
                                     <th>Repair ID</th>
@@ -62,9 +62,8 @@
                                     <th>Return Date</th>
                                     <th>Remark</th>
                                     <th>Hand Over to</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
+                                   
+                                   
                                 </tr>
                                 </thead>
 
@@ -79,9 +78,9 @@
                                     <th>Return Date</th>
                                     <th>Remark</th>
                                     <th>Hand Over to</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
+                                   
+                                   
+                                   
                                 </tr>
                                 </tfoot>
                             </table>
@@ -133,7 +132,10 @@
 
     <script type="application/javascript">
     
-       
+       var table = $('#table_backup_resived').DataTable({
+    	   "pageLength":10,
+    	   "ajax":"${path}/all_backup_recived_dt"
+       });
         
     </script>
 </body>

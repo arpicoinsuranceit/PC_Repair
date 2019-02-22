@@ -83,7 +83,7 @@ public class BackupServiceImpl implements BackupService {
 		RepairEntity repairEntity = repairDao.findOne(backupDto.getRepairId());
 		
 		BackupEntity backupEntity = getBackupEntity(backupDto, assetEntity, repairEntity);
-		
+		backupEntity.setStatus("SEND_BACKUP");
 		if(backupDao.save(backupEntity) != null){
 			
 		}
@@ -197,7 +197,7 @@ public class BackupServiceImpl implements BackupService {
 		BackupEntity backupEntity = backupDao.findOne(id);
 		backupEntity.setStatus("RECIVE");
 		
-		System.out.println("Backup Entity ==/"+backupEntity.getStatus());
+		
 		
 		return "RECIVE";
 	}
@@ -215,6 +215,26 @@ public class BackupServiceImpl implements BackupService {
 			backupDtos.add(getBackupDto(e));
 		});
 		return backupDtos;
+	}
+
+	@Override
+	public List<BackupGridDto> getSendBackup() throws Exception {
+		
+		List<String>param = new ArrayList<>();
+		param.add("SEND_BACKUP");
+		
+		List<BackupEntity>backupEntities = backupDao.findByStatusIn(param);
+		List<BackupGridDto> dtos = new ArrayList<>();
+		
+		backupEntities.forEach(e->{
+			try {
+				dtos.add(getBackupGridDto(e));
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		return dtos;
 	}
 
 

@@ -79,7 +79,7 @@ public class LoginController {
 		if (loginResponseDto.isLogin() == true) {
 			httpSession.setAttribute("user", loginResponseDto);
 			context.setAttribute("path", path);
-			System.out.println("attribute Seted");
+			
 			Map<String, Integer> values = repairService.getHomeValues();
 
 			ModelAndView mav = new ModelAndView("index");

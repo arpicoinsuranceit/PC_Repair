@@ -23,6 +23,8 @@ public interface RepairService {
 
 	List<RepairReturnDto> getReturnRepairs() throws Exception;
 
+	List<RepairReturnDto>getToBeRepairs()throws Exception;
+	
 	List<RepairDto>getAll()throws Exception;
 	
 	RepairDto get(String repairId)throws Exception;

@@ -23,4 +23,6 @@ public interface BackupService {
 	String received(String id, String status) throws Exception;
 	
 	List<BackupDto> getRecivedBackup()throws Exception;
+	
+	List<BackupGridDto> getSendBackup()throws Exception;
 }

@@ -207,17 +207,12 @@ public class RepairServiceImpl implements RepairService {
 	  public List<RepairReturnDto> getReturnRepairs() throws Exception {
 	  List<String> param = new ArrayList<>();
 	  
-	  param.add("SNTB");
+	  param.add("RETURN_REPAIR");
 	  
-	  param.add("SNTH");
+	  List<RepairReturnEntity>repairReturnEntities = repairReturnsDao.findByStatusIn(param);
 	  
-	  
-	  List<RepairEntity> repairEntities = repairDao.findByStatusIn(param);
-
-		System.out.println(repairEntities.size());
-
 		List<RepairReturnDto> repairReturnDtos = new ArrayList<>();
-		repairEntities.forEach(e -> {
+		repairReturnEntities.forEach(e -> {
 			repairReturnDtos.add(getRepairReturnDto(e));
 		});
 
@@ -237,39 +232,34 @@ public class RepairServiceImpl implements RepairService {
 		repairReturnDto.setRemark(e.getRemark());
 
 
-		  System.out.println("ggggg" + e.getHandOverTo());
 
 
 		return  repairReturnDto;
 	  }
 
-	private RepairReturnDto getRepairReturnDto(RepairEntity e) {
+	private RepairReturnDto getRepairReturnDto(RepairReturnEntity e) {
+		
+		RepairEntity repairEntity =repairDao.findOne(e.getRepairEntity().getRepairId());
+		
 		RepairReturnDto repairReturnDto = new RepairReturnDto();
-		repairReturnDto.setRepairId(e.getRepairId());
+		
+		repairReturnDto.setRepairReturnId(e.getRepairReturnId());
+		
+		repairReturnDto.setAssetId(repairEntity.getAssetEntity().getAssetCode());
+		
+		/*
+		 * if (repairReturnDto.setRepairId(e.getRepairEntity().getRepairId()) ) {
+		 * 
+		 * }
+		 */
+		repairReturnDto.setCourierId(e.getCourierId());
+		repairReturnDto.setHandOverTo(e.getHandOverTo());
+		repairReturnDto.setRemark(e.getRemark());
+		repairReturnDto.setSendingMethod(e.getSendingMethod());
+		repairReturnDto.setFromLocation(e.getFromLocation());
+		repairReturnDto.setToLocation(e.getToLocation());
 		repairReturnDto.setStatus(e.getStatus());
-		repairReturnDto.setAssetId(e.getAssetEntity().getAssetCode());
-		repairReturnDto.setSendingMethod(e.getRepairSendEntity().getSendingMethod());
-
-		  repairReturnDto.setSendDate(new SimpleDateFormat("yyyy-MM-dd").format(e.getRepairSendEntity().getSendDate()));
-
-		 
 		
-			
-		  try {
-			  repairReturnDto.setHandOverTo(e.getRepairReturnEntity().getHandOverTo());
-			  repairReturnDto.setCourierId(e.getRepairReturnEntity().getCourierId());
-				
-				repairReturnDto.setFromLocation(e.getRepairReturnEntity().getFromLocation());
-				repairReturnDto.setRepairReturnId(e.getRepairReturnEntity().getRepairReturnId());
-				
-		} catch (Exception e2) {
-			// TODO: handle exception
-		}
-			
-			
-			
-		
-		 System.out.println("Repair Return Dto ==/");
 		return repairReturnDto;
 	}
 
@@ -306,7 +296,7 @@ public class RepairServiceImpl implements RepairService {
 
 		
 		List<PartsDto> partsDtos = new ArrayList<>();
-		System.out.println(repairEntity.getRepairPartsEntities());
+		
 		repairEntity.getRepairPartsEntities().forEach(e -> {
 			if (e.getEnebled().equals(AppConstant.ENABLE)) {
 				try {
@@ -331,9 +321,7 @@ public class RepairServiceImpl implements RepairService {
 		dto.setLocationDto(locationDto);
 		dto.setRemark(repairEntity.getRemark());
 		
-		System.out.println(repairEntity.getRepairStatusEntities().size() + " : size");
-
-		System.out.println(repairEntity.getRepairStatusEntities().get(0).getId());
+		
 
 		
 		  repairEntity.getRepairStatusEntities().forEach(e -> { if
@@ -345,12 +333,12 @@ public class RepairServiceImpl implements RepairService {
 
 		}
 		 
-		  System.out.println(dto.toString());
+		 
 		  
 		  } 
 		  });
 		 
-		  System.out.println("got it "+repairEntity.getAssigneeRepairEntities());
+		  
 		 
 		repairEntity.getAssigneeRepairEntities().forEach(e -> {
 			
@@ -373,21 +361,19 @@ public class RepairServiceImpl implements RepairService {
 
 		 repairEntity.setPriority(repairBasicsDto.getPriority());
 
-		System.out.println(repairBasicsDto.getStatus());
+		
 
 		if (!(repairEntity.getStatus().equals(repairBasicsDto.getStatus()))) {
 			
 			repairEntity.setStatus(repairBasicsDto.getStatus());
 
-			System.out.println("Status =/"+repairBasicsDto.getStatus());
-			
-			/* repairStatusDao.setDisablePrevious(repairEntity); */
+		
 			
 
 			RepairStatusEntity repairStatusEntity = repairSendService.getRepairStatusEntity(repairEntity,
 					repairBasicsDto.getStatus());
 
-			System.out.println(repairStatusEntity.toString());
+			
 
 			repairStatusDao.save(repairStatusEntity);
 		}
@@ -465,17 +451,14 @@ public class RepairServiceImpl implements RepairService {
 		
 		entities.forEach(e -> {
 			try {
-				 System.out.println("Service "+e.getStatus());
+				 
 				dtos.add(getRepairDto(e));
-				System.out.println("Repaire" + e.toString());
-
+				
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 		});
 
-		
-		System.out.println("dtos ="+dtos.toString());
 		return dtos;
 	}
 
@@ -506,7 +489,7 @@ public class RepairServiceImpl implements RepairService {
 	public String addCartDetails(List<String> repairParts, String repairId) throws Exception {
 
 		RepairEntity repairEntity = repairDao.findOne(repairId);
-		System.out.println("reper parts :"+repairParts);
+		
 		List<RepairPartsEntity> getAll=(List<RepairPartsEntity>) repairPartsDao.findAll();
 		
 		getAll.forEach(e->{
@@ -525,7 +508,7 @@ public class RepairServiceImpl implements RepairService {
 		List<RepairPartsEntity> entities = new ArrayList<>();
 
 		for (String partId : repairParts) {
-			System.out.println("PART =/"+partId);
+			
 			entities.add(getRepairPartsEntity(repairEntity, partId));
 		}
 
@@ -560,14 +543,14 @@ public class RepairServiceImpl implements RepairService {
 		param.add(AppConstant.COMPLETE);
 		List<RepairEntity> repairEntities = repairDao.findByStatusNotIn(param);
 
-		System.out.println("repairEntities : " + repairEntities.size());
+		
 
 		List<RepairSentDto> repairSentDtos = new ArrayList<>();
 		repairEntities.forEach(e -> {
 			repairSentDtos.add(getRepairSendDto(e));
 		});
 
-		System.out.println("repairSentDtos : " + repairSentDtos.size());
+		
 
 		return repairSentDtos;
 	}
@@ -595,7 +578,7 @@ public class RepairServiceImpl implements RepairService {
 				repairDtos.add(getRep(e));
 			});
 			
-			System.out.println("rep =" + repairDtos.toString());
+			
 		return repairDtos;
 	}
 
@@ -625,7 +608,7 @@ public class RepairServiceImpl implements RepairService {
 		 entities.forEach(e->{
 			 repairDtos.add(getRepairDach(e));
 		 });
-		 System.out.println("DTOS Dash =/"+repairDtos.toString());
+		
 		return repairDtos;
 	}
 	
@@ -682,6 +665,22 @@ public class RepairServiceImpl implements RepairService {
 		dto.setJobNo(e.getJobNo());
 		
 		return dto;
+	}
+
+	@Override
+	public List<RepairReturnDto> getToBeRepairs() throws Exception {
+		
+		List<String>param = new ArrayList<>();
+		param.add("COMPLETED");
+		
+		List<RepairReturnEntity>repairReturnEntities = repairReturnsDao.findByStatusIn(param);
+		
+		List<RepairReturnDto>repairReturnDtos = new ArrayList<>();
+		repairReturnEntities.forEach(e ->{
+			repairReturnDtos.add(getRepairReturnDto(e));
+		});
+		
+		return repairReturnDtos;
 	}
 	
 }

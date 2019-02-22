@@ -45,16 +45,19 @@
                             <h3 class="box-title">Return Repairs</h3>
                         </div>
                         <div class="box-body">
-
+						
                             <table id="table_send_repair" class="table table-bordered col-12 col-lg-12 col-md-12">
                                 <thead>
                                 <tr>
-                                    <th>Repair ID</th>
+                                    <th>Repair Return ID</th>
                                     <th>Assest ID</th>
-                                    <th>Sending Methord</th>
-                                    <th>Courier ID</th>
-                                    <th>From Location</th>
+                                    <th>CourierId</th>
                                     <th>Hand Over To</th>
+                                    <th>Remark</th>
+                                    <th>Sending Methord</th>
+                                    <th>From Location</th>
+                                    <th>To Location</th>
+                                    <th>Status</th>
                                     <th></th>
                                     
 
@@ -66,14 +69,16 @@
 
                                 <tfoot>
                                 <tr>
-                                    <th>Repair ID</th>
+                                    <th>Repair Return ID</th>
                                     <th>Assest ID</th>
-                                    <th>Sending Methord</th>
-                                    <th>Courier ID</th>
-                                    <th>From Location</th>
+                                    <th>CourierId</th>
                                     <th>Hand Over To</th>
+                                    <th>Remark</th>
+                                    <th>Sending Methord</th>
+                                    <th>From Location</th>
+                                    <th>To Location</th>
+                                    <th>Status</th>
                                     <th></th>
-
                                 </tr>
                                 </tfoot>
                             </table>

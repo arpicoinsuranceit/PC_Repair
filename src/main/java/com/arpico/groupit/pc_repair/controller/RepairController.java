@@ -129,7 +129,7 @@ public class RepairController {
 		
 		
 		
-		System.out.println(user + " user");
+		
 		
 			String locCode=jwtDecorder.generateLoc(user.getJwtToken());
 			
@@ -138,7 +138,7 @@ public class RepairController {
 			mav.addObject("branch", locCode);
 			
 			
-			System.out.println(locCode + " locCode");
+			
 		
 		
 		
@@ -179,7 +179,9 @@ public class RepairController {
 	@RequestMapping(value = "/return_repair", method = RequestMethod.POST)
 	@ResponseBody
 	public String saveReturnRepair(@RequestBody RepairReturnDto repairReturnDto) throws Exception {
+		
 		return repairReturnService.save(repairReturnDto);
+		
 	}
 
 	@RequestMapping("/all_send_repair")
@@ -205,6 +207,16 @@ public class RepairController {
 
 	}
 
+	@RequestMapping("/to_be_received_repair")
+	public ModelAndView toBeRepair()throws Exception{
+		context.setAttribute("path", path);
+		ModelAndView mav = new ModelAndView("pages/repair/toberepair");
+		
+		mav.addObject("title","PC REPAIR | TO BE REPAIRS");
+		
+		return mav;
+	}
+	
 	@RequestMapping("/all_ongoing_repairs")
 	public ModelAndView allOngoingRepair() throws Exception {
 		context.setAttribute("path", path);
@@ -212,7 +224,7 @@ public class RepairController {
 
 		mav.addObject("title", "PC REPAIR | ONGOING REPAIRS");
 
-		System.out.println(mav.toString());
+		
 		return mav;
 
 	}
@@ -356,25 +368,50 @@ public class RepairController {
 		for (RepairReturnDto repairReturnDto : repairReturnDtos) {
 			List entity = new ArrayList<>();
 
-			entity.add(repairReturnDto.getRepairId());
+			entity.add(repairReturnDto.getRepairReturnId());
 			entity.add(repairReturnDto.getAssetId());
-			entity.add(repairReturnDto.getSendingMethod());
 			entity.add(repairReturnDto.getCourierId());
-			entity.add(repairReturnDto.getFromLocation());
 			entity.add(repairReturnDto.getHandOverTo());
+			entity.add(repairReturnDto.getRemark());
+			entity.add(repairReturnDto.getSendingMethod());
+			entity.add(repairReturnDto.getFromLocation());
+			entity.add(repairReturnDto.getToLocation());
+			entity.add(repairReturnDto.getStatus());
+		
+				entity.add("<button type=\"button\" class=\"btn btn-success\" id=\""
+						+ repairReturnDto.getRepairReturnId() + "\" onclick = \"repairReceived('"
+						+ repairReturnDto.getRepairReturnId()
+						+ "')\" ><i class=\"fa fa-mail-reply\" aria-hidden=\"true\"></i><span>&nbsp;&nbsp;RECEIVED</span></button>");
+
 			
-			if (repairReturnDto.getStatus().equals(AppConstant.RETURN)) {
-				entity.add("<button type=\"button\" class=\"btn btn-info\" id=\"" + repairReturnDto.getRepairId()
-						+ "\" onclick = \"repairReceived('" + repairReturnDto.getRepairId()
-						+ "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i><span>&nbsp;&nbsp;RECEIVED</span></button>");
-			} else {
-				entity.add("<button disabled type=\"button\" class=\"btn btn-default\" id=\""
-						+ repairReturnDto.getRepairId() + "\" onclick = \"repairReceived('"
-						+ repairReturnDto.getRepairId()
-						+ "')\" ><i class=\"fa fa-edit\" aria-hidden=\"true\"></i><span>&nbsp;&nbsp;RECEIVED</span></button>");
 
-			}
+			entities.add(entity);
+		}
+		Map responseMap = new HashMap();
+		responseMap.put("data", entities);
+		return responseMap;
+	  
+	  }
+	
+	@RequestMapping("/all_to_be_repair_dt")
+	@ResponseBody
+		public Map allToBeRepair() throws Exception {
+		
+		List entities = new ArrayList();
+		List<RepairReturnDto> repairReturnDtos = repairService.getToBeRepairs();
+		for (RepairReturnDto repairReturnDto : repairReturnDtos) {
+			List entity = new ArrayList<>();
 
+			entity.add(repairReturnDto.getRepairReturnId());
+			entity.add(repairReturnDto.getAssetId());
+			entity.add(repairReturnDto.getCourierId());
+			entity.add(repairReturnDto.getHandOverTo());
+			entity.add(repairReturnDto.getRemark());
+			entity.add(repairReturnDto.getSendingMethod());
+			entity.add(repairReturnDto.getFromLocation());
+			entity.add(repairReturnDto.getToLocation());
+			entity.add(repairReturnDto.getStatus());
+		
 			entities.add(entity);
 		}
 		Map responseMap = new HashMap();

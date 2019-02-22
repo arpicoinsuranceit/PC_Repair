@@ -91,7 +91,7 @@ public class AssetController {
         List<NameValueDto> locations = locationService.getAllNameValue();
         List<NameValueDto> osList = operatingSystemService.getAllNameValue();
         
-        locations.forEach(System.out::println);
+        
         
         mav.addObject("title", "PC REPAIR | ADD ASSET");
         mav.addObject("suppliers", suppliers);
@@ -143,7 +143,7 @@ public class AssetController {
     @RequestMapping(value = "/asset", method = RequestMethod.DELETE)
     @ResponseBody
     public String deleteAsset (@RequestBody String assetId) throws Exception {
-        System.out.println(assetId);
+      
         return assetService.delete(assetId);
     }
 
